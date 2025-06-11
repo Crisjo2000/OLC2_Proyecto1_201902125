@@ -5,11 +5,17 @@ import (
 )
 
 type Console struct {
-	output string
+	output string // Va a ser la salida de la consola
 }
 
-func (c *Console) Print(s string) {
+// tiene el "\n"
+func (c *Console) Println(s string) {
 	c.output += s + "\n"
+}
+
+// no tiene el "\n"
+func (c *Console) Print(s string) {
+	c.output += s
 }
 
 func (c *Console) Show() {

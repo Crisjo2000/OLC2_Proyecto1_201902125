@@ -12,40 +12,115 @@ import (
 )
 
 // Visitor personalizado para recorrer el árbol de sintaxis
+
+// Constructor del visitor
 type ReplVisitor struct {
 	parser.BaseVlangVisitor
-	ScopeTrace *ScopeTrace
-	// CallStack   *CallStack
+	ScopeTrace  *ScopeTrace
+	CallStack   *CallStack
 	Console     *Console
 	ErrorTable  *ErrorTable
 	StructNames []string
 }
 
-func isDeclConst(lexval string) bool {
-	return lexval == "let"
+/*
+NOTA: para testear estoy usando un constructor
+para ReplVisitor que solo recibe la tabla de errores
+y luego inicializar el ScopeTrace y el CallStack
+y la Consola
+
+PERO: el metodo NewVisitor(dclVisitor *DclVisitor)
+lo que hace es que recibe un DclVisitor que hace una pasada
+antes para ver que cosas estan declaradas.
+
+ENTONCES: NewVisitor es el que inicializa el ReplVisitor
+y le pasa el ScopeTrace, ErrorTable y StructNames, estructuras
+que ya tienen inicializadas las listas con lo que se agrego.
+
+*/
+
+// Recibe DclVisitor e inicializa el ReplVisitor
+func NewVisitor(dclVisitor *DclVisitor) *ReplVisitor {
+	return &ReplVisitor{
+		ScopeTrace:  dclVisitor.ScopeTrace,
+		ErrorTable:  dclVisitor.ErrorTable,
+		StructNames: dclVisitor.StructNames,
+		CallStack:   NewCallStack(),
+		Console:     NewConsole(),
+	}
 }
 
-// Constructor del visitor
-func NewReplVisitor() *ReplVisitor {
-	return &ReplVisitor{}
+// tambien podemos crear un ReplVisitor sin DclVisitor
+// Esto es util para hacer tests de una vez
+func NewReplVisitor(errorTable *ErrorTable) *ReplVisitor {
+	return &ReplVisitor{
+		ScopeTrace:  NewScopeTrace(),
+		ErrorTable:  errorTable,
+		StructNames: []string{},
+		CallStack:   NewCallStack(),
+		Console:     NewConsole(),
+	}
 }
+
+// GetReplContext devuelve el contexto del REPL
+// que contiene la consola, el ScopeTrace, el CallStack y la ErrorTable
+func (v *ReplVisitor) GetReplContext() *ReplContext {
+	return &ReplContext{
+		Console:    v.Console,
+		ScopeTrace: v.ScopeTrace,
+		CallStack:  v.CallStack,
+		ErrorTable: v.ErrorTable,
+	}
+}
+
+// ValidType verifica si el tipo es valido en el ScopeTrace
+// Esto se usa para validar tipos de variables, funciones, etc.
+func (v *ReplVisitor) ValidType(_type string) bool {
+	return v.ScopeTrace.GlobalScope.ValidType(_type)
+}
+
+// Visit es el metodo que se llama para visitar un nodo del arbol de sintaxis
+// Dependiendo del tipo de nodo, se llama al metodo correspondiente
+// Si es un ErrorNodeImpl, se lanza un error
 func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
-
-	switch val := tree.(type) {
-	case *antlr.ErrorNodeImpl:
-		log.Fatal(val.GetText())
+	if tree == nil {
+		fmt.Println("⚠️ Árbol nulo recibido.")
 		return nil
-	default:
-		return tree.Accept(v)
 	}
 
+	switch node := tree.(type) {
+	case *antlr.ErrorNodeImpl:
+		log.Fatal(node.GetText())
+
+	case *parser.ProgramaContext:
+		return v.VisitPrograma(node)
+
+	case *parser.StmtContext:
+		return v.VisitStmt(node)
+
+	case *parser.PrintlnStmtContext:
+		return v.VisitPrintlnStmt(node)
+
+	case *parser.PrintStmtContext:
+		return v.VisitPrintStmt(node)
+
+	default:
+		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
+		return tree.Accept(v) // fallback por si acaso
+	}
+
+	return nil
 }
 
+// VisitPrograma es el metodo que se llama para visitar el nodo Programa
+// Este nodo es el nodo raiz del arbol de sintaxis
+// En este metodo recorremos todos los statements del programa
 func (v *ReplVisitor) VisitPrograma(ctx *parser.ProgramaContext) interface{} {
 
+	fmt.Println("🔍 Visitando el programa...")
 	// Vamos a recorrer todos los statements y los visitamos
 	for _, stmt := range ctx.AllStmt() {
-		fmt.Println("🔍 Visitando declaración:", stmt.GetText())
+		fmt.Println("🔍 Visitando statement*:", stmt.GetText())
 		v.Visit(stmt)
 	}
 
@@ -59,53 +134,22 @@ Ahora recorremos todos los stmts que tenemos en el programa
 */
 
 func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
-	// vamos a recorrer todos los statements que tenemos
-	if ctx != nil && ctx.GetChildCount() != 0 {
-		// es distinto de nil y no tiene hijos
-		if ctx.Decl_stmt() != nil {
-			// Mandamos a visitar la declaracion
-			v.Visit(ctx.Decl_stmt())
-		} else if ctx.Assign_stmt() != nil {
-			// mandamos a asignar la variable que tenemos
-			v.Visit(ctx.Assign_stmt()) // -> me voy a ir a hacer el visitor
-		}
-		// despues vemos si es otro statement
-		// otro statement que sea de otro tipo
+	fmt.Println("🔍 Visitando statement*:", ctx.GetText())
+
+	if ctx == nil || ctx.GetChildCount() == 0 {
+		fmt.Println("⚠️ Stmt vacío o nulo.")
+		return nil
 	}
 
-	// Si es un error, lo lanzamos
-	//ctx.
+	node := ctx.GetChild(0)
 
-	// Vemos el caso de la Declaracion de Cualquier cosa
-
-	// v.Visit(ctx.declarationStatement())
-	// } else if ctx.Assign_stmt() != nil {
-	// 	v.Visit(ctx.Assign_stmt())
-	// }
-	//
-	// else if ctx.If_stmt() != nil {
-	// 	v.Visit(ctx.If_stmt())
-	// } else if ctx.Switch_stmt() != nil {
-	// 	v.Visit(ctx.Switch_stmt())
-	// } else if ctx.While_stmt() != nil {
-	// 	v.Visit(ctx.While_stmt())
-	// } else if ctx.For_stmt() != nil {
-	// 	v.Visit(ctx.For_stmt())
-	// } else if ctx.Guard_stmt() != nil {
-	// 	v.Visit(ctx.Guard_stmt())
-	// } else if ctx.Transfer_stmt() != nil {
-	// 	v.Visit(ctx.Transfer_stmt())
-	// } else if ctx.Func_call() != nil {
-	// 	v.Visit(ctx.Func_call())
-	// } else if ctx.Func_dcl() != nil {
-	// 	v.Visit(ctx.Func_dcl())
-	// } else if ctx.Strct_dcl() != nil {
-	// 	v.Visit(ctx.Strct_dcl())
-	// } else if ctx.Vector_func() != nil {
-	// 	v.Visit(ctx.Vector_func())
-	// } else {
-	// 	log.Fatal("Statement not found " + ctx.GetText())
-	// }
+	// Aquí van todos los ifs como los que hicimos antes:
+	if printlnStmt, ok := node.(*parser.PrintlnStmtContext); ok {
+		fmt.Println("🔔 Visitando nodo println")
+		v.Visit(printlnStmt)
+	} else {
+		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt: %T\n", node)
+	}
 
 	return nil
 }
@@ -115,8 +159,6 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 	// Primero vamos a ver si es una asignacion de variable
 	// lo que queremos hacer para una asignacion
 	// es ver si tenemos el ID
-	fmt.Println("🔍 Visitando asignación directa:", ctx.GetText())
-
 	varName := v.Visit(ctx.Id_pattern()).(string)
 	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
 	// le pedimos la variable al ScopeTrace
@@ -130,14 +172,12 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 
 		// Aqui se deberia agregar la validacion del vector
 
-		canMutate := true
-
 		// // verificamos si es un struct
 		// if v.ScopeTrace.CurrentScope.isStruct {
 		// 	canMutate = v.ScopeTrace.IsMutatingEnvironment()
 		// }
 
-		ok, msg := variable.Assign(varValue, canMutate)
+		ok, msg := variable.Assign(varValue, true)
 
 		if !ok {
 			v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
@@ -148,27 +188,92 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 
 }
 
+func (v *ReplVisitor) VisitPrintlnStmt(ctx *parser.PrintlnStmtContext) interface{} {
+	fmt.Println("🔍 Visitando PrintlnStmt:", ctx.GetText())
+	val := v.Visit(ctx.Expresion()).(value.IVOR)
+	fmt.Println(val)
+	return nil
+}
+
+func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
+
+	runChain := true
+
+	for _, ifStmt := range ctx.AllIf_chain() {
+
+		runChain = !v.Visit(ifStmt).(bool)
+		// Si la condicion del if es verdadera, ejecutamos el bloque
+		if !runChain {
+			break
+		}
+	}
+
+	if runChain && ctx.Else_stmt() != nil {
+		v.Visit(ctx.Else_stmt())
+	}
+
+	return nil
+}
+
+func (v *ReplVisitor) VisitIfChain(ctx *parser.IfChainContext) interface{} {
+
+	condition := v.Visit(ctx.Expresion()).(value.IVOR)
+
+	if condition.Type() != value.IVOR_BOOL {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condicion del if debe ser un booleano")
+		return false
+
+	}
+
+	if condition.(*value.BoolValue).InternalValue {
+
+		// Push scope
+		v.ScopeTrace.PushScope("if")
+
+		for _, stmt := range ctx.AllStmt() {
+			v.Visit(stmt)
+		}
+
+		// Pop scope
+		v.ScopeTrace.PopScope()
+
+		return true
+	}
+
+	return false
+}
+
+func (v *ReplVisitor) VisitElseStmt(ctx *parser.ElseStmtContext) interface{} {
+
+	// Push scope {   }
+	v.ScopeTrace.PushScope("else")
+
+	for _, stmt := range ctx.AllStmt() {
+		v.Visit(stmt)
+	}
+
+	// Pop scope
+	v.ScopeTrace.PopScope()
+
+	return nil
+}
+
 func (v *ReplVisitor) VisitValueDeclAssign(ctx *parser.DeclAssignContext) interface{} {
 
 	/*
 		Cuando declaramos una variable tenemos que
-		1. Saber si es constante o variable (let o var)
+
 		2. Saber el nombre de la variable
-		3. Saber el valor de la variable
+		3. Saber el valor de la variable (Depende, si solo la declaramos)
 		mut
 
 	*/
 	// verificamos si es una constante
 
-	fmt.Println("DECLARANDO VARIABLE:", ctx.GetText())
-
 	// isConst := isDeclConst(ctx.Var_type().GetText())
 	varName := ctx.ID().GetText()
 	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
 	varType := varValue.Type()
-
-	fmt.Println("Nombre de la variable:", varName)
-	fmt.Println("Valor de la variable:", varValue)
 
 	if varType == "[]" {
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), "No se puede inferir el tipo de un vector vacio '"+varName+"'")
@@ -185,7 +290,21 @@ func (v *ReplVisitor) VisitValueDeclAssign(ctx *parser.DeclAssignContext) interf
 	// }
 
 	variable, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, false, false, ctx.GetStart())
+	/*
 
+	   fn main() {
+	   // entorno padre
+
+	   x = 6
+	   while (true){
+	    x = 5
+	   }
+	   while (true){
+	   x = 6
+	   }
+	   }
+
+	*/
 	// Variable already exists
 	if variable == nil {
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
@@ -223,7 +342,6 @@ func (v *ReplVisitor) VisitValorFloat(ctx *parser.ValorFloatContext) interface{}
 
 }
 func (v *ReplVisitor) VisitIdPattern(ctx *parser.IdContext) interface{} {
-	fmt.Println("COSOOOO DEL IDDDDDDDDDDDDD")
 	// hay que ir a buscar el Id a el entorno
 	return ctx.GetText()
 }

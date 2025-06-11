@@ -15,6 +15,62 @@ func (v *BaseVlangVisitor) VisitStmt(ctx *StmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitIfStmt(ctx *IfStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitIfChain(ctx *IfChainContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitElseStmt(ctx *ElseStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitPrintlnStmt(ctx *PrintlnStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitPrintStmt(ctx *PrintStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitWhileStmt(ctx *WhileStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitForStmt(ctx *ForStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitNumericRange(ctx *NumericRangeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFuncCall(ctx *FuncCallContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFuncDecl(ctx *FuncDeclContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitStructDecl(ctx *StructDeclContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitReturnStmt(ctx *ReturnStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitBreakStmt(ctx *BreakStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitContinueStmt(ctx *ContinueStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitDirectAssign(ctx *DirectAssignContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -31,15 +87,15 @@ func (v *BaseVlangVisitor) VisitDeclPattern(ctx *DeclPatternContext) interface{}
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitMutType(ctx *MutTypeContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseVlangVisitor) VisitIdPattern(ctx *IdPatternContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseVlangVisitor) VisitCorchetesexpre(ctx *CorchetesexpreContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFuncionexpre(ctx *FuncionexpreContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -108,6 +164,42 @@ func (v *BaseVlangVisitor) VisitValorCaracter(ctx *ValorCaracterContext) interfa
 }
 
 func (v *BaseVlangVisitor) VisitValorFloat(ctx *ValorFloatContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitStructInstancia(ctx *StructInstanciaContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitStructAttr(ctx *StructAttrContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitIntType(ctx *IntTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFloatType(ctx *FloatTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitStringType(ctx *StringTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitBoolType(ctx *BoolTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitCharType(ctx *CharTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitVoidType(ctx *VoidTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitStructVector(ctx *StructVectorContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

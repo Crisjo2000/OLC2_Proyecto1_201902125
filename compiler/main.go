@@ -1,16 +1,6 @@
 package main
 
 import (
-	"io"
-	"io/ioutil"
-
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/storage"
-	"fyne.io/fyne/v2/widget"
-
 	"fmt"
 	"os"
 
@@ -30,13 +20,8 @@ import (
 
 func main() {
 
-	// --------------------- ANALIZADORES ------------------------
-	// inicializamos la aplicacion con fiber
-
-	// Leer código fuente desde archivo o consola
 	fmt.Println("Escribe el codigo de Vlang: (Ctrl+D) para terminar")
 	inputCode, err := readStdin()
-	fmt.Println("entrada: ", inputCode)
 	if err != nil {
 		fmt.Println("Error leyendo entrada:", err)
 		return
@@ -51,17 +36,12 @@ func main() {
 	lexicalErrorListener := errors.NewLexicalErrorListener()
 	//
 	lexer := compiler.NewVlangLexer(antlr.NewInputStream(inputCode))
-	fmt.Println("Se inicio el analisis lexico")
-	fmt.Println("Lexer creado: ", lexer)
+
 	lexer.RemoveErrorListeners()
 	lexer.AddErrorListener(lexicalErrorListener)
-	fmt.Println("Se termino el analisis lexico")
-	fmt.Println("Erroree lex: ", lexicalErrorListener.ErrorTable, " ", lexicalErrorListener)
 
 	// 2. Tokens
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
-	fmt.Println("Tokens encontrados: ", stream.GetAllTokens())
 
 	// 3. Parser + errores sintácticos
 	// New<Nombre de mi gramatica>(Stream)
@@ -79,121 +59,182 @@ func main() {
 	// Este es el que deberas agregar como parte del parser.
 	arbolito := parser.Programa()
 
+	// verificamos que el arbol si funcione
+	fmt.Printf("🌳 Árbol raíz: %T\n", arbolito)
+
 	// imprimimos los errores de sintaxis y léxicos
-	visitor := repl.NewReplVisitor()
+	/*
+		NOTA: Para mejorar el rendimiento y facilidad de las estructuras
+		lo primero que debemos hacer es un visitor que declare funciones,
+		structs, y algunos vectores.
+
+		// -> Crear los entornos de la funciones
+		// -> Anadir los vectores a esos entornos
+		// Se define el main()
+
+	*/
+	// ----> Este visitor -> Crear entornos
+	// dclVisitor := repl.NewDclVisitor(syntaxErrorListener.ErrorTable)
+	// dclVisitor.Visit(tree)
+	/*
+		En visitor.go tenemos un metodo en el que INICIALIZAMOS
+		ReplVisitor PERO le enviamos dclVisitor como parametro
+		para que este pueda visitar los nodos de declaración
+
+		En visitor.go tambien tenemos un metodo para inicializar
+		ReplVisitor y enviarle el errorTable, este nos sirve
+		para testear
+	*/
+	fmt.Println("Visitamos los nodos del árbol sintáctico")
+
+	visitor := repl.NewReplVisitor(syntaxErrorListener.ErrorTable)
+
 	visitor.Visit(arbolito)
+	visitor.Console.Show()
+	/*
 
-	// -------------------- INTERFAZ --------------------
-	//Inicio de la ventana
-	a := app.NewWithID("ocl2.vlang.cherry")
+		En console.GetOutput() tenemos la salida de la consola
+	*/
+	nuevaVariable := visitor.Console.GetOutput()
+	fmt.Println("Salida de la consola:", nuevaVariable)
 
-	w := a.NewWindow("V-Lang Cherry")
+	/*
+		// -------------------- INTERFAZ --------------------
+		//Inicio de la ventana
+		a := app.NewWithID("ocl2.vlang.cherry")
 
-	ta1 := widget.NewMultiLineEntry()
-	ta1.SetPlaceHolder("Escribe tu código aquí...")
-	ta1.Resize(fyne.NewSize(770, 700))
-	ta1.Move(fyne.NewPos(10, 10))
+		w := a.NewWindow("V-Lang Cherry")
 
-	ta2 := widget.NewMultiLineEntry()
-	ta2.SetPlaceHolder("")
-	ta2.Disable()
-	ta2.Resize(fyne.NewSize(770, 700))
-	ta2.Move(fyne.NewPos(810, 10))
+		ta1 := widget.NewMultiLineEntry()
+		ta1.SetPlaceHolder("Escribe tu código aquí...")
+		ta1.Resize(fyne.NewSize(770, 700))
+		ta1.Move(fyne.NewPos(10, 10))
 
-	b1 := widget.NewButton("Ejecutar", func() {
-		// Aquí se llamaría a la función que ejecuta el código
-	})
-	b1.Resize(fyne.NewSize(150, 45))
-	b1.Move(fyne.NewPos(720, 730))
+		ta2 := widget.NewMultiLineEntry()
+		ta2.SetPlaceHolder("")
+		ta2.Disable()
+		ta2.Resize(fyne.NewSize(770, 700))
+		ta2.Move(fyne.NewPos(810, 10))
 
-	menu := fyne.NewMainMenu(
-		fyne.NewMenu("Archivo",
-			fyne.NewMenuItem("Crear Archivo", func() {
-				ta1.SetText("")
-				ta2.SetText("")
-			}),
-			fyne.NewMenuItem("Abrir archivo", func() {
-				fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
-					if err != nil {
-						dialog.ShowError(err, w)
-						return
-					}
-					if reader == nil {
-						return // el usuario canceló
-					}
+		b1 := widget.NewButton("Ejecutar", func() {
+			inputCode := ta1.Text
 
-					defer reader.Close()
-					data, err := ioutil.ReadAll(reader)
-					if err != nil {
-						dialog.ShowError(err, w)
-						return
-					}
-					ta1.SetText(string(data))
-				}, w)
+			//startTime := time.Now()
 
-				fd.SetFilter(storage.NewExtensionFileFilter([]string{".vch"}))
-				fd.Show()
-			}),
-			fyne.NewMenuItem("Guardar archivo", func() {
-				fd := dialog.NewFileSave(func(writer fyne.URIWriteCloser, err error) {
-					if err != nil {
-						dialog.ShowError(err, w)
-						return
-					}
-					if writer == nil {
-						return // usuario canceló
-					}
+			// Canal para generar CST en paralelo (opcional)
 
-					// Escribir el contenido
-					_, err = io.WriteString(writer, ta1.Text)
-					if err != nil {
-						dialog.ShowError(err, w)
-						return
-					}
-					writer.Close()
-				}, w)
+			// 1. Análisis Léxico
+			// Para verificar errores
+			lexicalErrorListener := errors.NewLexicalErrorListener()
+			//
+			lexer := compiler.NewVlangLexer(antlr.NewInputStream(inputCode))
+			lexer.RemoveErrorListeners()
+			lexer.AddErrorListener(lexicalErrorListener)
+			fmt.Println("Erroree lex: ", lexicalErrorListener.ErrorTable, " ", lexicalErrorListener)
 
-				fd.SetFileName("archivo.vch") // nombre por defecto
-				fd.SetFilter(storage.NewExtensionFileFilter([]string{".vch"}))
-				fd.Show()
-			}),
-		),
-		fyne.NewMenu("Reportes",
-			fyne.NewMenuItem("Errores", func() {
-				// funcion para el reporte de errores
-			}),
-			fyne.NewMenuItem("Tabla de Símbolos", func() {
-				//funcion para el reporte de tabla de símbolos
-			}),
-			fyne.NewMenuItem("AST", func() {
-				//funcion para generar el reporte de AST
-			}),
-		),
-	)
+			// 2. Tokens
+			stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 
-	w.SetMainMenu(menu)
-	content := container.NewWithoutLayout(
-		ta1,
-		ta2,
-		b1,
-	)
+			// 3. Parser + errores sintácticos
+			// New<Nombre de mi gramatica>(Stream)
+			parser := compiler.NewVlangParser(stream)
+			parser.BuildParseTrees = true
 
-	w.SetContent(content)
-	w.Resize(fyne.NewSize(1920, 1080))
-	w.ShowAndRun()
+			syntaxErrorListener := errors.NewSyntaxErrorListener(lexicalErrorListener.ErrorTable)
+			parser.RemoveErrorListeners()
+			parser.SetErrorHandler(errors.NewCustomErrorStrategy())
+			parser.AddErrorListener(syntaxErrorListener)
+			fmt.Println("Se termino el analisis sintactico")
 
-}
+			// 4. Árbol sintáctico
+			// En tu gramatica tienes el axioma, o simbolo inicial
+			// Este es el que deberas agregar como parte del parser.
+			arbolito := parser.Programa()
 
-func readStdin2() (string, error) {
-	input, err := io.ReadAll(os.Stdin)
-	if err != nil {
-		return "", err
-	}
-	return string(input), nil
-}
-func readStdin() (string, error) {
-	input, err := os.ReadFile("/dev/stdin")
-	return string(input), err
+			// imprimimos los errores de sintaxis y léxicos
+			visitor := repl.NewReplVisitor(syntaxErrorListener.ErrorTable)
+			visitor.Visit(arbolito)
+		})
+		b1.Resize(fyne.NewSize(150, 45))
+		b1.Move(fyne.NewPos(720, 730))
+
+		menu := fyne.NewMainMenu(
+			fyne.NewMenu("Archivo",
+				fyne.NewMenuItem("Crear Archivo", func() {
+					ta1.SetText("")
+					ta2.SetText("")
+				}),
+				fyne.NewMenuItem("Abrir archivo", func() {
+					fd := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
+						if err != nil {
+							dialog.ShowError(err, w)
+							return
+						}
+						if reader == nil {
+							return // el usuario canceló
+						}
+
+						defer reader.Close()
+						data, err := ioutil.ReadAll(reader)
+						if err != nil {
+							dialog.ShowError(err, w)
+							return
+						}
+						ta1.SetText(string(data))
+					}, w)
+
+					fd.SetFilter(storage.NewExtensionFileFilter([]string{".vch"}))
+					fd.Show()
+				}),
+				fyne.NewMenuItem("Guardar archivo", func() {
+					fd := dialog.NewFileSave(func(writer fyne.URIWriteCloser, err error) {
+						if err != nil {
+							dialog.ShowError(err, w)
+							return
+						}
+						if writer == nil {
+							return // usuario canceló
+						}
+
+						// Escribir el contenido
+						_, err = io.WriteString(writer, ta1.Text)
+						if err != nil {
+							dialog.ShowError(err, w)
+							return
+						}
+						writer.Close()
+					}, w)
+
+					fd.SetFileName("archivo.vch") // nombre por defecto
+					fd.SetFilter(storage.NewExtensionFileFilter([]string{".vch"}))
+					fd.Show()
+				}),
+			),
+			fyne.NewMenu("Reportes",
+				fyne.NewMenuItem("Errores", func() {
+					// funcion para el reporte de errores
+				}),
+				fyne.NewMenuItem("Tabla de Símbolos", func() {
+					//funcion para el reporte de tabla de símbolos
+				}),
+				fyne.NewMenuItem("AST", func() {
+
+				}),
+			),
+		)
+
+		w.SetMainMenu(menu)
+		content := container.NewWithoutLayout(
+			ta1,
+			ta2,
+			b1,
+		)
+
+		w.SetContent(content)
+		w.Resize(fyne.NewSize(1920, 1080))
+		w.ShowAndRun()
+	*/
+
 }
 
 // Funciones para visualizar nuestro arbol
@@ -231,4 +272,9 @@ func printVerticalNode(node antlr.Tree, ruleNames []string, prefix string, isLas
 		}
 		printVerticalNode(child, ruleNames, newPrefix, i == childCount-1)
 	}
+}
+
+func readStdin() (string, error) {
+	input, err := os.ReadFile("/dev/stdin")
+	return string(input), err
 }
