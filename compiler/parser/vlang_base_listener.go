@@ -128,17 +128,11 @@ func (s *BaseVlangListener) EnterDeclAssign(ctx *DeclAssignContext) {}
 // ExitDeclAssign is called when production DeclAssign is exited.
 func (s *BaseVlangListener) ExitDeclAssign(ctx *DeclAssignContext) {}
 
-// EnterDeclAssignPattern is called when production DeclAssignPattern is entered.
-func (s *BaseVlangListener) EnterDeclAssignPattern(ctx *DeclAssignPatternContext) {}
+// EnterDeclAssignType is called when production DeclAssignType is entered.
+func (s *BaseVlangListener) EnterDeclAssignType(ctx *DeclAssignTypeContext) {}
 
-// ExitDeclAssignPattern is called when production DeclAssignPattern is exited.
-func (s *BaseVlangListener) ExitDeclAssignPattern(ctx *DeclAssignPatternContext) {}
-
-// EnterDeclPattern is called when production DeclPattern is entered.
-func (s *BaseVlangListener) EnterDeclPattern(ctx *DeclPatternContext) {}
-
-// ExitDeclPattern is called when production DeclPattern is exited.
-func (s *BaseVlangListener) ExitDeclPattern(ctx *DeclPatternContext) {}
+// ExitDeclAssignType is called when production DeclAssignType is exited.
+func (s *BaseVlangListener) ExitDeclAssignType(ctx *DeclAssignTypeContext) {}
 
 // EnterIdPattern is called when production IdPattern is entered.
 func (s *BaseVlangListener) EnterIdPattern(ctx *IdPatternContext) {}
@@ -212,11 +206,29 @@ func (s *BaseVlangListener) EnterBinaryExp(ctx *BinaryExpContext) {}
 // ExitBinaryExp is called when production BinaryExp is exited.
 func (s *BaseVlangListener) ExitBinaryExp(ctx *BinaryExpContext) {}
 
-// EnterParametros is called when production parametros is entered.
-func (s *BaseVlangListener) EnterParametros(ctx *ParametrosContext) {}
+// EnterParamList is called when production ParamList is entered.
+func (s *BaseVlangListener) EnterParamList(ctx *ParamListContext) {}
 
-// ExitParametros is called when production parametros is exited.
-func (s *BaseVlangListener) ExitParametros(ctx *ParametrosContext) {}
+// ExitParamList is called when production ParamList is exited.
+func (s *BaseVlangListener) ExitParamList(ctx *ParamListContext) {}
+
+// EnterFuncParam is called when production funcParam is entered.
+func (s *BaseVlangListener) EnterFuncParam(ctx *FuncParamContext) {}
+
+// ExitFuncParam is called when production funcParam is exited.
+func (s *BaseVlangListener) ExitFuncParam(ctx *FuncParamContext) {}
+
+// EnterArgList is called when production ArgList is entered.
+func (s *BaseVlangListener) EnterArgList(ctx *ArgListContext) {}
+
+// ExitArgList is called when production ArgList is exited.
+func (s *BaseVlangListener) ExitArgList(ctx *ArgListContext) {}
+
+// EnterFuncArg is called when production FuncArg is entered.
+func (s *BaseVlangListener) EnterFuncArg(ctx *FuncArgContext) {}
+
+// ExitFuncArg is called when production FuncArg is exited.
+func (s *BaseVlangListener) ExitFuncArg(ctx *FuncArgContext) {}
 
 // EnterValores is called when production valores is entered.
 func (s *BaseVlangListener) EnterValores(ctx *ValoresContext) {}

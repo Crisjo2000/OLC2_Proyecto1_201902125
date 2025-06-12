@@ -61,11 +61,8 @@ type VlangListener interface {
 	// EnterDeclAssign is called when entering the DeclAssign production.
 	EnterDeclAssign(c *DeclAssignContext)
 
-	// EnterDeclAssignPattern is called when entering the DeclAssignPattern production.
-	EnterDeclAssignPattern(c *DeclAssignPatternContext)
-
-	// EnterDeclPattern is called when entering the DeclPattern production.
-	EnterDeclPattern(c *DeclPatternContext)
+	// EnterDeclAssignType is called when entering the DeclAssignType production.
+	EnterDeclAssignType(c *DeclAssignTypeContext)
 
 	// EnterIdPattern is called when entering the IdPattern production.
 	EnterIdPattern(c *IdPatternContext)
@@ -103,8 +100,17 @@ type VlangListener interface {
 	// EnterBinaryExp is called when entering the BinaryExp production.
 	EnterBinaryExp(c *BinaryExpContext)
 
-	// EnterParametros is called when entering the parametros production.
-	EnterParametros(c *ParametrosContext)
+	// EnterParamList is called when entering the ParamList production.
+	EnterParamList(c *ParamListContext)
+
+	// EnterFuncParam is called when entering the funcParam production.
+	EnterFuncParam(c *FuncParamContext)
+
+	// EnterArgList is called when entering the ArgList production.
+	EnterArgList(c *ArgListContext)
+
+	// EnterFuncArg is called when entering the FuncArg production.
+	EnterFuncArg(c *FuncArgContext)
 
 	// EnterValores is called when entering the valores production.
 	EnterValores(c *ValoresContext)
@@ -214,11 +220,8 @@ type VlangListener interface {
 	// ExitDeclAssign is called when exiting the DeclAssign production.
 	ExitDeclAssign(c *DeclAssignContext)
 
-	// ExitDeclAssignPattern is called when exiting the DeclAssignPattern production.
-	ExitDeclAssignPattern(c *DeclAssignPatternContext)
-
-	// ExitDeclPattern is called when exiting the DeclPattern production.
-	ExitDeclPattern(c *DeclPatternContext)
+	// ExitDeclAssignType is called when exiting the DeclAssignType production.
+	ExitDeclAssignType(c *DeclAssignTypeContext)
 
 	// ExitIdPattern is called when exiting the IdPattern production.
 	ExitIdPattern(c *IdPatternContext)
@@ -256,8 +259,17 @@ type VlangListener interface {
 	// ExitBinaryExp is called when exiting the BinaryExp production.
 	ExitBinaryExp(c *BinaryExpContext)
 
-	// ExitParametros is called when exiting the parametros production.
-	ExitParametros(c *ParametrosContext)
+	// ExitParamList is called when exiting the ParamList production.
+	ExitParamList(c *ParamListContext)
+
+	// ExitFuncParam is called when exiting the funcParam production.
+	ExitFuncParam(c *FuncParamContext)
+
+	// ExitArgList is called when exiting the ArgList production.
+	ExitArgList(c *ArgListContext)
+
+	// ExitFuncArg is called when exiting the FuncArg production.
+	ExitFuncArg(c *FuncArgContext)
 
 	// ExitValores is called when exiting the valores production.
 	ExitValores(c *ValoresContext)

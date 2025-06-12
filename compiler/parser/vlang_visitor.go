@@ -61,11 +61,8 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#DeclAssign.
 	VisitDeclAssign(ctx *DeclAssignContext) interface{}
 
-	// Visit a parse tree produced by VlangParser#DeclAssignPattern.
-	VisitDeclAssignPattern(ctx *DeclAssignPatternContext) interface{}
-
-	// Visit a parse tree produced by VlangParser#DeclPattern.
-	VisitDeclPattern(ctx *DeclPatternContext) interface{}
+	// Visit a parse tree produced by VlangParser#DeclAssignType.
+	VisitDeclAssignType(ctx *DeclAssignTypeContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#IdPattern.
 	VisitIdPattern(ctx *IdPatternContext) interface{}
@@ -103,8 +100,17 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#BinaryExp.
 	VisitBinaryExp(ctx *BinaryExpContext) interface{}
 
-	// Visit a parse tree produced by VlangParser#parametros.
-	VisitParametros(ctx *ParametrosContext) interface{}
+	// Visit a parse tree produced by VlangParser#ParamList.
+	VisitParamList(ctx *ParamListContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#funcParam.
+	VisitFuncParam(ctx *FuncParamContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#ArgList.
+	VisitArgList(ctx *ArgListContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#FuncArg.
+	VisitFuncArg(ctx *FuncArgContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#valores.
 	VisitValores(ctx *ValoresContext) interface{}

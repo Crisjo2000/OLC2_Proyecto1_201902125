@@ -12,7 +12,7 @@ darle una etiqueta a cada uno
  */
 
 stmt:
-	   decl_stmt                
+	 decl_stmt                
 	 | assign_stmt
      | if_stmt
      | while_stmt  
@@ -44,12 +44,15 @@ range: expresion DOT DOT DOT expresion # NumericRange;
 
 
 /// Llamadas a funciones catch
-func_call: ID LPAREN (parametros)? RPAREN # FuncCall;
+// id ( 1,2,3,4)
+func_call: id_pattern LPAREN (parametros)? RPAREN # FuncCall;
 
 
 func_dcl: 
     // id(parametros | vacio )  { } 
-    ID LPAREN (parametros)? RPAREN LCOR stmt* RCOR # FuncDecl
+    //    visitor -> recorrer esos stmts
+    // fn id (x int, n string) 
+    'fn' ID LPAREN (arg_list)? RPAREN LCOR stmt* RCOR # FuncDecl
     ;
 
 
@@ -82,8 +85,7 @@ assign_stmt:
 
 decl_stmt: 
     MUT ID ASSIGN expresion # DeclAssign
-    | MUT id_pattern ASSIGN expresion # DeclAssignPattern
-    | MUT id_pattern # DeclPattern
+    | MUT id_pattern COLON var_type ASSIGN expresion # DeclAssignType
     ; 
 
 
@@ -121,9 +123,33 @@ porque lo definiremos en el visit de BinaryExpr
     | ID ASSIGN expresion                                  #asignacionfor
     ;
 
-// === Parámetros en llamadas ===
-parametros : expresion (COMMA expresion)* ;
+/*
+param_list: func_param (COMMA func_param)* # ParamList;
+func_param: ID? ID COLON INOUT_KW? type # FuncParam;
+id   id : 
+// external names -> num: value, num2: value2
+arg_list: func_arg (COMMA func_arg)* # ArgList;
+func_arg: (ID COLON)? (ANPERSAND)? (id_pattern | expr) # FuncArg; // 
+             id : 
+ 
+ */
 
+// PARAMETROS -> Cuando se hace la llamada
+// Argumentos -> Cuando se declara la funcion catch
+
+
+// === Parámetros en llamadas ===
+parametros: func_param (COMMA func_param)* # ParamList;
+func_param : id_pattern #funcParam;
+
+
+// ===== Argumentos en las declaraciones === catch
+// -----> ArgList
+// valor type 
+arg_list: func_arg (COMMA func_arg)* # ArgList;
+func_arg: ID var_type # FuncArg; // 
+              
+ 
 // === Tipos de valores simples ===
 valores : valor ;
 

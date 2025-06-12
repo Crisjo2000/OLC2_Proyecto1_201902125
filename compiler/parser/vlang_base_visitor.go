@@ -79,11 +79,7 @@ func (v *BaseVlangVisitor) VisitDeclAssign(ctx *DeclAssignContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitDeclAssignPattern(ctx *DeclAssignPatternContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseVlangVisitor) VisitDeclPattern(ctx *DeclPatternContext) interface{} {
+func (v *BaseVlangVisitor) VisitDeclAssignType(ctx *DeclAssignTypeContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -135,7 +131,19 @@ func (v *BaseVlangVisitor) VisitBinaryExp(ctx *BinaryExpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitParametros(ctx *ParametrosContext) interface{} {
+func (v *BaseVlangVisitor) VisitParamList(ctx *ParamListContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFuncParam(ctx *FuncParamContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitArgList(ctx *ArgListContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFuncArg(ctx *FuncArgContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
