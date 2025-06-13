@@ -298,47 +298,61 @@ func (v *ReplVisitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 func (v *ReplVisitor) VisitPrintlnStmt(ctx *parser.PrintlnStmtContext) interface{} {
 	fmt.Println("🔍 Visitando PrintlnStmt:", ctx.GetText())
 
-	// Evaluar expresión
-	result := v.Visit(ctx.Expresion())
-	fmt.Println("🔍 Resultado de la expresión:", result)
-	if result == nil {
-		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Expresión vacía dentro de Println")
+	// Obtener todas las expresiones
+	exprs := ctx.AllExpresion()
+	if len(exprs) == 0 {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Println sin argumentos")
 		return nil
 	}
 
-	// Verificar que el resultado sea IVOR
-	val, ok := result.(value.IVOR)
-	if !ok {
-		fmt.Println("🔍 Resultado no es IVOR:", result)
-		v.ErrorTable.NewSemanticError(ctx.GetStart(), "La expresión no devuelve un valor válido")
-		return nil
+	// Construir el resultado concatenando todos los argumentos
+	var result strings.Builder
+	for i, expr := range exprs {
+		if i > 0 {
+			result.WriteString(" ")
+		}
+
+		val := v.Visit(expr)
+		if val == nil {
+			continue
+		}
+
+		if ivor, ok := val.(value.IVOR); ok {
+			result.WriteString(fmt.Sprintf("%v", ivor.Value()))
+		} else {
+			result.WriteString(fmt.Sprintf("%v", val))
+		}
 	}
 
-	// Obtener valor interno e imprimirlo como texto
-	valInterno := val.Value()
-	valTipo := val.Type()
-
-	fmt.Printf("🔔 Imprimiendo valor: %v (tipo: %s)\n", valInterno, valTipo)
-
-	// Agregar a consola como string
-	v.Console.Println(fmt.Sprintf("%v", valInterno))
+	// Imprimir el resultado
+	output := result.String()
+	v.Console.Println(output)
+	fmt.Println("🔔 Imprimiendo valor:", output)
 	return nil
 }
 
 func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
+	// 1. Procesar todas las condiciones if/else if
+	executed := false
 
-	runChain := true
+	for _, ifChain := range ctx.AllIf_chain() {
+		condition := v.Visit(ifChain).(value.IVOR)
 
-	for _, ifStmt := range ctx.AllIf_chain() {
+		// Verificar que la condición sea booleana
+		if condition.Type() != value.IVOR_BOOL {
+			v.ErrorTable.NewSemanticError(ifChain.GetStart(), "La condición del if debe ser booleana")
+			continue
+		}
 
-		runChain = !v.Visit(ifStmt).(bool)
-		// Si la condicion del if es verdadera, ejecutamos el bloque
-		if !runChain {
+		// Si la condición es verdadera, ejecutar el bloque
+		if condition.Value().(bool) {
+			executed = true
 			break
 		}
 	}
 
-	if runChain && ctx.Else_stmt() != nil {
+	// 2. Si ninguna condición se cumplió y hay else, ejecutarlo
+	if !executed && ctx.Else_stmt() != nil {
 		v.Visit(ctx.Else_stmt())
 	}
 
@@ -346,45 +360,41 @@ func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
 }
 
 func (v *ReplVisitor) VisitIfChain(ctx *parser.IfChainContext) interface{} {
+	// Evaluar la expresión condicional
+	exprResult := v.Visit(ctx.Expresion())
 
-	condition := v.Visit(ctx.Expresion()).(value.IVOR)
-
-	if condition.Type() != value.IVOR_BOOL {
-		v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condicion del if debe ser un booleano")
-		return false
-
+	// Verificar que sea un IVOR
+	ivor, ok := exprResult.(value.IVOR)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condición del if debe evaluar a un valor booleano")
+		return &value.BoolValue{InternalValue: false}
 	}
 
-	if condition.(*value.BoolValue).InternalValue {
+	// Verificar que sea de tipo booleano
+	if ivor.Type() != value.IVOR_BOOL {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Se esperaba un valor booleano en la condición")
+		return &value.BoolValue{InternalValue: false}
+	}
 
-		// Push scope
+	// Si la condición es verdadera, ejecutar el bloque
+	if ivor.Value().(bool) {
 		v.ScopeTrace.PushScope("if")
-
 		for _, stmt := range ctx.AllStmt() {
 			v.Visit(stmt)
 		}
-
-		// Pop scope
 		v.ScopeTrace.PopScope()
-
-		return true
+		return &value.BoolValue{InternalValue: true}
 	}
 
-	return false
+	return &value.BoolValue{InternalValue: false}
 }
 
 func (v *ReplVisitor) VisitElseStmt(ctx *parser.ElseStmtContext) interface{} {
-
-	// Push scope {   }
 	v.ScopeTrace.PushScope("else")
-
 	for _, stmt := range ctx.AllStmt() {
 		v.Visit(stmt)
 	}
-
-	// Pop scope
 	v.ScopeTrace.PopScope()
-
 	return nil
 }
 
@@ -500,7 +510,7 @@ func (v *ReplVisitor) VisitId(ctx *parser.IdContext) interface{} {
 	} else {
 		// Si la variable existe, devolvemos su valor
 		fmt.Println("Variable encontrada:", id, "con valor:", variable.Value)
-		return variable
+		return variable.Value
 	}
 }
 

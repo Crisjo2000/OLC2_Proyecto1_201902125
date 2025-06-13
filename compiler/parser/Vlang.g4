@@ -32,7 +32,7 @@ if_chain: IF_KW expresion  LCOR stmt* RCOR # IfChain;
 
 else_stmt: ELSE_KW LCOR stmt* RCOR # ElseStmt;
 
-println: 'println'  LPAREN expresion RPAREN # PrintlnStmt;
+println: 'println'  LPAREN expresion (COMMA expresion)* RPAREN # PrintlnStmt;
 print: 'print'  LPAREN expresion (COMMA expresion)* RPAREN # PrintStmt;
 
 while_stmt: WHILE_KW expresion LCOR stmt* RCOR # WhileStmt;
