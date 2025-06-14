@@ -1,4 +1,4 @@
-// Generated from /home/christian/Documentos/ORGANIZACIÓN DE LENGUAJES Y COMPILADORES 2/LABORATORIO/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
+// Generated from /home/luisa/Documentos/2025/Vaqueras/compi2 781/Lab/P1/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -123,6 +123,42 @@ public interface VlangListener extends ParseTreeListener {
 	 */
 	void exitNumericRange(VlangParser.NumericRangeContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code FuncCall}
+	 * labeled alternative in {@link VlangParser#func_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCall(VlangParser.FuncCallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncCall}
+	 * labeled alternative in {@link VlangParser#func_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCall(VlangParser.FuncCallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncDecl}
+	 * labeled alternative in {@link VlangParser#func_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncDecl(VlangParser.FuncDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncDecl}
+	 * labeled alternative in {@link VlangParser#func_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncDecl(VlangParser.FuncDeclContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StructDecl}
+	 * labeled alternative in {@link VlangParser#struct_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructDecl(VlangParser.StructDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StructDecl}
+	 * labeled alternative in {@link VlangParser#struct_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructDecl(VlangParser.StructDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ReturnStmt}
 	 * labeled alternative in {@link VlangParser#transfer_stmt}.
 	 * @param ctx the parse tree
@@ -183,29 +219,17 @@ public interface VlangListener extends ParseTreeListener {
 	 */
 	void exitDeclAssign(VlangParser.DeclAssignContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code DeclAssignPattern}
+	 * Enter a parse tree produced by the {@code DeclAssignType}
 	 * labeled alternative in {@link VlangParser#decl_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterDeclAssignPattern(VlangParser.DeclAssignPatternContext ctx);
+	void enterDeclAssignType(VlangParser.DeclAssignTypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code DeclAssignPattern}
+	 * Exit a parse tree produced by the {@code DeclAssignType}
 	 * labeled alternative in {@link VlangParser#decl_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitDeclAssignPattern(VlangParser.DeclAssignPatternContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code DeclPattern}
-	 * labeled alternative in {@link VlangParser#decl_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void enterDeclPattern(VlangParser.DeclPatternContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code DeclPattern}
-	 * labeled alternative in {@link VlangParser#decl_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void exitDeclPattern(VlangParser.DeclPatternContext ctx);
+	void exitDeclAssignType(VlangParser.DeclAssignTypeContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IdPattern}
 	 * labeled alternative in {@link VlangParser#id_pattern}.
@@ -230,6 +254,18 @@ public interface VlangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCorchetesexpre(VlangParser.CorchetesexpreContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcionexpre}
+	 * labeled alternative in {@link VlangParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncionexpre(VlangParser.FuncionexpreContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcionexpre}
+	 * labeled alternative in {@link VlangParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncionexpre(VlangParser.FuncionexpreContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code unario}
 	 * labeled alternative in {@link VlangParser#expresion}.
@@ -339,15 +375,53 @@ public interface VlangListener extends ParseTreeListener {
 	 */
 	void exitBinaryExp(VlangParser.BinaryExpContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link VlangParser#parametros}.
+	 * Enter a parse tree produced by the {@code ParamList}
+	 * labeled alternative in {@link VlangParser#parametros}.
 	 * @param ctx the parse tree
 	 */
-	void enterParametros(VlangParser.ParametrosContext ctx);
+	void enterParamList(VlangParser.ParamListContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link VlangParser#parametros}.
+	 * Exit a parse tree produced by the {@code ParamList}
+	 * labeled alternative in {@link VlangParser#parametros}.
 	 * @param ctx the parse tree
 	 */
-	void exitParametros(VlangParser.ParametrosContext ctx);
+	void exitParamList(VlangParser.ParamListContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcParam}
+	 * labeled alternative in {@link VlangParser#func_param}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncParam(VlangParser.FuncParamContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcParam}
+	 * labeled alternative in {@link VlangParser#func_param}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncParam(VlangParser.FuncParamContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ArgList}
+	 * labeled alternative in {@link VlangParser#arg_list}.
+	 * @param ctx the parse tree
+	 */
+	void enterArgList(VlangParser.ArgListContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ArgList}
+	 * labeled alternative in {@link VlangParser#arg_list}.
+	 * @param ctx the parse tree
+	 */
+	void exitArgList(VlangParser.ArgListContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FuncArg}
+	 * labeled alternative in {@link VlangParser#func_arg}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncArg(VlangParser.FuncArgContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncArg}
+	 * labeled alternative in {@link VlangParser#func_arg}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncArg(VlangParser.FuncArgContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link VlangParser#valores}.
 	 * @param ctx the parse tree
@@ -430,6 +504,114 @@ public interface VlangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValorFloat(VlangParser.ValorFloatContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StructInstancia}
+	 * labeled alternative in {@link VlangParser#strct_instancia}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructInstancia(VlangParser.StructInstanciaContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StructInstancia}
+	 * labeled alternative in {@link VlangParser#strct_instancia}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructInstancia(VlangParser.StructInstanciaContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StructAttr}
+	 * labeled alternative in {@link VlangParser#struct_prop}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructAttr(VlangParser.StructAttrContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StructAttr}
+	 * labeled alternative in {@link VlangParser#struct_prop}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructAttr(VlangParser.StructAttrContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code IntType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntType(VlangParser.IntTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code IntType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntType(VlangParser.IntTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code FloatType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterFloatType(VlangParser.FloatTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FloatType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitFloatType(VlangParser.FloatTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StringType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringType(VlangParser.StringTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StringType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringType(VlangParser.StringTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code BoolType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolType(VlangParser.BoolTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code BoolType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolType(VlangParser.BoolTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CharType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterCharType(VlangParser.CharTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CharType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitCharType(VlangParser.CharTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code VoidType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void enterVoidType(VlangParser.VoidTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code VoidType}
+	 * labeled alternative in {@link VlangParser#var_type}.
+	 * @param ctx the parse tree
+	 */
+	void exitVoidType(VlangParser.VoidTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code StructVector}
+	 * labeled alternative in {@link VlangParser#struct_vector}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructVector(VlangParser.StructVectorContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code StructVector}
+	 * labeled alternative in {@link VlangParser#struct_vector}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructVector(VlangParser.StructVectorContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code incremento}
 	 * labeled alternative in {@link VlangParser#incredecre}.

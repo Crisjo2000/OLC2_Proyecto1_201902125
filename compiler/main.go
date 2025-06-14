@@ -20,7 +20,9 @@ import (
 
 func main() {
 
-	fmt.Println("Escribe el codigo de Vlang: (Ctrl+D) para terminar")
+	fmt.Println("Bienvenido al REPL de Vlang4")
+
+	fmt.Println("Escribe el codigo de Vlang4: (Ctrl+D) para terminar")
 	inputCode, err := readStdin()
 	if err != nil {
 		fmt.Println("Error leyendo entrada:", err)
@@ -42,6 +44,7 @@ func main() {
 
 	// 2. Tokens
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+	fmt.Println(" tokenssssssssssss ", stream.GetAllTokens())
 
 	// 3. Parser + errores sintácticos
 	// New<Nombre de mi gramatica>(Stream)

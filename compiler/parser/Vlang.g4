@@ -26,6 +26,8 @@ stmt:
      | print
      ;
 
+
+
 if_stmt: if_chain (ELSE_KW if_chain)* else_stmt? # IfStmt;
 
 if_chain: IF_KW expresion  LCOR stmt* RCOR # IfChain;
@@ -85,7 +87,7 @@ assign_stmt:
 
 decl_stmt: 
     MUT ID ASSIGN expresion # DeclAssign
-    | MUT id_pattern COLON var_type ASSIGN expresion # DeclAssignType
+    | MUT id_pattern var_type ASSIGN expresion # DeclAssignType
     ; 
 
 
@@ -218,8 +220,7 @@ DECIMAL  : [0-9]+ '.' [0-9]+ ;
 CADENA   : '"' (~["\\] | '\\' .)* '"' ;
 CARACTER : '\'' . '\'' ;
 
-// === Identificadores ===
-ID : [a-zA-Z_][a-zA-Z0-9_]* ;
+
 
 
 IF_KW : 'if' ;
@@ -259,6 +260,9 @@ RBRACK  : ']' ;
 RCOR  : '}' ;
 DOT     : '.' ;
 COMMA   : ',' ;
+
+// === Identificadores ===
+ID : [a-zA-Z_][a-zA-Z0-9_]* ;
 
 // === Espacios y comentarios ===
 WS : [ \t\r\n]+ -> skip ;

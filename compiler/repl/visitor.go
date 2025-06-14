@@ -12,6 +12,14 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
+type Value interface {
+	// métodos comunes que necesites
+}
+
+type IntValue struct {
+	Value int
+}
+
 // Visitor personalizado para recorrer el árbol de sintaxis
 
 // Constructor del visitor
@@ -105,9 +113,14 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		// Visitamos el hijo de valorexpresion
 		return v.VisitValorexpresion(node)
 
+	// Declaraciones de variables
 	case *compiler.DeclAssignContext:
 		fmt.Println("🔍 Visitando DeclAssign:", node.GetText())
 		return v.VisitValueDeclAssign(node)
+	case *parser.DeclAssignTypeContext:
+		fmt.Println("🔍 Visitando DeclAssignType:", node.GetText())
+		return v.VisitDeclAssignType(node)
+
 	// tiramos todos los case de los nodos literales
 	case *parser.ValorEnteroContext:
 		fmt.Println("🔍 Visitando ValorEntero:", node.GetText())
@@ -124,6 +137,7 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitValorCaracter(node)
 	case *parser.IdContext:
 		return v.VisitId(node)
+
 	// Expresiones binarias
 	case *parser.BinaryExpContext:
 		return v.VisitBinaryExp(node)
@@ -131,6 +145,17 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 	// asignaciones posibles
 	case *parser.StmtContext:
 		return v.VisitStmt(node)
+
+	// parte de los If
+	case *parser.IfStmtContext:
+		fmt.Println("**-* VISITANDO IF STMT:", node.GetText())
+		return v.VisitIfStmt(node)
+	case *parser.IfChainContext:
+		return v.VisitIfChain(node)
+	case *parser.ElseStmtContext:
+		return v.VisitElseStmt(node)
+	case *parser.DirectAssignContext:
+		return v.VisitDirectAssign(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
@@ -148,7 +173,7 @@ func (v *ReplVisitor) VisitPrograma(ctx *parser.ProgramaContext) interface{} {
 	fmt.Println("🔍 Visitando el programa...")
 	// Vamos a recorrer todos los statements y los visitamos
 	for _, stmt := range ctx.AllStmt() {
-		fmt.Println("🔍 Visitando statement*:(text)", stmt.GetText())
+		fmt.Println("---🔍 Visitando statement*:(text)", stmt.GetText())
 		v.Visit(stmt)
 	}
 
@@ -162,7 +187,9 @@ Ahora recorremos todos los stmts que tenemos en el programa
 */
 
 func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
-	fmt.Println("🔍 Visitando statement*:", ctx.GetText())
+
+	//fmt.Println("🔍 Visitando statement*:", ctx.GetText())
+	fmt.Println("Entrando a instrucciones disponibles ", ctx.GetText())
 
 	if ctx == nil || ctx.GetChildCount() == 0 {
 		fmt.Println("⚠️ Stmt vacío o nulo.")
@@ -172,31 +199,32 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 	node := ctx.GetChild(0)
 
 	// Aquí van todos los ifs como los que hicimos antes:
-	if printlnStmt, ok := node.(*parser.PrintlnStmtContext); ok {
+	switch node := node.(type) {
+	case *parser.PrintlnStmtContext:
 		fmt.Println("🔔 Visitando nodo println")
-
-		v.VisitPrintlnStmt(printlnStmt)
-		// visitamos un print normal
-	} else if printStmt, ok := node.(*parser.PrintStmtContext); ok {
+		v.VisitPrintlnStmt(node)
+	case *parser.PrintStmtContext:
 		fmt.Println("🔔 Visitando nodo print")
-		v.VisitPrintStmt(printStmt)
-		// visitamos una declaracion
-	} else if declAssign, ok := node.(*parser.DeclAssignContext); ok {
+		v.VisitPrintStmt(node)
+	case *parser.DeclAssignContext:
 		fmt.Println("🔔 Visitando nodo declAssign")
-		v.VisitValueDeclAssign(declAssign)
-	} else if directAssign, ok := node.(*parser.DirectAssignContext); ok {
+		v.VisitValueDeclAssign(node)
+	case *parser.DeclAssignTypeContext:
+		fmt.Println("🔔 Visitando nodo declAssignType")
+		v.VisitDeclAssignType(node)
+	case *parser.DirectAssignContext:
 		fmt.Println("🔔 Visitando nodo directAssign")
-		v.VisitDirectAssign(directAssign)
-	} else if ifStmt, ok := node.(*parser.IfStmtContext); ok {
-		fmt.Println("🔔 Visitando nodo ifStmt")
-		v.VisitIfStmt(ifStmt)
-	} else if whileStmt, ok := node.(*parser.WhileStmtContext); ok {
+		v.VisitDirectAssign(node)
+	case *parser.IfStmtContext:
+		fmt.Println("----🔔 Visitando nodo ifStmt")
+		v.VisitIfStmt(node)
+	case *parser.WhileStmtContext:
 		fmt.Println("🔔 Visitando nodo whileStmt")
-		v.VisitWhileStmt(whileStmt)
-	} else if forStmt, ok := node.(*parser.ForStmtContext); ok {
+		v.VisitWhileStmt(node)
+	case *parser.ForStmtContext:
 		fmt.Println("🔔 Visitando nodo forStmt")
-		v.VisitForStmt(forStmt)
-	} else {
+		v.VisitForStmt(node)
+	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
 	}
 
@@ -208,12 +236,16 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 	// Primero vamos a ver si es una asignacion de variable
 	// lo que queremos hacer para una asignacion
 	// es ver si tenemos el ID
+	fmt.Println(" // Parte de asignacion ")
+
 	varName := v.Visit(ctx.Id_pattern()).(string)
 	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
 	// le pedimos la variable al ScopeTrace
 	variable := v.ScopeTrace.GetVariable(varName)
+	fmt.Println(varValue, " -*- ", varName, " /*/ ")
 
 	if variable == nil {
+		fmt.Println("ERROR NO EXISTE LA VARIABLE")
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varName+" no encontrada")
 	} else {
 
@@ -238,11 +270,8 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 }
 
 /*
-
 Con este metodo subimos el valor de la expresion
-
 */
-
 func (v *ReplVisitor) VisitValorexpresion(ctx *parser.ValorexpresionContext) interface{} {
 	// solo vamos a subir al hijo
 	fmt.Println("🔍 Visitando Valorexpresion:", ctx.GetText())
@@ -262,7 +291,9 @@ func (v *ReplVisitor) VisitValorexpresion(ctx *parser.ValorexpresionContext) int
 
 // print normal
 func (v *ReplVisitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
-	fmt.Println("🔍 Visitando PrintStmt:", ctx.GetText())
+
+	fmt.Println("🔍 Visitando PrintStmt22:", ctx.GetText())
+	fmt.Println("---------------------- Print", ctx.GetText())
 
 	// Total de expresiones
 	exprs := ctx.AllExpresion()
@@ -296,7 +327,7 @@ func (v *ReplVisitor) VisitPrintStmt(ctx *parser.PrintStmtContext) interface{} {
 }
 
 func (v *ReplVisitor) VisitPrintlnStmt(ctx *parser.PrintlnStmtContext) interface{} {
-	fmt.Println("🔍 Visitando PrintlnStmt:", ctx.GetText())
+	fmt.Println("🔍 Visitando PrintlnStmt22:", ctx.GetText())
 
 	// Obtener todas las expresiones
 	exprs := ctx.AllExpresion()
@@ -327,12 +358,15 @@ func (v *ReplVisitor) VisitPrintlnStmt(ctx *parser.PrintlnStmtContext) interface
 	// Imprimir el resultado
 	output := result.String()
 	v.Console.Println(output)
-	fmt.Println("🔔 Imprimiendo valor:", output)
+	fmt.Println("🔔 Imprimiendo valor2:", output)
 	return nil
 }
 
+// VisitIfStmt(ctx *IfStmtContext) interface{}
 func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
-	// 1. Procesar todas las condiciones if/else if
+
+	fmt.Println(("----- parte donde se ejefuta el If "))
+	fmt.Println("🔍 Visitando IfStmt:", ctx.GetText())
 	executed := false
 
 	for _, ifChain := range ctx.AllIf_chain() {
@@ -360,6 +394,7 @@ func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
 }
 
 func (v *ReplVisitor) VisitIfChain(ctx *parser.IfChainContext) interface{} {
+	fmt.Println("🔍 Visitando IfChain:", ctx.GetText())
 	// Evaluar la expresión condicional
 	exprResult := v.Visit(ctx.Expresion())
 
@@ -398,7 +433,9 @@ func (v *ReplVisitor) VisitElseStmt(ctx *parser.ElseStmtContext) interface{} {
 	return nil
 }
 
+// -------DECLARACION DE VARIABLES SIN TIPO
 func (v *ReplVisitor) VisitValueDeclAssign(ctx *parser.DeclAssignContext) interface{} {
+	fmt.Println("----****** DECLARANDO VARIABLES CON MULT ******* ----")
 
 	/*
 		Cuando declaramos una variable tenemos que
@@ -450,6 +487,66 @@ func (v *ReplVisitor) VisitValueDeclAssign(ctx *parser.DeclAssignContext) interf
 	if variable == nil {
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 	}
+	return nil
+}
+
+// Declaracion de variable con tipo
+func (v *ReplVisitor) VisitDeclAssignType(ctx *parser.DeclAssignTypeContext) interface{} {
+	fmt.Println("**** Declarando var tipo mut ***")
+	/*
+	* 1. Obtener el nombre de la variable
+	* 2. Obtene el tipo de la variable
+	* 3. Obtener el valor de la variable
+	 */
+	fmt.Println("9-*-*-*-*-**-**- ", ctx.Id_pattern().GetText(), " -", ctx.Var_type().GetText(), " - ", ctx.Expresion().GetText())
+	varName := ctx.Id_pattern().GetText()
+
+	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
+	varType := varValue.Type()
+
+	fmt.Println("-*-*-*-///*/-*-*-9-**- ", &varValue)
+
+	if varValue == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Expresión vacía dentro de declaración de variable")
+		return nil
+	}
+	/*
+		switch varType {
+		case "int":
+			varValue = value.IntValue{0}
+		case "float":
+			varValue = value.FloatValue{0.0}
+
+		case "string":
+			varValue = value.StringValue{""}
+		case "bool":
+			varValue = value.BoolValue{InternalValue: false}
+		default:
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo desconocido: "+varType)
+			return nil
+		}
+
+		/*
+			// Verificar si el tipo es válido
+			if !v.ValidType(varType) {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo '"+varType+"' no válido")
+				return nil
+			}*/
+	// Verificar si el tipo de valor coincide con el tipo declarado
+	/*if !varValue.Type(varType) {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "El valor '"+varValue.Value()+"' no es del tipo '"+varType+"'")
+		return nil
+	}*/
+	// Agregar la variable al ScopeTrace
+	variable, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, false, false, ctx.GetStart())
+	//variable, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, false, false, ctx.GetStart())
+	fmt.Println("Variable agregada:", varName, "de tipo:", varType, "con valor:", varValue.Value())
+	// Variable already exists
+	if variable == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+		return nil
+	}
+
 	return nil
 }
 
