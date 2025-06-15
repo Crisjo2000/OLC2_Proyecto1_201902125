@@ -43,6 +43,9 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#FuncDecl.
 	VisitFuncDecl(ctx *FuncDeclContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#FuncMain.
+	VisitFuncMain(ctx *FuncMainContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#StructDecl.
 	VisitStructDecl(ctx *StructDeclContext) interface{}
 
@@ -63,6 +66,12 @@ type VlangVisitor interface {
 
 	// Visit a parse tree produced by VlangParser#DeclAssignType.
 	VisitDeclAssignType(ctx *DeclAssignTypeContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#SliceDeclInit.
+	VisitSliceDeclInit(ctx *SliceDeclInitContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#ListExpressions.
+	VisitListExpressions(ctx *ListExpressionsContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#IdPattern.
 	VisitIdPattern(ctx *IdPatternContext) interface{}

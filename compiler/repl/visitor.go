@@ -114,7 +114,11 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitValorexpresion(node)
 
 	// Declaraciones de variables
-	case *compiler.DeclAssignContext:
+	case *parser.FuncMainContext:
+		// Visitamos el hijo de valorexpresion
+		return v.VisitFuncMain(node)
+	
+case *compiler.DeclAssignContext:
 		fmt.Println("🔍 Visitando DeclAssign:", node.GetText())
 		return v.VisitValueDeclAssign(node)
 	case *parser.DeclAssignTypeContext:
@@ -200,6 +204,9 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 
 	// Aquí van todos los ifs como los que hicimos antes:
 	switch node := node.(type) {
+	case *parser.FuncMainContext:
+		fmt.Println("🔔 Visitando nodo main")
+		v.VisitFuncMain(node)
 	case *parser.PrintlnStmtContext:
 		fmt.Println("🔔 Visitando nodo println")
 		v.VisitPrintlnStmt(node)

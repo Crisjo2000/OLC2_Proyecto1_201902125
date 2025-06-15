@@ -43,6 +43,9 @@ type VlangListener interface {
 	// EnterFuncDecl is called when entering the FuncDecl production.
 	EnterFuncDecl(c *FuncDeclContext)
 
+	// EnterFuncMain is called when entering the FuncMain production.
+	EnterFuncMain(c *FuncMainContext)
+
 	// EnterStructDecl is called when entering the StructDecl production.
 	EnterStructDecl(c *StructDeclContext)
 
@@ -63,6 +66,12 @@ type VlangListener interface {
 
 	// EnterDeclAssignType is called when entering the DeclAssignType production.
 	EnterDeclAssignType(c *DeclAssignTypeContext)
+
+	// EnterSliceDeclInit is called when entering the SliceDeclInit production.
+	EnterSliceDeclInit(c *SliceDeclInitContext)
+
+	// EnterListExpressions is called when entering the ListExpressions production.
+	EnterListExpressions(c *ListExpressionsContext)
 
 	// EnterIdPattern is called when entering the IdPattern production.
 	EnterIdPattern(c *IdPatternContext)
@@ -202,6 +211,9 @@ type VlangListener interface {
 	// ExitFuncDecl is called when exiting the FuncDecl production.
 	ExitFuncDecl(c *FuncDeclContext)
 
+	// ExitFuncMain is called when exiting the FuncMain production.
+	ExitFuncMain(c *FuncMainContext)
+
 	// ExitStructDecl is called when exiting the StructDecl production.
 	ExitStructDecl(c *StructDeclContext)
 
@@ -222,6 +234,12 @@ type VlangListener interface {
 
 	// ExitDeclAssignType is called when exiting the DeclAssignType production.
 	ExitDeclAssignType(c *DeclAssignTypeContext)
+
+	// ExitSliceDeclInit is called when exiting the SliceDeclInit production.
+	ExitSliceDeclInit(c *SliceDeclInitContext)
+
+	// ExitListExpressions is called when exiting the ListExpressions production.
+	ExitListExpressions(c *ListExpressionsContext)
 
 	// ExitIdPattern is called when exiting the IdPattern production.
 	ExitIdPattern(c *IdPatternContext)

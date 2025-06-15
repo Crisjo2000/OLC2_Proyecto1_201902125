@@ -54,7 +54,8 @@ func_dcl:
     // id(parametros | vacio )  { } 
     //    visitor -> recorrer esos stmts
     // fn id (x int, n string) 
-    'fn' ID LPAREN (arg_list)? RPAREN LCOR stmt* RCOR # FuncDecl
+    'fn'  ID LPAREN (arg_list)? RPAREN LCOR stmt* RCOR # FuncDecl|
+    FN_KW MAIN_KW LPAREN RPAREN LCOR  stmt* RCOR # FuncMain
     ;
 
 
@@ -237,6 +238,8 @@ IN_KW : 'in' ;
 RETURN_KW : 'return' ;
 BREAK_KW : 'break' ;
 CONTINUE_KW : 'continue' ;
+FN_KW : 'fn' ;
+MAIN_KW : 'main' ;
 // === Operadores ===
 PLUS    : '+' ;
 MINUS   : '-' ;

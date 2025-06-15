@@ -92,6 +92,12 @@ func (s *BaseVlangListener) EnterFuncDecl(ctx *FuncDeclContext) {}
 // ExitFuncDecl is called when production FuncDecl is exited.
 func (s *BaseVlangListener) ExitFuncDecl(ctx *FuncDeclContext) {}
 
+// EnterFuncMain is called when production FuncMain is entered.
+func (s *BaseVlangListener) EnterFuncMain(ctx *FuncMainContext) {}
+
+// ExitFuncMain is called when production FuncMain is exited.
+func (s *BaseVlangListener) ExitFuncMain(ctx *FuncMainContext) {}
+
 // EnterStructDecl is called when production StructDecl is entered.
 func (s *BaseVlangListener) EnterStructDecl(ctx *StructDeclContext) {}
 
@@ -133,6 +139,18 @@ func (s *BaseVlangListener) EnterDeclAssignType(ctx *DeclAssignTypeContext) {}
 
 // ExitDeclAssignType is called when production DeclAssignType is exited.
 func (s *BaseVlangListener) ExitDeclAssignType(ctx *DeclAssignTypeContext) {}
+
+// EnterSliceDeclInit is called when production SliceDeclInit is entered.
+func (s *BaseVlangListener) EnterSliceDeclInit(ctx *SliceDeclInitContext) {}
+
+// ExitSliceDeclInit is called when production SliceDeclInit is exited.
+func (s *BaseVlangListener) ExitSliceDeclInit(ctx *SliceDeclInitContext) {}
+
+// EnterListExpressions is called when production ListExpressions is entered.
+func (s *BaseVlangListener) EnterListExpressions(ctx *ListExpressionsContext) {}
+
+// ExitListExpressions is called when production ListExpressions is exited.
+func (s *BaseVlangListener) ExitListExpressions(ctx *ListExpressionsContext) {}
 
 // EnterIdPattern is called when production IdPattern is entered.
 func (s *BaseVlangListener) EnterIdPattern(ctx *IdPatternContext) {}

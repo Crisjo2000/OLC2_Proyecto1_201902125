@@ -55,6 +55,10 @@ func (v *BaseVlangVisitor) VisitFuncDecl(ctx *FuncDeclContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitFuncMain(ctx *FuncMainContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitStructDecl(ctx *StructDeclContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -80,6 +84,14 @@ func (v *BaseVlangVisitor) VisitDeclAssign(ctx *DeclAssignContext) interface{} {
 }
 
 func (v *BaseVlangVisitor) VisitDeclAssignType(ctx *DeclAssignTypeContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitSliceDeclInit(ctx *SliceDeclInitContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitListExpressions(ctx *ListExpressionsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
