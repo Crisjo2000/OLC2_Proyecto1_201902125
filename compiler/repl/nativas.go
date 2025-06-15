@@ -64,7 +64,13 @@ func Int(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 }
 
 // * Float Function
+// ParseToFloat()
+// flot -> convierte un valor a float
+/*
 
+[ IVOR, false | true dependiendo de la ejecucion | el ejecutado]
+
+*/
 func Float(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 
 	if len(args) != 1 {
@@ -74,6 +80,7 @@ func Float(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 	argValue := args[0].Value
 
 	if !(argValue.Type() == value.IVOR_STRING) {
+		// Error semantico -> Aqui
 		return value.DefaultNilValue, false, "La función float solo acepta un argumento de tipo string"
 	}
 
@@ -82,14 +89,14 @@ func Float(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 	if err != nil {
 		return value.DefaultNilValue, false, "No se pudo convertir el valor a float"
 	}
-
+// Retornamos el objeto de Value
 	return &value.FloatValue{
 		InternalValue: floatValue,
 	}, true, ""
 }
 
 // * String Function
-
+// ToString();// convierte un valor a String
 func String(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 
 	if len(args) != 1 {
@@ -129,6 +136,25 @@ func String(context *ReplContext, args []*Argument) (value.IVOR, bool, string) {
 	return value.DefaultNilValue, false, "No se pudo convertir el valor a string"
 }
 
+//nuevooooooo
+func TypeOf(context *ReplContext, args []*Argument) interface{} {
+	// hacemos una verificacion de tipos el argumento
+	if len(args) != 1 {
+		return value.DefaultNilValue
+	}
+	/*
+		el NIL aqui es indicador de ERROR-> Siempre que se llame esta funcion
+		tengo que asegurarme de contemplar el caso de que el argumento sea nil
+	*/
+	argValue := args[0].Value
+	if argValue == nil {
+		return value.DefaultNilValue
+	}
+	// devolvemos el tipo del argumento
+
+	return argValue.Type()
+}
+
 var DefaultBuiltInFunctions = map[string]*BuiltInFunction{
 	"Int": {
 		Name: "Int",
@@ -140,6 +166,11 @@ var DefaultBuiltInFunctions = map[string]*BuiltInFunction{
 	},
 	"String": {
 		Name: "String",
+		Exec: String,
+	},
+	//nuevo
+	"TypeOf": {
+		Name: "TypeOf",
 		Exec: String,
 	},
 }

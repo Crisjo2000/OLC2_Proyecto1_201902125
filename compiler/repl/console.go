@@ -6,6 +6,7 @@ import (
 
 type Console struct {
 	output string // Va a ser la salida de la consola
+	Reporte string // es un reporte de HTML que se genera al final
 }
 
 // tiene el "\n"

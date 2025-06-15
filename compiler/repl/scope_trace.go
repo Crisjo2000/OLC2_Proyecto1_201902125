@@ -6,9 +6,30 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
+/*
+Variable_global = 0
+
+	fn fibonacci(n int) int {
+		if n <= 1 {
+			return n
+		}
+		return fibonacci(n-1) + fibonacci(n-2)
+	}
+
+fn main() {
+
+}
+*/
 type ScopeTrace struct {
 	GlobalScope  *BaseScope
 	CurrentScope *BaseScope
+	/*
+		Lo vamos a ir trasladando con punteros
+		en un arbol de scopes hacia arriba.
+
+		nuevoooooo
+	*/
+Reporte string // Esta variable va a tener el reporte de HTML que se genera al final
 }
 
 func (s *ScopeTrace) PushScope(name string) *BaseScope {
@@ -90,6 +111,8 @@ func NewStructScope() *BaseScope {
 type ReportTable struct {
 	GlobalScope ReportScope
 }
+// Recorrer los hijos e ir generando un reporte por cada uno
+// RecorrerHijos -> Hijo si no -> null
 
 type ReportScope struct {
 	Name        string
@@ -105,6 +128,10 @@ type ReportSymbol struct {
 	Line   int
 	Column int
 }
+//nuevooooooo
+type HTMLReport struct {
+	Reporte string
+}
 
 func (s *ScopeTrace) Report() ReportTable {
 	return ReportTable{
@@ -112,6 +139,9 @@ func (s *ScopeTrace) Report() ReportTable {
 	}
 }
 
+// BaseScope representa un scope base que puede contener variables, funciones y structs
+
+// Agregar HTML para mostrar el reporte
 func (s *BaseScope) Report() ReportScope {
 
 	reportScope := ReportScope{
@@ -131,14 +161,51 @@ func (s *BaseScope) Report() ReportScope {
 		if token != nil {
 			line = token.GetLine()
 			column = token.GetColumn()
-		}
-
+		}//NUEVOOOOOOO
+		// Agregar a HTML el reporte de una variable (una fila)
+		s.reportito += "<tr><td>" + v.Name + "</td><td>" + v.Type + "</td><td>" + v.Value.Type() + "</td><td>" + s.name + "</td></tr>"
 		reportScope.Vars = append(reportScope.Vars, ReportSymbol{
 			Name:   v.Name,
 			Type:   v.Type,
 			Line:   line,
 			Column: column,
 		})
+		// agregar a HTML el reporte de variables ->
+	}
+//NUEVOOOOOOOOO
+		for _, f := range s.functions {
+		switch function := f.(type) {
+		case *BuiltInFunction:
+			reportScope.Funcs = append(reportScope.Funcs, ReportSymbol{
+				Name:   function.Name,
+				Type:   "Embebida: " + function.Name,
+				Line:   0,
+				Column: 0,
+			})
+			// Agregar funcion nativa al HTML
+			//s.reportito += "<tr><td>" + f.Copy()  + "</td><td>" + f.Type + "</td><td>" + v.Value.Type() + "</td><td>" + s.name + "</td></tr>"
+
+		case *Function:
+
+			line := 0
+			column := 0
+
+			if function.Token != nil {
+				line = function.Token.GetLine()
+				column = function.Token.GetColumn()
+			}
+
+			reportScope.Funcs = append(reportScope.Funcs, ReportSymbol{
+				Name:   function.Name,
+				Type:   function.ReturnType,
+				Line:   line,
+				Column: column,
+			})
+			// case *ObjectBuiltInFunction:
+			// 	break
+			// default:
+			// 	log.Fatal("Function type not found")
+		}
 	}
 
 	// for _, f := range s.functions {
@@ -182,6 +249,7 @@ func (s *BaseScope) Report() ReportScope {
 		})
 	}
 
+		// Recorremos los hijos y agreamos los reportes de cada uno
 	for _, v := range s.children {
 		reportScope.ChildScopes = append(reportScope.ChildScopes, v.Report())
 	}

@@ -88,8 +88,12 @@ assign_stmt:
 decl_stmt: 
     MUT ID ASSIGN expresion # DeclAssign
     | MUT id_pattern var_type ASSIGN expresion # DeclAssignType
+//nuevo
+    | ID '=' '['']' var_type '{' list_expresiones '}' ';'?    # SliceDeclInit 
     ; 
 
+    //nuevo
+list_expresiones: expresion (COMMA expresion)* # ListExpressions;
 
 id_pattern: ID (DOT ID)* # IdPattern;
 // === Reglas de expresiones ===
@@ -186,8 +190,10 @@ miInstancia = Persona{
  */
 
 struct_prop:
+//nuevo:
+var_type ID (COLON)? (expresion)? (COMMA)?	# StructAttr
 
-	var_type ID ASSIGN ID LCOR (ID COLON expresion COMMA) RCOR 	# StructAttr
+	//var_type ID ASSIGN ID LCOR (ID COLON expresion COMMA) RCOR 	# StructAttr
 ;
 // tipos de primitivos que puede ser un struct catch
 var_type
@@ -268,3 +274,11 @@ ID : [a-zA-Z_][a-zA-Z0-9_]* ;
 WS : [ \t\r\n]+ -> skip ;
 LINE_COMMENT  : '//' ~[\r\n]* -> skip ;
 BLOCK_COMMENT : '/*' .*? '*/' -> skip ;
+
+/*
+
+Gramatica -> Expresiones -> Declaraciones -> Asignaciones -> Println ->
+-> Sentencias de Control -> Funciones -> Sentencias de Transferencia -> 
+-> Structs -> Slices
+
+ */
