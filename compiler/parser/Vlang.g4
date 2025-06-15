@@ -24,6 +24,7 @@ stmt:
      | transfer_stmt       
      | println 
      | print
+     | incredecre
      ;
 
 

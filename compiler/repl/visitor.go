@@ -117,6 +117,14 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 	case *parser.FuncMainContext:
 		// Visitamos el hijo de valorexpresion
 		return v.VisitFuncMain(node)
+
+	case *parser.IncrementoContext:
+		// Visitamos el hijo de valorexpresion
+		return v.VisitIncremento(node)
+
+	case *parser.DecrementoContext:
+		// Visitamos el hijo de valorexpresion
+		return v.VisitDecremento(node)
 	
 case *compiler.DeclAssignContext:
 		fmt.Println("🔍 Visitando DeclAssign:", node.GetText())
@@ -231,6 +239,15 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 	case *parser.ForStmtContext:
 		fmt.Println("🔔 Visitando nodo forStmt")
 		v.VisitForStmt(node)
+
+	case *parser.IncrementoContext:
+		fmt.Println("🔔 Visitando nodo incremento")
+		v.VisitIncremento(node)
+
+	case *parser.DecrementoContext:
+		fmt.Println("🔔 Visitando nodo decremento")
+		v.VisitDecremento(node)
+
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
 	}
@@ -812,4 +829,106 @@ func (v *ReplVisitor) VisitFuncCall(ctx *compiler.FuncCallContext) interface{} {
 		return value.DefaultNilValue
 	}
 	return nil
+}
+
+func (v *ReplVisitor) VisitIncremento(ctx *compiler.IncrementoContext) interface{} {
+	 varname := ctx.ID().GetText()
+	 variable := v.ScopeTrace.GetVariable(varname)
+	 if variable == nil{
+
+		fmt.Println("NO existe la variable")
+		v.ErrorTable.NewSemanticError(ctx.GetStart(),"Variable " + varname +" no encontrada")
+	 }else {
+		fmt.Println(variable.Value, variable.Type," &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int"{
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(int)
+			valorNew := valorActual + 1
+
+			// Crea el nuevo valor como IVOR
+			valorActual1 := value.IntValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+
+
+					
+		} else if variable.Type == "Float"{
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(float64)
+			valorNew := valorActual + 1.0
+
+			valorActual1 := value.FloatValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else{
+			fmt.Println("Error semantico")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(),"Tipo " + variable.Type +" tipo de dato incompatible con esta operación")
+
+		}
+	 }
+
+return nil
+}
+
+func (v *ReplVisitor) VisitDecremento(ctx *compiler.DecrementoContext) interface{} {
+	 varname := ctx.ID().GetText()
+	 variable := v.ScopeTrace.GetVariable(varname)
+	 if variable == nil{
+
+		fmt.Println("NO existe la variable")
+		v.ErrorTable.NewSemanticError(ctx.GetStart(),"Variable " + varname +" no encontrada")
+	 }else {
+		fmt.Println(variable.Value, variable.Type," &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int"{
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(int)
+			valorNew := valorActual - 1
+
+			// Crea el nuevo valor como IVOR
+			valorActual1 := value.IntValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+
+
+					
+		} else if variable.Type == "Float"{
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(float64)
+			valorNew := valorActual - 1.0
+
+			valorActual1 := value.FloatValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else{
+			fmt.Println("Error semantico")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(),"Tipo " + variable.Type +" tipo de dato incompatible con esta operación")
+
+		}
+	 }
+
+return nil
 }
