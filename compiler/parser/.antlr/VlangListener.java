@@ -1,4 +1,4 @@
-// Generated from /home/luisa/Documentos/2025/Vaqueras/compi2 781/Lab/P1/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
+// Generated from /home/luisa/Documentos/2025/Vaqueras/compi2 781/Lab/Oficial/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -147,6 +147,18 @@ public interface VlangListener extends ParseTreeListener {
 	 */
 	void exitFuncDecl(VlangParser.FuncDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code FuncMain}
+	 * labeled alternative in {@link VlangParser#func_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncMain(VlangParser.FuncMainContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code FuncMain}
+	 * labeled alternative in {@link VlangParser#func_dcl}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncMain(VlangParser.FuncMainContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code StructDecl}
 	 * labeled alternative in {@link VlangParser#struct_dcl}.
 	 * @param ctx the parse tree
@@ -230,6 +242,30 @@ public interface VlangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDeclAssignType(VlangParser.DeclAssignTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SliceDeclInit}
+	 * labeled alternative in {@link VlangParser#decl_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterSliceDeclInit(VlangParser.SliceDeclInitContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SliceDeclInit}
+	 * labeled alternative in {@link VlangParser#decl_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitSliceDeclInit(VlangParser.SliceDeclInitContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ListExpressions}
+	 * labeled alternative in {@link VlangParser#list_expresiones}.
+	 * @param ctx the parse tree
+	 */
+	void enterListExpressions(VlangParser.ListExpressionsContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ListExpressions}
+	 * labeled alternative in {@link VlangParser#list_expresiones}.
+	 * @param ctx the parse tree
+	 */
+	void exitListExpressions(VlangParser.ListExpressionsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code IdPattern}
 	 * labeled alternative in {@link VlangParser#id_pattern}.

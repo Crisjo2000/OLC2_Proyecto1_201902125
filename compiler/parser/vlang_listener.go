@@ -31,6 +31,9 @@ type VlangListener interface {
 	// EnterWhileStmt is called when entering the WhileStmt production.
 	EnterWhileStmt(c *WhileStmtContext)
 
+	// EnterClasicFor is called when entering the clasicFor production.
+	EnterClasicFor(c *ClasicForContext)
+
 	// EnterForStmt is called when entering the ForStmt production.
 	EnterForStmt(c *ForStmtContext)
 
@@ -175,6 +178,12 @@ type VlangListener interface {
 	// EnterDecremento is called when entering the decremento production.
 	EnterDecremento(c *DecrementoContext)
 
+	// EnterIncremento2 is called when entering the incremento2 production.
+	EnterIncremento2(c *Incremento2Context)
+
+	// EnterDecremento2 is called when entering the decremento2 production.
+	EnterDecremento2(c *Decremento2Context)
+
 	// ExitPrograma is called when exiting the programa production.
 	ExitPrograma(c *ProgramaContext)
 
@@ -198,6 +207,9 @@ type VlangListener interface {
 
 	// ExitWhileStmt is called when exiting the WhileStmt production.
 	ExitWhileStmt(c *WhileStmtContext)
+
+	// ExitClasicFor is called when exiting the clasicFor production.
+	ExitClasicFor(c *ClasicForContext)
 
 	// ExitForStmt is called when exiting the ForStmt production.
 	ExitForStmt(c *ForStmtContext)
@@ -342,4 +354,10 @@ type VlangListener interface {
 
 	// ExitDecremento is called when exiting the decremento production.
 	ExitDecremento(c *DecrementoContext)
+
+	// ExitIncremento2 is called when exiting the incremento2 production.
+	ExitIncremento2(c *Incremento2Context)
+
+	// ExitDecremento2 is called when exiting the decremento2 production.
+	ExitDecremento2(c *Decremento2Context)
 }

@@ -15,7 +15,7 @@ stmt:
 	 decl_stmt                
 	 | assign_stmt
      | if_stmt
-     | while_stmt  
+    // | while_stmt  
      | for_stmt
      | func_call 
 	 | func_dcl
@@ -25,6 +25,8 @@ stmt:
      | println 
      | print
      | incredecre
+     | forwhile_stmt
+     | forClasic_stmt
      ;
 
 
@@ -38,12 +40,37 @@ else_stmt: ELSE_KW LCOR stmt* RCOR # ElseStmt;
 println: 'println'  LPAREN expresion (COMMA expresion)* RPAREN # PrintlnStmt;
 print: 'print'  LPAREN expresion (COMMA expresion)* RPAREN # PrintStmt;
 
-while_stmt: WHILE_KW expresion LCOR stmt* RCOR # WhileStmt;
+//while_stmt: WHILE_KW expresion LCOR stmt* RCOR # WhileStmt;
 
+// WHILE
+forwhile_stmt: FOR_KW expresion LCOR stmt* RCOR # WhileStmt;
+
+forClasic_stmt: FOR_KW assign_stmt PYC expresion PYC incredecre LCOR stmt* RCOR # clasicFor;
+
+// FOR NORMAL
 for_stmt:
 	FOR_KW ID IN_KW (expresion | range) LCOR stmt* RCOR # ForStmt;
 
 range: expresion DOT DOT DOT expresion # NumericRange;
+
+//
+// === SWITCH  ===
+switch_stmt: 
+    'switch' LPAREN expresion RPAREN LCOR 
+        (case_clause)+ 
+        (default_clause)? 
+    RCOR # SwitchStmt;
+
+case_clause:
+    'case' (expresion (COMMA expresion)*) COLON 
+        stmt* # CaseClause;
+
+default_clause:
+    'default' COLON 
+        stmt* # DefaultClause;
+
+
+
 
 
 /// Llamadas a funciones catch
@@ -106,17 +133,8 @@ expresion
     | LBRACK expresion RBRACK                              #corchetesexpre
     | op=(NOT | MINUS) expresion                           #unario
 
-// ------------- >  Reglas de Expresiones Aritmeticas
-// por facilidad la llamaremos a nuestra regla #BinaryExpr
-/*¿Que puede tener una expresion binaria? |
 
-una expresion binaria puede tener dos operandos y un operador.
-el operando sera -> expresion 
-los operadores -> (*| + | )
 
-Entonces, nos ahorraremos trabajo en el BinaryExpr,
-porque lo definiremos en el visit de BinaryExpr
- */
 	| left = expresion op = (MUL | DIV | MOD) right = expresion	# BinaryExp// a * b, a / b, a % b
 	| left = expresion op = (PLUS | MINUS) right = expresion    # BinaryExp // a + b, a - b
 	| left = expresion op = ( LT | LE | GT | GE) right = expresion	# BinaryExp // a < b, a <= b, a > b, a >= b
@@ -213,6 +231,8 @@ struct_vector: LBRACK ID RBRACK LPAREN RPAREN # StructVector;
 incredecre
     : ID INC    #incremento
     | ID DEC    #decremento
+    | ID INC2 expresion #incremento2
+    | ID DEC2 expresion #decremento2
     ;
 
 // === Tokens de palabras clave ===
@@ -237,6 +257,10 @@ WHILE_KW : 'while' ;
 FOR_KW : 'for' ;
 IN_KW : 'in' ;
 RETURN_KW : 'return' ;
+SWITCH_KW : 'switch';
+CASE_KW  : 'case';
+DEFAULT  : 'default';
+
 BREAK_KW : 'break' ;
 CONTINUE_KW : 'continue' ;
 FN_KW : 'fn' ;
@@ -259,7 +283,10 @@ GE      : '>=' ;
 ASSIGN  : '=' ;
 INC     : '++' ;
 DEC     : '--' ;
+INC2    : '+=' ;
+DEC2    : '-=' ;
 COLON  : ':' ;
+PYC     : ';' ;
 
 // === Símbolos ===
 LPAREN  : '(' ;
