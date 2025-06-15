@@ -45,13 +45,32 @@ print: 'print'  LPAREN expresion (COMMA expresion)* RPAREN # PrintStmt;
 // WHILE
 forwhile_stmt: FOR_KW expresion LCOR stmt* RCOR # WhileStmt;
 
-forClasic_stmt: FOR_KW assign_stmt PYC expresion PYC incredecre LCOR stmt* RCOR # ForClasic;
+forClasic_stmt: FOR_KW assign_stmt PYC expresion PYC incredecre LCOR stmt* RCOR # clasicFor;
 
 // FOR NORMAL
 for_stmt:
 	FOR_KW ID IN_KW (expresion | range) LCOR stmt* RCOR # ForStmt;
 
 range: expresion DOT DOT DOT expresion # NumericRange;
+
+//
+// === SWITCH  ===
+switch_stmt: 
+    'switch' LPAREN expresion RPAREN LCOR 
+        (case_clause)+ 
+        (default_clause)? 
+    RCOR # SwitchStmt;
+
+case_clause:
+    'case' (expresion (COMMA expresion)*) COLON 
+        stmt* # CaseClause;
+
+default_clause:
+    'default' COLON 
+        stmt* # DefaultClause;
+
+
+
 
 
 /// Llamadas a funciones catch
@@ -238,6 +257,10 @@ WHILE_KW : 'while' ;
 FOR_KW : 'for' ;
 IN_KW : 'in' ;
 RETURN_KW : 'return' ;
+SWITCH_KW : 'switch';
+CASE_KW  : 'case';
+DEFAULT  : 'default';
+
 BREAK_KW : 'break' ;
 CONTINUE_KW : 'continue' ;
 FN_KW : 'fn' ;

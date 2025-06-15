@@ -2366,19 +2366,6 @@ type IForClasic_stmtContext interface {
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
-
-	// Getter signatures
-	FOR_KW() antlr.TerminalNode
-	Assign_stmt() IAssign_stmtContext
-	AllPYC() []antlr.TerminalNode
-	PYC(i int) antlr.TerminalNode
-	Expresion() IExpresionContext
-	Incredecre() IIncredecreContext
-	LCOR() antlr.TerminalNode
-	RCOR() antlr.TerminalNode
-	AllStmt() []IStmtContext
-	Stmt(i int) IStmtContext
-
 	// IsForClasic_stmtContext differentiates from other interfaces.
 	IsForClasic_stmtContext()
 }
@@ -2415,11 +2402,41 @@ func NewForClasic_stmtContext(parser antlr.Parser, parent antlr.ParserRuleContex
 
 func (s *ForClasic_stmtContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ForClasic_stmtContext) FOR_KW() antlr.TerminalNode {
+func (s *ForClasic_stmtContext) CopyAll(ctx *ForClasic_stmtContext) {
+	s.CopyFrom(&ctx.BaseParserRuleContext)
+}
+
+func (s *ForClasic_stmtContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ForClasic_stmtContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+type ClasicForContext struct {
+	ForClasic_stmtContext
+}
+
+func NewClasicForContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *ClasicForContext {
+	var p = new(ClasicForContext)
+
+	InitEmptyForClasic_stmtContext(&p.ForClasic_stmtContext)
+	p.parser = parser
+	p.CopyAll(ctx.(*ForClasic_stmtContext))
+
+	return p
+}
+
+func (s *ClasicForContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ClasicForContext) FOR_KW() antlr.TerminalNode {
 	return s.GetToken(VlangParserFOR_KW, 0)
 }
 
-func (s *ForClasic_stmtContext) Assign_stmt() IAssign_stmtContext {
+func (s *ClasicForContext) Assign_stmt() IAssign_stmtContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IAssign_stmtContext); ok {
@@ -2435,15 +2452,15 @@ func (s *ForClasic_stmtContext) Assign_stmt() IAssign_stmtContext {
 	return t.(IAssign_stmtContext)
 }
 
-func (s *ForClasic_stmtContext) AllPYC() []antlr.TerminalNode {
+func (s *ClasicForContext) AllPYC() []antlr.TerminalNode {
 	return s.GetTokens(VlangParserPYC)
 }
 
-func (s *ForClasic_stmtContext) PYC(i int) antlr.TerminalNode {
+func (s *ClasicForContext) PYC(i int) antlr.TerminalNode {
 	return s.GetToken(VlangParserPYC, i)
 }
 
-func (s *ForClasic_stmtContext) Expresion() IExpresionContext {
+func (s *ClasicForContext) Expresion() IExpresionContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IExpresionContext); ok {
@@ -2459,7 +2476,7 @@ func (s *ForClasic_stmtContext) Expresion() IExpresionContext {
 	return t.(IExpresionContext)
 }
 
-func (s *ForClasic_stmtContext) Incredecre() IIncredecreContext {
+func (s *ClasicForContext) Incredecre() IIncredecreContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IIncredecreContext); ok {
@@ -2475,15 +2492,15 @@ func (s *ForClasic_stmtContext) Incredecre() IIncredecreContext {
 	return t.(IIncredecreContext)
 }
 
-func (s *ForClasic_stmtContext) LCOR() antlr.TerminalNode {
+func (s *ClasicForContext) LCOR() antlr.TerminalNode {
 	return s.GetToken(VlangParserLCOR, 0)
 }
 
-func (s *ForClasic_stmtContext) RCOR() antlr.TerminalNode {
+func (s *ClasicForContext) RCOR() antlr.TerminalNode {
 	return s.GetToken(VlangParserRCOR, 0)
 }
 
-func (s *ForClasic_stmtContext) AllStmt() []IStmtContext {
+func (s *ClasicForContext) AllStmt() []IStmtContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
@@ -2504,7 +2521,7 @@ func (s *ForClasic_stmtContext) AllStmt() []IStmtContext {
 	return tst
 }
 
-func (s *ForClasic_stmtContext) Stmt(i int) IStmtContext {
+func (s *ClasicForContext) Stmt(i int) IStmtContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
@@ -2524,30 +2541,22 @@ func (s *ForClasic_stmtContext) Stmt(i int) IStmtContext {
 	return t.(IStmtContext)
 }
 
-func (s *ForClasic_stmtContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *ForClasic_stmtContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ForClasic_stmtContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ClasicForContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(VlangListener); ok {
-		listenerT.EnterForClasic_stmt(s)
+		listenerT.EnterClasicFor(s)
 	}
 }
 
-func (s *ForClasic_stmtContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ClasicForContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(VlangListener); ok {
-		listenerT.ExitForClasic_stmt(s)
+		listenerT.ExitClasicFor(s)
 	}
 }
 
-func (s *ForClasic_stmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+func (s *ClasicForContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 	switch t := visitor.(type) {
 	case VlangVisitor:
-		return t.VisitForClasic_stmt(s)
+		return t.VisitClasicFor(s)
 
 	default:
 		return t.VisitChildren(s)
@@ -2559,6 +2568,7 @@ func (p *VlangParser) ForClasic_stmt() (localctx IForClasic_stmtContext) {
 	p.EnterRule(localctx, 16, VlangParserRULE_forClasic_stmt)
 	var _la int
 
+	localctx = NewClasicForContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
 		p.SetState(152)

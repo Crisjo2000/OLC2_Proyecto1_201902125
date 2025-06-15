@@ -39,7 +39,7 @@ func (v *BaseVlangVisitor) VisitWhileStmt(ctx *WhileStmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitForClasic_stmt(ctx *ForClasic_stmtContext) interface{} {
+func (v *BaseVlangVisitor) VisitClasicFor(ctx *ClasicForContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

@@ -31,8 +31,8 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#WhileStmt.
 	VisitWhileStmt(ctx *WhileStmtContext) interface{}
 
-	// Visit a parse tree produced by VlangParser#forClasic_stmt.
-	VisitForClasic_stmt(ctx *ForClasic_stmtContext) interface{}
+	// Visit a parse tree produced by VlangParser#clasicFor.
+	VisitClasicFor(ctx *ClasicForContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#ForStmt.
 	VisitForStmt(ctx *ForStmtContext) interface{}

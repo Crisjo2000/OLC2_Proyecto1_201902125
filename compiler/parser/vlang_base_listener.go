@@ -68,11 +68,11 @@ func (s *BaseVlangListener) EnterWhileStmt(ctx *WhileStmtContext) {}
 // ExitWhileStmt is called when production WhileStmt is exited.
 func (s *BaseVlangListener) ExitWhileStmt(ctx *WhileStmtContext) {}
 
-// EnterForClasic_stmt is called when production forClasic_stmt is entered.
-func (s *BaseVlangListener) EnterForClasic_stmt(ctx *ForClasic_stmtContext) {}
+// EnterClasicFor is called when production clasicFor is entered.
+func (s *BaseVlangListener) EnterClasicFor(ctx *ClasicForContext) {}
 
-// ExitForClasic_stmt is called when production forClasic_stmt is exited.
-func (s *BaseVlangListener) ExitForClasic_stmt(ctx *ForClasic_stmtContext) {}
+// ExitClasicFor is called when production clasicFor is exited.
+func (s *BaseVlangListener) ExitClasicFor(ctx *ClasicForContext) {}
 
 // EnterForStmt is called when production ForStmt is entered.
 func (s *BaseVlangListener) EnterForStmt(ctx *ForStmtContext) {}

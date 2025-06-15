@@ -177,10 +177,13 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitParentesisexpre(node)
 	case *parser.Decremento2Context:
 		fmt.Println("🔔 Visitando nodo decremento2")
-		v.VisitDecremento2(node)
+		return v.VisitDecremento2(node)
 	case *parser.WhileStmtContext:
-		v.VisitWhileStmt(node)
-
+		return v.VisitWhileStmt(node)
+	case *parser.ClasicForContext:
+		return v.VisitClasicFor(node)
+	case *parser.ForStmtContext:
+		return v.VisitForStmt(node)
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
 		return tree.Accept(v) // fallback por si acaso
@@ -272,6 +275,9 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 
 	case *parser.Incremento2Context:
 		v.VisitIncremento2(node)
+
+	case *parser.ClasicForContext:
+		v.VisitClasicFor(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
@@ -1150,5 +1156,61 @@ func (v *ReplVisitor) VisitWhileStmt(ctx *parser.WhileStmtContext) interface{} {
 		}
 	}
 
+	return nil
+}
+
+func (v *ReplVisitor) VisitClasicFor(ctx *compiler.ClasicForContext) interface{} {
+	fmt.Println("🔍 Visitando ForStmt clasico:", ctx.GetText())
+
+	// 1. Ejecutar la asignación inicial (i = 0)
+	v.Visit(ctx.Assign_stmt())
+
+	// Crear un nuevo scope para el for
+	v.ScopeTrace.PushScope("for")
+	defer v.ScopeTrace.PopScope()
+
+	loopCount := 0
+	maxLoops := 100000 // Límite para evitar bucles infinitos
+
+	for loopCount < maxLoops {
+		loopCount++
+
+		// 2. Evaluar la condición (i < 5)
+		condition := v.Visit(ctx.Expresion())
+		condValue, ok := condition.(value.IVOR)
+
+		if !ok {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condición del for debe evaluar a un valor")
+			break
+		}
+
+		// Verificar que sea booleana
+		if condValue.Type() != value.IVOR_BOOL {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condición del for debe ser booleana")
+			break
+		}
+
+		// Si la condición es falsa, salir del bucle
+		if !condValue.Value().(bool) {
+			break
+		}
+
+		// 3. Ejecutar el cuerpo del for
+		for _, stmt := range ctx.AllStmt() {
+			v.Visit(stmt)
+		}
+
+		// 4. Ejecutar el incremento (i++)
+		v.Visit(ctx.Incredecre())
+	}
+
+	if loopCount >= maxLoops {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Bucle for excedió el máximo de iteraciones")
+	}
+
+	return nil
+}
+
+func (v *ReplVisitor) VisitForStmt(ctx *compiler.ForStmtContext) interface{} {
 	return nil
 }

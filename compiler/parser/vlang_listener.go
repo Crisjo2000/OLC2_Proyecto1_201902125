@@ -31,8 +31,8 @@ type VlangListener interface {
 	// EnterWhileStmt is called when entering the WhileStmt production.
 	EnterWhileStmt(c *WhileStmtContext)
 
-	// EnterForClasic_stmt is called when entering the forClasic_stmt production.
-	EnterForClasic_stmt(c *ForClasic_stmtContext)
+	// EnterClasicFor is called when entering the clasicFor production.
+	EnterClasicFor(c *ClasicForContext)
 
 	// EnterForStmt is called when entering the ForStmt production.
 	EnterForStmt(c *ForStmtContext)
@@ -208,8 +208,8 @@ type VlangListener interface {
 	// ExitWhileStmt is called when exiting the WhileStmt production.
 	ExitWhileStmt(c *WhileStmtContext)
 
-	// ExitForClasic_stmt is called when exiting the forClasic_stmt production.
-	ExitForClasic_stmt(c *ForClasic_stmtContext)
+	// ExitClasicFor is called when exiting the clasicFor production.
+	ExitClasicFor(c *ClasicForContext)
 
 	// ExitForStmt is called when exiting the ForStmt production.
 	ExitForStmt(c *ForStmtContext)
