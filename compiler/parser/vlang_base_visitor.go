@@ -39,6 +39,10 @@ func (v *BaseVlangVisitor) VisitWhileStmt(ctx *WhileStmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitForClasic_stmt(ctx *ForClasic_stmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitForStmt(ctx *ForStmtContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -228,5 +232,13 @@ func (v *BaseVlangVisitor) VisitIncremento(ctx *IncrementoContext) interface{} {
 }
 
 func (v *BaseVlangVisitor) VisitDecremento(ctx *DecrementoContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitIncremento2(ctx *Incremento2Context) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitDecremento2(ctx *Decremento2Context) interface{} {
 	return v.VisitChildren(ctx)
 }

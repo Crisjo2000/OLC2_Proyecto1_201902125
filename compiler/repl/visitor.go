@@ -122,11 +122,14 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		// Visitamos el hijo de valorexpresion
 		return v.VisitIncremento(node)
 
+	case *parser.Incremento2Context:
+		return v.VisitIncremento2(node)
+
 	case *parser.DecrementoContext:
 		// Visitamos el hijo de valorexpresion
 		return v.VisitDecremento(node)
-	
-case *compiler.DeclAssignContext:
+
+	case *compiler.DeclAssignContext:
 		fmt.Println("🔍 Visitando DeclAssign:", node.GetText())
 		return v.VisitValueDeclAssign(node)
 	case *parser.DeclAssignTypeContext:
@@ -168,6 +171,15 @@ case *compiler.DeclAssignContext:
 		return v.VisitElseStmt(node)
 	case *parser.DirectAssignContext:
 		return v.VisitDirectAssign(node)
+	case *parser.UnarioContext:
+		return v.VisitUnario(node)
+	case *parser.ParentesisexpreContext:
+		return v.VisitParentesisexpre(node)
+	case *parser.Decremento2Context:
+		fmt.Println("🔔 Visitando nodo decremento2")
+		v.VisitDecremento2(node)
+	case *parser.WhileStmtContext:
+		v.VisitWhileStmt(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
@@ -248,6 +260,19 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 		fmt.Println("🔔 Visitando nodo decremento")
 		v.VisitDecremento(node)
 
+	case *parser.Decremento2Context:
+		fmt.Println("🔔 Visitando nodo decremento")
+		v.VisitDecremento2(node)
+
+	case *parser.UnarioContext:
+		v.VisitUnario(node)
+
+	case *parser.ParentesisexpreContext:
+		v.VisitParentesisexpre(node)
+
+	case *parser.Incremento2Context:
+		v.VisitIncremento2(node)
+
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
 	}
@@ -274,6 +299,19 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 	if variable == nil {
 		fmt.Println("ERROR NO EXISTE LA VARIABLE")
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varName+" no encontrada")
+		varType := varValue.Type()
+
+		// Añadir la variable al ámbito
+		newVar, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, true, false, ctx.GetStart())
+
+		if newVar == nil {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+		} else {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(),
+				"Variable '"+varName+"' no declarada - se creó automáticamente")
+		}
+		return nil
+
 	} else {
 
 		// Se copia el objeto
@@ -832,15 +870,15 @@ func (v *ReplVisitor) VisitFuncCall(ctx *compiler.FuncCallContext) interface{} {
 }
 
 func (v *ReplVisitor) VisitIncremento(ctx *compiler.IncrementoContext) interface{} {
-	 varname := ctx.ID().GetText()
-	 variable := v.ScopeTrace.GetVariable(varname)
-	 if variable == nil{
+	varname := ctx.ID().GetText()
+	variable := v.ScopeTrace.GetVariable(varname)
+	if variable == nil {
 
 		fmt.Println("NO existe la variable")
-		v.ErrorTable.NewSemanticError(ctx.GetStart(),"Variable " + varname +" no encontrada")
-	 }else {
-		fmt.Println(variable.Value, variable.Type," &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
-		if variable.Type == "Int"{
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varname+" no encontrada")
+	} else {
+		fmt.Println(variable.Value, variable.Type, " &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int" {
 			fmt.Println("se puede sumar")
 
 			valorActual := variable.Value.Value().(int)
@@ -855,10 +893,7 @@ func (v *ReplVisitor) VisitIncremento(ctx *compiler.IncrementoContext) interface
 				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 			}
 
-
-
-					
-		} else if variable.Type == "Float"{
+		} else if variable.Type == "Float" {
 			fmt.Println("se puede sumar")
 
 			valorActual := variable.Value.Value().(float64)
@@ -872,26 +907,77 @@ func (v *ReplVisitor) VisitIncremento(ctx *compiler.IncrementoContext) interface
 				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 			}
 
-		} else{
+		} else {
 			fmt.Println("Error semantico")
-			v.ErrorTable.NewSemanticError(ctx.GetStart(),"Tipo " + variable.Type +" tipo de dato incompatible con esta operación")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo "+variable.Type+" tipo de dato incompatible con esta operación")
 
 		}
-	 }
+	}
 
-return nil
+	return nil
 }
 
-func (v *ReplVisitor) VisitDecremento(ctx *compiler.DecrementoContext) interface{} {
-	 varname := ctx.ID().GetText()
-	 variable := v.ScopeTrace.GetVariable(varname)
-	 if variable == nil{
+func (v *ReplVisitor) VisitIncremento2(ctx *compiler.Incremento2Context) interface{} {
+
+	varname := ctx.ID().GetText()
+	variable := v.ScopeTrace.GetVariable(varname)
+	varValor := v.Visit(ctx.Expresion()).(value.IVOR)
+	if variable == nil {
 
 		fmt.Println("NO existe la variable")
-		v.ErrorTable.NewSemanticError(ctx.GetStart(),"Variable " + varname +" no encontrada")
-	 }else {
-		fmt.Println(variable.Value, variable.Type," &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
-		if variable.Type == "Int"{
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varname+" no encontrada")
+	} else {
+		fmt.Println(variable.Value, variable.Type, " &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int" {
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(int)
+			valorNew := valorActual + varValor.Value().(int)
+
+			// Crea el nuevo valor como IVOR
+			valorActual1 := value.IntValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else if variable.Type == "Float" {
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(float64)
+			valorNew := valorActual + varValor.Value().(float64)
+
+			valorActual1 := value.FloatValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else {
+			fmt.Println("Error semantico")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo "+variable.Type+" tipo de dato incompatible con esta operación")
+
+		}
+	}
+
+	return nil
+}
+
+// ------>> Decremento
+func (v *ReplVisitor) VisitDecremento(ctx *compiler.DecrementoContext) interface{} {
+	varname := ctx.ID().GetText()
+	variable := v.ScopeTrace.GetVariable(varname)
+	if variable == nil {
+
+		fmt.Println("NO existe la variable")
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varname+" no encontrada")
+	} else {
+		fmt.Println(variable.Value, variable.Type, " &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int" {
 			fmt.Println("se puede sumar")
 
 			valorActual := variable.Value.Value().(int)
@@ -906,10 +992,7 @@ func (v *ReplVisitor) VisitDecremento(ctx *compiler.DecrementoContext) interface
 				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 			}
 
-
-
-					
-		} else if variable.Type == "Float"{
+		} else if variable.Type == "Float" {
 			fmt.Println("se puede sumar")
 
 			valorActual := variable.Value.Value().(float64)
@@ -923,12 +1006,149 @@ func (v *ReplVisitor) VisitDecremento(ctx *compiler.DecrementoContext) interface
 				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 			}
 
-		} else{
+		} else {
 			fmt.Println("Error semantico")
-			v.ErrorTable.NewSemanticError(ctx.GetStart(),"Tipo " + variable.Type +" tipo de dato incompatible con esta operación")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo "+variable.Type+" tipo de dato incompatible con esta operación")
 
 		}
-	 }
+	}
 
-return nil
+	return nil
+}
+
+// decremento x-= exp
+func (v *ReplVisitor) VisitDecremento2(ctx *compiler.Decremento2Context) interface{} {
+
+	varname := ctx.ID().GetText()
+	variable := v.ScopeTrace.GetVariable(varname)
+	varValor := v.Visit(ctx.Expresion()).(value.IVOR)
+	if variable == nil {
+
+		fmt.Println("NO existe la variable")
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable "+varname+" no encontrada")
+	} else {
+		fmt.Println(variable.Value, variable.Type, " &/&%%&//((&/(&(/)/)%%$###$%?==))((/&/&%%$$$$###))")
+		if variable.Type == "Int" {
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(int)
+			valorNew := valorActual - varValor.Value().(int)
+
+			// Crea el nuevo valor como IVOR
+			valorActual1 := value.IntValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else if variable.Type == "Float" {
+			fmt.Println("se puede sumar")
+
+			valorActual := variable.Value.Value().(float64)
+			valorNew := valorActual - varValor.Value().(float64)
+
+			valorActual1 := value.FloatValue{InternalValue: valorNew}
+
+			// Asigna el nuevo valor
+			ok, msg := variable.Assign(&valorActual1, true) // ¡OJO! necesitas pasar un *puntero*
+			if !ok {
+				v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+			}
+
+		} else {
+			fmt.Println("Error semantico")
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo "+variable.Type+" tipo de dato incompatible con esta operación")
+
+		}
+	}
+	return nil
+}
+
+// Operacion Unario
+func (v *ReplVisitor) VisitUnario(ctx *compiler.UnarioContext) interface{} {
+
+	fmt.Println("----- Entrando a unario")
+
+	// obtener el ope y  valor
+	op := ctx.GetOp().GetText()
+	exprValue := v.Visit(ctx.Expresion())
+
+	varValue, ok := exprValue.(value.IVOR)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Expresión inválida en operación unaria")
+		return nil
+	}
+
+	fmt.Println("Operador unario:", op, "Valor:", varValue)
+
+	// verificamos que operador se va usar
+	strategy, exists := UnaryStrats[op]
+	if !exists {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Operador unario '"+op+"' no soportado")
+		return nil
+	}
+
+	// operamos
+	success, msg, result := strategy.Validate(varValue)
+	if !success {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+		return nil
+	}
+
+	return result
+
+}
+
+func (v *ReplVisitor) VisitParentesisexpre(ctx *compiler.ParentesisexpreContext) interface{} {
+
+	fmt.Println("Entrando a Parentesis")
+	return v.Visit(ctx.Expresion())
+
+}
+
+func (v *ReplVisitor) VisitWhileStmt(ctx *parser.WhileStmtContext) interface{} {
+	fmt.Println("entrando al foor while *-*-*-****-*-*-*")
+
+	//varname := ctx.().GetText()
+	//variable := v.ScopeTrace.GetVariable(varname)
+	//varValor := v.Visit(ctx.Expresion()).(value.IVOR)
+
+	//fmt.Println(varValor, " 8888888888888888888888888888888888")
+	// Crear un nuevo scope para el while
+	v.ScopeTrace.PushScope("while")
+	defer v.ScopeTrace.PopScope()
+
+	for {
+		// 1. Evaluar la condición
+		condition := v.Visit(ctx.Expresion())
+		condValue, ok := condition.(value.IVOR)
+
+		// Verificar que la condición sea válida
+		if !ok {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condición del while debe evaluar a un valor")
+			break
+		}
+
+		// Verificar que sea booleana
+		if condValue.Type() != value.IVOR_BOOL {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "La condición del while debe ser booleana")
+			break
+		}
+
+		// 2. Si la condición es falsa, salir del bucle
+		if !condValue.Value().(bool) {
+			break
+		}
+
+		// 3. Ejecutar el cuerpo del while
+		for _, stmt := range ctx.AllStmt() {
+			v.Visit(stmt)
+
+			// Opcional: Puedes agregar un chequeo para break/continue aquí
+		}
+	}
+
+	return nil
 }

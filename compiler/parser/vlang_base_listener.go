@@ -68,6 +68,12 @@ func (s *BaseVlangListener) EnterWhileStmt(ctx *WhileStmtContext) {}
 // ExitWhileStmt is called when production WhileStmt is exited.
 func (s *BaseVlangListener) ExitWhileStmt(ctx *WhileStmtContext) {}
 
+// EnterForClasic_stmt is called when production forClasic_stmt is entered.
+func (s *BaseVlangListener) EnterForClasic_stmt(ctx *ForClasic_stmtContext) {}
+
+// ExitForClasic_stmt is called when production forClasic_stmt is exited.
+func (s *BaseVlangListener) ExitForClasic_stmt(ctx *ForClasic_stmtContext) {}
+
 // EnterForStmt is called when production ForStmt is entered.
 func (s *BaseVlangListener) EnterForStmt(ctx *ForStmtContext) {}
 
@@ -355,3 +361,15 @@ func (s *BaseVlangListener) EnterDecremento(ctx *DecrementoContext) {}
 
 // ExitDecremento is called when production decremento is exited.
 func (s *BaseVlangListener) ExitDecremento(ctx *DecrementoContext) {}
+
+// EnterIncremento2 is called when production incremento2 is entered.
+func (s *BaseVlangListener) EnterIncremento2(ctx *Incremento2Context) {}
+
+// ExitIncremento2 is called when production incremento2 is exited.
+func (s *BaseVlangListener) ExitIncremento2(ctx *Incremento2Context) {}
+
+// EnterDecremento2 is called when production decremento2 is entered.
+func (s *BaseVlangListener) EnterDecremento2(ctx *Decremento2Context) {}
+
+// ExitDecremento2 is called when production decremento2 is exited.
+func (s *BaseVlangListener) ExitDecremento2(ctx *Decremento2Context) {}
