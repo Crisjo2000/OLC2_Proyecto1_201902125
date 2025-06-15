@@ -245,8 +245,11 @@ func (v *ReplVisitor) VisitDirectAssign(ctx *parser.DirectAssignContext) interfa
 	// es ver si tenemos el ID
 	fmt.Println(" // Parte de asignacion ")
 
-	varName := v.Visit(ctx.Id_pattern()).(string)
+	varName := ctx.Id_pattern().GetText()
+
 	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
+
+	//varValue := v.Visit(ctx.Expresion()).(value.IVOR)
 	// le pedimos la variable al ScopeTrace
 	variable := v.ScopeTrace.GetVariable(varName)
 	fmt.Println(varValue, " -*- ", varName, " /*/ ")
