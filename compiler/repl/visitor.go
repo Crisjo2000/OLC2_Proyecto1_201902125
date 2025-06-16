@@ -40,21 +40,9 @@ const (
 	FlowReturn
 )
 
-/*
-NOTA: para testear estoy usando un constructor
-para ReplVisitor que solo recibe la tabla de errores
-y luego inicializar el ScopeTrace y el CallStack
-y la Consola
-
-PERO: el metodo NewVisitor(dclVisitor *DclVisitor)
-lo que hace es que recibe un DclVisitor que hace una pasada
-antes para ver que cosas estan declaradas.
-
-ENTONCES: NewVisitor es el que inicializa el ReplVisitor
-y le pasa el ScopeTrace, ErrorTable y StructNames, estructuras
-que ya tienen inicializadas las listas con lo que se agrego.
-
-*/
+var Bandera_Break_If = false
+var Bandera_Break = false
+var Bandera_Continue = false
 
 // Recibe DclVisitor e inicializa el ReplVisitor
 func NewVisitor(dclVisitor *DclVisitor) *ReplVisitor {
@@ -198,6 +186,9 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitDefaultClause(node)
 	case *parser.BreakStmtContext:
 		return v.VisitBreakStmt(node)
+	case *parser.ContinueStmtContext:
+		return v.VisitContinueStmt(node)
+
 	case *parser.ReturnStmtContext:
 		return v.VisitReturnStmt(node)
 	case *parser.FuncDeclContext:
@@ -307,11 +298,14 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 	case *parser.DefaultClauseContext:
 		v.VisitDefaultClause(node)
 
+	// ---- Setencias de Transferencia-------
 	case *parser.BreakStmtContext:
 		v.VisitBreakStmt(node)
+	case *parser.ContinueStmtContext:
+		v.VisitContinueStmt(node)
 	case *parser.ReturnStmtContext:
 		fmt.Println("🔔 Visitando nodo returnStmt")
-		v.VisitReturnStmt(node)
+		return v.VisitReturnStmt(node)
 	case *parser.FuncDeclContext:
 		fmt.Println("🔔 Visitando nodo FuncDecl")
 		v.VisitFuncDecl(node)
@@ -321,6 +315,7 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 	case *parser.IdPatternContext:
 		fmt.Println("🔔 Visitando nodo IdPattern")
 		return v.VisitIdPattern(node)
+
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
 	}
@@ -504,11 +499,6 @@ func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
 		v.Visit(ctx.Else_stmt())
 	}
 
-	fmt.Println("------------------------- comp braek if 22222222", ctx.GetText())
-	if ctx.GetText() == BreakItem {
-		return nil
-	}
-
 	return nil
 }
 
@@ -538,8 +528,17 @@ func (v *ReplVisitor) VisitIfChain(ctx *parser.IfChainContext) interface{} {
 
 			fmt.Println("------------------------- comp braek if 5555")
 			if stmt.GetText() == BreakItem {
-				//v.ScopeTrace.PopScope()
-				return "break"
+				v.ScopeTrace.PopScope()
+				fmt.Println("----------------------- BREAK DEL IF")
+				Bandera_Break_If = true
+				return &value.BoolValue{InternalValue: false}
+
+			}
+			if stmt.GetText() == ContinueItem {
+				v.ScopeTrace.PopScope()
+				fmt.Println("----------------------- BREAK DEL IF")
+				Bandera_Continue = true
+				return &value.BoolValue{InternalValue: false}
 
 			}
 		}
@@ -1178,8 +1177,16 @@ func (v *ReplVisitor) VisitWhileStmt(ctx *parser.WhileStmtContext) interface{} {
 		// 3. Ejecutar el cuerpo del while
 		for _, stmt := range ctx.AllStmt() {
 			v.Visit(stmt)
+			if Bandera_Break == true {
+				Bandera_Break = false
+				Bandera_Break_If = false
+				return nil
+			}
+			if Bandera_Continue {
+				Bandera_Continue = false
+				break
+			}
 
-			// Opcional: Puedes agregar un chequeo para break/continue aquí
 		}
 	}
 
@@ -1227,10 +1234,21 @@ func (v *ReplVisitor) VisitClasicFor(ctx *compiler.ClasicForContext) interface{}
 			v.Visit(stmt)
 			// Manejar señales de break
 			fmt.Println("-FORRRR-----------------*-*-*-*- ", " *** ", stmt.GetText(), " *-* ", BreakItem)
-
 			if stmt.GetText() == BreakItem {
 				fmt.Println("-----------------------  ENTRANDO AL BREAK")
 				return nil // Salir del bucle for
+			} else if Bandera_Break_If {
+				fmt.Println("ENTRANDO AL NULO DEL IF ")
+				Bandera_Break_If = false
+				Bandera_Break = false
+				return nil
+
+			}
+			if Bandera_Continue {
+				fmt.Println("-------------------- entrando a continue")
+				Bandera_Continue = false
+				break
+
 			}
 		}
 
@@ -1284,6 +1302,13 @@ func (v *ReplVisitor) VisitSwitchStmt(ctx *parser.SwitchStmtContext) interface{}
 				// Ejecutar las sentencias del caso
 				for _, stmt := range caseCtx.AllStmt() {
 					v.Visit(stmt)
+					if Bandera_Break == true {
+						Bandera_Break = false
+						Bandera_Break_If = false
+						return nil
+
+					}
+
 				}
 				break // Salir del bucle de comparación
 			}
@@ -1351,8 +1376,13 @@ func equals(a, b value.IVOR) bool {
 
 func (v *ReplVisitor) VisitBreakStmt(ctx *compiler.BreakStmtContext) interface{} {
 	fmt.Println("--------- BREAK DETECTADO ----------- ", ctx.GetText())
-
+	Bandera_Break = true
 	return nil // Usamos la constante definida en el paquete
+}
+
+func (v *ReplVisitor) VisitContinueStmt(ctx *compiler.ContinueStmtContext) interface{} {
+	Bandera_Continue = true
+	return ContinueItem
 }
 
 func (v *ReplVisitor) VisitReturnStmt(ctx *parser.ReturnStmtContext) interface{} {
