@@ -200,6 +200,12 @@ func (s *BaseVlangListener) EnterExpdotexp(ctx *ExpdotexpContext) {}
 // ExitExpdotexp is called when production expdotexp is exited.
 func (s *BaseVlangListener) ExitExpdotexp(ctx *ExpdotexpContext) {}
 
+// EnterFn_typeOF is called when production fn_typeOF is entered.
+func (s *BaseVlangListener) EnterFn_typeOF(ctx *Fn_typeOFContext) {}
+
+// ExitFn_typeOF is called when production fn_typeOF is exited.
+func (s *BaseVlangListener) ExitFn_typeOF(ctx *Fn_typeOFContext) {}
+
 // EnterBinaryExp is called when production BinaryExp is entered.
 func (s *BaseVlangListener) EnterBinaryExp(ctx *BinaryExpContext) {}
 

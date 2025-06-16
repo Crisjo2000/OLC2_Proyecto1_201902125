@@ -204,7 +204,10 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 	case *parser.Fn_atoiContext:
 		return v.VisitFn_atoi(node)
 	case *parser.Fn_parsefloatContext:
+
 		return v.VisitFn_parsefloat(node)
+	case *parser.Fn_typeOFContext:
+		return v.VisitFn_typeOF(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
@@ -332,6 +335,8 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 		v.VisitFn_atoi(node)
 	case *parser.Fn_parsefloatContext:
 		v.VisitFn_parsefloat(node)
+	case *parser.Fn_typeOFContext:
+		v.VisitFn_typeOF(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
@@ -1665,4 +1670,35 @@ func (v *ReplVisitor) VisitFn_parsefloat(ctx *parser.Fn_parsefloatContext) inter
 		InternalValue: floatVal,
 	}
 
+}
+
+// Visit a parse tree produced by VlangParser#fn_typeOF.
+func (v *ReplVisitor) VisitFn_typeOF(ctx *parser.Fn_typeOFContext) interface{} {
+	// Obtener la expresión dentro del paréntesis
+	expr := ctx.Expresion()
+	if expr == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "typeof requiere un argumento")
+		return nil
+	}
+
+	// Evaluar la expresión
+	result := v.Visit(expr)
+	if result == nil {
+		v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en typeof")
+		return nil
+	}
+
+	// Obtener el tipo del valor
+	var typeStr string
+	switch val := result.(type) {
+	case value.IVOR:
+		typeStr = val.Type()
+	default:
+		typeStr = fmt.Sprintf("%T", result)
+	}
+
+	return &value.StringValue{
+		InternalValue: typeStr,
+	}
+	return nil
 }

@@ -158,6 +158,8 @@ expresion
     // ===== Funciones =====
     |ATOI_KW LPAREN expresion RPAREN                       #fn_atoi
     |PARSEFLOAT_KW LPAREN expresion RPAREN                 #fn_parsefloat
+    |TYPEOF_KW LPAREN expresion RPAREN                     #fn_typeOF
+    
     ;
 
 /*
@@ -279,6 +281,7 @@ MAIN_KW : 'main' ;
 
 ATOI_KW : 'Atoi';
 PARSEFLOAT_KW :'parse_float';
+TYPEOF_KW : 'TypeOf';
 
 // === Operadores ===
 PLUS    : '+' ;

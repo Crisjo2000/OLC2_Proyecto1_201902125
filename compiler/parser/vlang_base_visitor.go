@@ -127,6 +127,10 @@ func (v *BaseVlangVisitor) VisitExpdotexp(ctx *ExpdotexpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitFn_typeOF(ctx *Fn_typeOFContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitBinaryExp(ctx *BinaryExpContext) interface{} {
 	return v.VisitChildren(ctx)
 }

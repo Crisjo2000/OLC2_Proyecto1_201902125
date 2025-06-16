@@ -97,6 +97,9 @@ type VlangListener interface {
 	// EnterExpdotexp is called when entering the expdotexp production.
 	EnterExpdotexp(c *ExpdotexpContext)
 
+	// EnterFn_typeOF is called when entering the fn_typeOF production.
+	EnterFn_typeOF(c *Fn_typeOFContext)
+
 	// EnterBinaryExp is called when entering the BinaryExp production.
 	EnterBinaryExp(c *BinaryExpContext)
 
@@ -285,6 +288,9 @@ type VlangListener interface {
 
 	// ExitExpdotexp is called when exiting the expdotexp production.
 	ExitExpdotexp(c *ExpdotexpContext)
+
+	// ExitFn_typeOF is called when exiting the fn_typeOF production.
+	ExitFn_typeOF(c *Fn_typeOFContext)
 
 	// ExitBinaryExp is called when exiting the BinaryExp production.
 	ExitBinaryExp(c *BinaryExpContext)

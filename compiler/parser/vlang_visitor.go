@@ -97,6 +97,9 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#expdotexp.
 	VisitExpdotexp(ctx *ExpdotexpContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#fn_typeOF.
+	VisitFn_typeOF(ctx *Fn_typeOFContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#BinaryExp.
 	VisitBinaryExp(ctx *BinaryExpContext) interface{}
 
