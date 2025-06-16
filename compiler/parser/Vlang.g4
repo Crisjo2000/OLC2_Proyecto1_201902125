@@ -55,7 +55,7 @@ for_stmt:
 
 range: expresion DOT DOT DOT expresion # NumericRange;
 
-//
+
 // === SWITCH  ===
 switch_stmt: 
      SWITCH_KW ID LCOR  (case_clause)+ (default_clause)?RCOR # SwitchStmt;
@@ -69,7 +69,14 @@ default_clause:
         stmt* # DefaultClause;
 
 // === SLICE ===
-slice_stmt :ID ASSIGN LBRACK RBRACK var_type LCOR (expresion)+ RCOR #DeclSlices ;
+slice_stmt :ID ASSIGN LBRACK RBRACK var_type LCOR (expresion (COMMA expresion)*) RCOR #DeclSlices ;
+
+//list_expresiones : expresion;
+
+
+// ---------------------- FUNCIONES------------------------------------------------
+
+
 
 /// Llamadas a funciones catch
 // id ( 1,2,3,4)
@@ -111,13 +118,14 @@ transfer_stmt:
 
 assign_stmt:
 	id_pattern ASSIGN expresion  	# DirectAssign
+
     ; 
 
 decl_stmt: 
     MUT ID ASSIGN expresion # DeclAssign
     | MUT id_pattern var_type ASSIGN expresion # DeclAssignType
 //nuevo
-    | ID '=' '['']' var_type '{' list_expresiones '}' ';'?    # SliceDeclInit 
+   
     ; 
 
     //nuevo
@@ -146,6 +154,10 @@ expresion
     | ID DOT ID                                            #expdotexp1             
     | ID DOT expresion                                     #expdotexp      
     | ID ASSIGN expresion                                  #asignacionfor
+
+    // ===== Funciones =====
+    |ATOI_KW LPAREN expresion RPAREN                       #fn_atoi
+    |PARSEFLOAT_KW LPAREN expresion RPAREN                 #fn_parsefloat
     ;
 
 /*
@@ -264,6 +276,10 @@ BREAK_KW : 'break' ;
 CONTINUE_KW : 'continue' ;
 FN_KW : 'fn' ;
 MAIN_KW : 'main' ;
+
+ATOI_KW : 'Atoi';
+PARSEFLOAT_KW :'parse_float';
+
 // === Operadores ===
 PLUS    : '+' ;
 MINUS   : '-' ;

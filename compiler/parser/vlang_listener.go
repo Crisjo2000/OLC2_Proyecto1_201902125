@@ -79,14 +79,26 @@ type VlangListener interface {
 	// EnterDeclAssignType is called when entering the DeclAssignType production.
 	EnterDeclAssignType(c *DeclAssignTypeContext)
 
-	// EnterSliceDeclInit is called when entering the SliceDeclInit production.
-	EnterSliceDeclInit(c *SliceDeclInitContext)
-
 	// EnterListExpressions is called when entering the ListExpressions production.
 	EnterListExpressions(c *ListExpressionsContext)
 
 	// EnterIdPattern is called when entering the IdPattern production.
 	EnterIdPattern(c *IdPatternContext)
+
+	// EnterIncredecr is called when entering the incredecr production.
+	EnterIncredecr(c *IncredecrContext)
+
+	// EnterValorexpresion is called when entering the valorexpresion production.
+	EnterValorexpresion(c *ValorexpresionContext)
+
+	// EnterAsignacionfor is called when entering the asignacionfor production.
+	EnterAsignacionfor(c *AsignacionforContext)
+
+	// EnterExpdotexp is called when entering the expdotexp production.
+	EnterExpdotexp(c *ExpdotexpContext)
+
+	// EnterBinaryExp is called when entering the BinaryExp production.
+	EnterBinaryExp(c *BinaryExpContext)
 
 	// EnterCorchetesexpre is called when entering the corchetesexpre production.
 	EnterCorchetesexpre(c *CorchetesexpreContext)
@@ -100,14 +112,8 @@ type VlangListener interface {
 	// EnterParentesisexpre is called when entering the parentesisexpre production.
 	EnterParentesisexpre(c *ParentesisexpreContext)
 
-	// EnterIncredecr is called when entering the incredecr production.
-	EnterIncredecr(c *IncredecrContext)
-
-	// EnterValorexpresion is called when entering the valorexpresion production.
-	EnterValorexpresion(c *ValorexpresionContext)
-
-	// EnterAsignacionfor is called when entering the asignacionfor production.
-	EnterAsignacionfor(c *AsignacionforContext)
+	// EnterFn_parsefloat is called when entering the fn_parsefloat production.
+	EnterFn_parsefloat(c *Fn_parsefloatContext)
 
 	// EnterId is called when entering the id production.
 	EnterId(c *IdContext)
@@ -115,11 +121,8 @@ type VlangListener interface {
 	// EnterExpdotexp1 is called when entering the expdotexp1 production.
 	EnterExpdotexp1(c *Expdotexp1Context)
 
-	// EnterExpdotexp is called when entering the expdotexp production.
-	EnterExpdotexp(c *ExpdotexpContext)
-
-	// EnterBinaryExp is called when entering the BinaryExp production.
-	EnterBinaryExp(c *BinaryExpContext)
+	// EnterFn_atoi is called when entering the fn_atoi production.
+	EnterFn_atoi(c *Fn_atoiContext)
 
 	// EnterParamList is called when entering the ParamList production.
 	EnterParamList(c *ParamListContext)
@@ -265,14 +268,26 @@ type VlangListener interface {
 	// ExitDeclAssignType is called when exiting the DeclAssignType production.
 	ExitDeclAssignType(c *DeclAssignTypeContext)
 
-	// ExitSliceDeclInit is called when exiting the SliceDeclInit production.
-	ExitSliceDeclInit(c *SliceDeclInitContext)
-
 	// ExitListExpressions is called when exiting the ListExpressions production.
 	ExitListExpressions(c *ListExpressionsContext)
 
 	// ExitIdPattern is called when exiting the IdPattern production.
 	ExitIdPattern(c *IdPatternContext)
+
+	// ExitIncredecr is called when exiting the incredecr production.
+	ExitIncredecr(c *IncredecrContext)
+
+	// ExitValorexpresion is called when exiting the valorexpresion production.
+	ExitValorexpresion(c *ValorexpresionContext)
+
+	// ExitAsignacionfor is called when exiting the asignacionfor production.
+	ExitAsignacionfor(c *AsignacionforContext)
+
+	// ExitExpdotexp is called when exiting the expdotexp production.
+	ExitExpdotexp(c *ExpdotexpContext)
+
+	// ExitBinaryExp is called when exiting the BinaryExp production.
+	ExitBinaryExp(c *BinaryExpContext)
 
 	// ExitCorchetesexpre is called when exiting the corchetesexpre production.
 	ExitCorchetesexpre(c *CorchetesexpreContext)
@@ -286,14 +301,8 @@ type VlangListener interface {
 	// ExitParentesisexpre is called when exiting the parentesisexpre production.
 	ExitParentesisexpre(c *ParentesisexpreContext)
 
-	// ExitIncredecr is called when exiting the incredecr production.
-	ExitIncredecr(c *IncredecrContext)
-
-	// ExitValorexpresion is called when exiting the valorexpresion production.
-	ExitValorexpresion(c *ValorexpresionContext)
-
-	// ExitAsignacionfor is called when exiting the asignacionfor production.
-	ExitAsignacionfor(c *AsignacionforContext)
+	// ExitFn_parsefloat is called when exiting the fn_parsefloat production.
+	ExitFn_parsefloat(c *Fn_parsefloatContext)
 
 	// ExitId is called when exiting the id production.
 	ExitId(c *IdContext)
@@ -301,11 +310,8 @@ type VlangListener interface {
 	// ExitExpdotexp1 is called when exiting the expdotexp1 production.
 	ExitExpdotexp1(c *Expdotexp1Context)
 
-	// ExitExpdotexp is called when exiting the expdotexp production.
-	ExitExpdotexp(c *ExpdotexpContext)
-
-	// ExitBinaryExp is called when exiting the BinaryExp production.
-	ExitBinaryExp(c *BinaryExpContext)
+	// ExitFn_atoi is called when exiting the fn_atoi production.
+	ExitFn_atoi(c *Fn_atoiContext)
 
 	// ExitParamList is called when exiting the ParamList production.
 	ExitParamList(c *ParamListContext)

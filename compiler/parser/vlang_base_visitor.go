@@ -103,15 +103,31 @@ func (v *BaseVlangVisitor) VisitDeclAssignType(ctx *DeclAssignTypeContext) inter
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitSliceDeclInit(ctx *SliceDeclInitContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseVlangVisitor) VisitListExpressions(ctx *ListExpressionsContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseVlangVisitor) VisitIdPattern(ctx *IdPatternContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitIncredecr(ctx *IncredecrContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitValorexpresion(ctx *ValorexpresionContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitAsignacionfor(ctx *AsignacionforContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitExpdotexp(ctx *ExpdotexpContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitBinaryExp(ctx *BinaryExpContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -131,15 +147,7 @@ func (v *BaseVlangVisitor) VisitParentesisexpre(ctx *ParentesisexpreContext) int
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitIncredecr(ctx *IncredecrContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseVlangVisitor) VisitValorexpresion(ctx *ValorexpresionContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseVlangVisitor) VisitAsignacionfor(ctx *AsignacionforContext) interface{} {
+func (v *BaseVlangVisitor) VisitFn_parsefloat(ctx *Fn_parsefloatContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -151,11 +159,7 @@ func (v *BaseVlangVisitor) VisitExpdotexp1(ctx *Expdotexp1Context) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitExpdotexp(ctx *ExpdotexpContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
-func (v *BaseVlangVisitor) VisitBinaryExp(ctx *BinaryExpContext) interface{} {
+func (v *BaseVlangVisitor) VisitFn_atoi(ctx *Fn_atoiContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 

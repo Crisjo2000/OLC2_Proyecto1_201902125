@@ -197,6 +197,15 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitFuncCall(node)
 	case *parser.IdPatternContext:
 		return v.VisitIdPattern(node)
+	case *parser.DeclSlicesContext:
+		return v.VisitDeclSlices(node)
+	case *parser.IntTypeContext:
+		return v.VisitIntType(node)
+	case *parser.Fn_atoiContext:
+		return v.VisitFn_atoi(node)
+	case *parser.Fn_parsefloatContext:
+		return v.VisitFn_parsefloat(node)
+
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
 		return tree.Accept(v) // fallback por si acaso
@@ -315,6 +324,14 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 	case *parser.IdPatternContext:
 		fmt.Println("🔔 Visitando nodo IdPattern")
 		return v.VisitIdPattern(node)
+	case *parser.DeclSlicesContext:
+		return v.VisitDeclSlices(node)
+	case *parser.IntTypeContext:
+		v.VisitIntType(node)
+	case *parser.Fn_atoiContext:
+		v.VisitFn_atoi(node)
+	case *parser.Fn_parsefloatContext:
+		v.VisitFn_parsefloat(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
@@ -1466,5 +1483,186 @@ func (v *ReplVisitor) VisitFuncArg(ctx *parser.FuncArgContext) interface{} {
 
 // Visit a parse tree produced by VlangParser#DeclSlices.
 func (v *ReplVisitor) VisitDeclSlices(ctx *parser.DeclSlicesContext) interface{} {
+	// Obtener el nombre de la variable
+	// Obtener el nombre de la variable
+	varName := ctx.ID().GetText()
+	fmt.Println("🔍 Declarando slice:", varName)
+
+	// Obtener el tipo del slice
+	typeCtx := ctx.Var_type()
+	if typeCtx == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Falta especificar el tipo del slice")
+		return nil
+	}
+
+	// Visitar el nodo del tipo para obtener el tipo como string
+	typeResult := v.Visit(typeCtx)
+	if typeResult == nil {
+		v.ErrorTable.NewSemanticError(typeCtx.GetStart(), "Tipo de slice no válido")
+		return nil
+	}
+
+	sliceType, ok := typeResult.(string)
+	if !ok {
+		v.ErrorTable.NewSemanticError(typeCtx.GetStart(), "Tipo de slice no reconocido")
+		return nil
+	}
+
+	fmt.Println("Tipo de slice:", sliceType)
+
+	// Obtener todas las expresiones de inicialización
+	var expressions []parser.IExpresionContext
+
+	expressions = ctx.AllExpresion()
+
+	fmt.Println("Número de elementos:", len(expressions))
+
+	// Crear el slice según el tipo
+	var sliceValue value.IVOR
+
+	switch sliceType {
+	case "int":
+		values := make([]int, 0, len(expressions))
+		for _, expr := range expressions {
+			val := v.Visit(expr)
+			if val == nil {
+				v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en slice")
+				continue
+			}
+
+			intVal, ok := val.(*value.IntValue)
+			if !ok {
+				v.ErrorTable.NewSemanticError(expr.GetStart(),
+					fmt.Sprintf("Se esperaba tipo int en el slice, se obtuvo %T", val))
+				continue
+			}
+			values = append(values, intVal.InternalValue)
+		}
+		sliceValue = &value.SliceValue{
+			InternalValue: values,
+			ElementType:   "int",
+		}
+
+	case "float":
+		values := make([]float64, 0, len(expressions))
+		for _, expr := range expressions {
+			val := v.Visit(expr)
+			if val == nil {
+				v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en slice")
+				continue
+			}
+
+			floatVal, ok := val.(*value.FloatValue)
+			if !ok {
+				v.ErrorTable.NewSemanticError(expr.GetStart(),
+					fmt.Sprintf("Se esperaba tipo float en el slice, se obtuvo %T", val))
+				continue
+			}
+			values = append(values, floatVal.InternalValue)
+		}
+		sliceValue = &value.SliceValue{
+			InternalValue: values,
+			ElementType:   "float",
+		}
+
+	// Añadir más tipos según sea necesario (string, bool, etc.)
+	default:
+		v.ErrorTable.NewSemanticError(typeCtx.GetStart(),
+			fmt.Sprintf("Tipo de slice no soportado: %s", sliceType))
+		return nil
+	}
+
+	// Agregar la variable al ámbito
+	variable, msg := v.ScopeTrace.AddVariable(varName, "[]"+sliceType, sliceValue, false, false, ctx.GetStart())
+	if variable == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+	}
 	return nil
+
+}
+
+// Visit a parse tree produced by VlangParser#ListExpressions.
+func (v *ReplVisitor) VisitListExpressions(ctx *parser.ListExpressionsContext) interface{} {
+	return nil
+}
+
+func (v *ReplVisitor) VisitIntType(ctx *parser.IntTypeContext) interface{} {
+	return "int"
+}
+
+// Visit a parse tree produced by VlangParser#fn_atoi.
+func (v *ReplVisitor) VisitFn_atoi(ctx *parser.Fn_atoiContext) interface{} {
+	// Obtener la expresión dentro del paréntesis
+	expr := ctx.Expresion()
+	if expr == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "atoi requiere un argumento")
+		return nil
+	}
+
+	// Evaluar la expresión
+	result := v.Visit(expr)
+	if result == nil {
+		v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en atoi")
+		return nil
+	}
+
+	// Verificar que sea un string
+	strVal, ok := result.(*value.StringValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(expr.GetStart(),
+			fmt.Sprintf("atoi esperaba un string, obtuvo %T", result))
+		return nil
+	}
+
+	// Convertir el string a int
+	intVal, err := strconv.Atoi(strVal.InternalValue)
+	if err != nil {
+		v.ErrorTable.NewSemanticError(expr.GetStart(),
+			fmt.Sprintf("No se pudo convertir '%s' a int: %v", strVal.InternalValue, err))
+		return nil
+	}
+
+	return &value.IntValue{
+		InternalValue: intVal,
+	}
+	return nil
+}
+
+// Visit a parse tree produced by VlangParser#fn_parsefloat.
+func (v *ReplVisitor) VisitFn_parsefloat(ctx *parser.Fn_parsefloatContext) interface{} {
+	// Obtener la expresión dentro del paréntesis
+	expr := ctx.Expresion()
+	if expr == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "parse_float requiere un argumento")
+		return nil
+	}
+
+	// Evaluar la expresión
+	result := v.Visit(expr)
+	if result == nil {
+		v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en parse_float")
+		return nil
+	}
+
+	// Verificar que sea un string
+	strVal, ok := result.(*value.StringValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(expr.GetStart(),
+			fmt.Sprintf("parse_float esperaba un string, obtuvo %T", result))
+		return nil
+	}
+
+	// Convertir el string a float64
+	floatVal, err := strconv.ParseFloat(strVal.InternalValue, 64)
+	println("floatval ------------------------", floatVal)
+	if err != nil {
+		v.ErrorTable.NewSemanticError(expr.GetStart(),
+			fmt.Sprintf("No se pudo convertir '%s' a float64: %v", strVal.InternalValue, err))
+		return nil
+	}
+
+	return &value.FloatValue{
+		InternalValue: floatVal,
+	}
+
 }
