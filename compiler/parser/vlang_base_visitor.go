@@ -51,6 +51,18 @@ func (v *BaseVlangVisitor) VisitNumericRange(ctx *NumericRangeContext) interface
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitSwitchStmt(ctx *SwitchStmtContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitCaseClause(ctx *CaseClauseContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitDefaultClause(ctx *DefaultClauseContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitFuncCall(ctx *FuncCallContext) interface{} {
 	return v.VisitChildren(ctx)
 }

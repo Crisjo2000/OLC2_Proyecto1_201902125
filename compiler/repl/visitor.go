@@ -31,6 +31,14 @@ type ReplVisitor struct {
 	ErrorTable  *ErrorTable
 	StructNames []string
 }
+type ControlFlow int
+
+const (
+	FlowNormal ControlFlow = iota
+	FlowBreak
+	FlowContinue
+	FlowReturn
+)
 
 /*
 NOTA: para testear estoy usando un constructor
@@ -184,6 +192,18 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitClasicFor(node)
 	case *parser.ForStmtContext:
 		return v.VisitForStmt(node)
+
+	case *parser.SwitchStmtContext:
+		return v.VisitSwitchStmt(node)
+
+	case *parser.CaseClauseContext:
+		return v.VisitCaseClause(node)
+
+	case *parser.DefaultClauseContext:
+		return v.VisitDefaultClause(node)
+	case *parser.BreakStmtContext:
+		return v.VisitBreakStmt(node)
+
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
 		return tree.Accept(v) // fallback por si acaso
@@ -278,6 +298,18 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 
 	case *parser.ClasicForContext:
 		v.VisitClasicFor(node)
+
+	case *parser.SwitchStmtContext:
+		v.VisitSwitchStmt(node)
+
+	case *parser.CaseClauseContext:
+		v.VisitCaseClause(node)
+
+	case *parser.DefaultClauseContext:
+		v.VisitDefaultClause(node)
+
+	case *parser.BreakStmtContext:
+		v.VisitBreakStmt(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
@@ -454,11 +486,17 @@ func (v *ReplVisitor) VisitIfStmt(ctx *parser.IfStmtContext) interface{} {
 			executed = true
 			break
 		}
+
 	}
 
 	// 2. Si ninguna condición se cumplió y hay else, ejecutarlo
 	if !executed && ctx.Else_stmt() != nil {
 		v.Visit(ctx.Else_stmt())
+	}
+
+	fmt.Println("------------------------- comp braek if 22222222", ctx.GetText())
+	if ctx.GetText() == BreakItem {
+		return nil
 	}
 
 	return nil
@@ -487,6 +525,13 @@ func (v *ReplVisitor) VisitIfChain(ctx *parser.IfChainContext) interface{} {
 		v.ScopeTrace.PushScope("if")
 		for _, stmt := range ctx.AllStmt() {
 			v.Visit(stmt)
+
+			fmt.Println("------------------------- comp braek if 5555")
+			if stmt.GetText() == BreakItem {
+				//v.ScopeTrace.PopScope()
+				return "break"
+
+			}
 		}
 		v.ScopeTrace.PopScope()
 		return &value.BoolValue{InternalValue: true}
@@ -1198,6 +1243,13 @@ func (v *ReplVisitor) VisitClasicFor(ctx *compiler.ClasicForContext) interface{}
 		// 3. Ejecutar el cuerpo del for
 		for _, stmt := range ctx.AllStmt() {
 			v.Visit(stmt)
+			// Manejar señales de break
+			fmt.Println("-FORRRR-----------------*-*-*-*- ", " *** ", stmt.GetText(), " *-* ", BreakItem)
+
+			if stmt.GetText() == BreakItem {
+				fmt.Println("-----------------------  ENTRANDO AL BREAK")
+				return nil // Salir del bucle for
+			}
 		}
 
 		// 4. Ejecutar el incremento (i++)
@@ -1211,6 +1263,112 @@ func (v *ReplVisitor) VisitClasicFor(ctx *compiler.ClasicForContext) interface{}
 	return nil
 }
 
+// ---------------------------- FOR RANGE -----------------------------------
 func (v *ReplVisitor) VisitForStmt(ctx *compiler.ForStmtContext) interface{} {
 	return nil
+}
+
+// -------------------------- SWITCH FUN --------------------------------------------
+func (v *ReplVisitor) VisitSwitchStmt(ctx *parser.SwitchStmtContext) interface{} {
+	fmt.Println("🔍 Visitando SwitchStmt:", ctx.GetText())
+
+	// 1. Obtener el valor a comparar (variable del switch)
+	varName := ctx.ID().GetText()
+	variable := v.ScopeTrace.GetVariable(varName)
+
+	if variable == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Variable '"+varName+"' no definida")
+		return nil
+	}
+
+	switchValue := variable.Value
+	matched := false
+
+	// Crear un nuevo scope para el switch
+	v.ScopeTrace.PushScope("switch")
+	defer v.ScopeTrace.PopScope()
+
+	// 2. Procesar todos los casos
+	for _, caseItem := range ctx.AllCase_clause() {
+		caseCtx := caseItem.(*parser.CaseClauseContext)
+
+		// Visitar el caso para obtener todas las expresiones a comparar
+		caseExprValues := v.VisitCaseClause(caseCtx).([]value.IVOR)
+
+		// Comparar con cada expresión del caso
+		for _, caseExprValue := range caseExprValues {
+			if equals(switchValue, caseExprValue) {
+				matched = true
+				// Ejecutar las sentencias del caso
+				for _, stmt := range caseCtx.AllStmt() {
+					v.Visit(stmt)
+				}
+				break // Salir del bucle de comparación
+			}
+		}
+
+		if matched {
+			break // Salir después de ejecutar el primer caso que coincide
+		}
+	}
+
+	// 3. Procesar el caso default si no hubo coincidencias
+	if !matched && ctx.Default_clause() != nil {
+		defaultCtx := ctx.Default_clause().(*parser.DefaultClauseContext)
+		for _, stmt := range defaultCtx.AllStmt() {
+			v.Visit(stmt)
+		}
+	}
+
+	return nil
+}
+
+func (v *ReplVisitor) VisitCaseClause(ctx *parser.CaseClauseContext) interface{} {
+	// Recoger todas las expresiones del caso (pueden ser múltiples separadas por coma)
+	var caseExprValues []value.IVOR
+
+	// La primera expresión es obligatoria
+	firstExpr := v.Visit(ctx.Expresion(0)).(value.IVOR)
+	caseExprValues = append(caseExprValues, firstExpr)
+
+	// Expresiones adicionales (si las hay)
+	for i := 1; i < len(ctx.AllExpresion()); i++ {
+		expr := v.Visit(ctx.Expresion(i)).(value.IVOR)
+		caseExprValues = append(caseExprValues, expr)
+	}
+
+	return caseExprValues
+}
+
+func (v *ReplVisitor) VisitDefaultClause(ctx *parser.DefaultClauseContext) interface{} {
+	// El default no necesita lógica especial, las sentencias se ejecutan en VisitSwitchStmt
+	return nil
+}
+
+// Función auxiliar para comparar valores
+func equals(a, b value.IVOR) bool {
+	if a.Type() != b.Type() {
+		return false
+	}
+
+	switch aVal := a.(type) {
+	case *value.IntValue:
+		return aVal.InternalValue == b.(*value.IntValue).InternalValue
+	case *value.FloatValue:
+		return aVal.InternalValue == b.(*value.FloatValue).InternalValue
+	case *value.StringValue:
+		return aVal.InternalValue == b.(*value.StringValue).InternalValue
+	case *value.BoolValue:
+		return aVal.InternalValue == b.(*value.BoolValue).InternalValue
+	default:
+		return false
+	}
+}
+
+// =========================== Sentencias de transferencia ============================
+
+func (v *ReplVisitor) VisitBreakStmt(ctx *compiler.BreakStmtContext) interface{} {
+	fmt.Println("--------- BREAK DETECTADO ----------- ", ctx.GetText())
+
+	return nil // Usamos la constante definida en el paquete
 }

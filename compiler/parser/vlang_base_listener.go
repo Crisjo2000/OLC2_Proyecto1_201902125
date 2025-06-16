@@ -86,6 +86,24 @@ func (s *BaseVlangListener) EnterNumericRange(ctx *NumericRangeContext) {}
 // ExitNumericRange is called when production NumericRange is exited.
 func (s *BaseVlangListener) ExitNumericRange(ctx *NumericRangeContext) {}
 
+// EnterSwitchStmt is called when production SwitchStmt is entered.
+func (s *BaseVlangListener) EnterSwitchStmt(ctx *SwitchStmtContext) {}
+
+// ExitSwitchStmt is called when production SwitchStmt is exited.
+func (s *BaseVlangListener) ExitSwitchStmt(ctx *SwitchStmtContext) {}
+
+// EnterCaseClause is called when production CaseClause is entered.
+func (s *BaseVlangListener) EnterCaseClause(ctx *CaseClauseContext) {}
+
+// ExitCaseClause is called when production CaseClause is exited.
+func (s *BaseVlangListener) ExitCaseClause(ctx *CaseClauseContext) {}
+
+// EnterDefaultClause is called when production DefaultClause is entered.
+func (s *BaseVlangListener) EnterDefaultClause(ctx *DefaultClauseContext) {}
+
+// ExitDefaultClause is called when production DefaultClause is exited.
+func (s *BaseVlangListener) ExitDefaultClause(ctx *DefaultClauseContext) {}
+
 // EnterFuncCall is called when production FuncCall is entered.
 func (s *BaseVlangListener) EnterFuncCall(ctx *FuncCallContext) {}
 

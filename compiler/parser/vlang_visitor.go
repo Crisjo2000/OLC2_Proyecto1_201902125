@@ -40,6 +40,15 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#NumericRange.
 	VisitNumericRange(ctx *NumericRangeContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#SwitchStmt.
+	VisitSwitchStmt(ctx *SwitchStmtContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#CaseClause.
+	VisitCaseClause(ctx *CaseClauseContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#DefaultClause.
+	VisitDefaultClause(ctx *DefaultClauseContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#FuncCall.
 	VisitFuncCall(ctx *FuncCallContext) interface{}
 

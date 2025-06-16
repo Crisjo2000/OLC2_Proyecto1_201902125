@@ -27,6 +27,7 @@ stmt:
      | incredecre
      | forwhile_stmt
      | forClasic_stmt
+     | switch_stmt
      ;
 
 
@@ -56,22 +57,15 @@ range: expresion DOT DOT DOT expresion # NumericRange;
 //
 // === SWITCH  ===
 switch_stmt: 
-    'switch' LPAREN expresion RPAREN LCOR 
-        (case_clause)+ 
-        (default_clause)? 
-    RCOR # SwitchStmt;
+     SWITCH_KW ID LCOR  (case_clause)+ (default_clause)?RCOR # SwitchStmt;
 
 case_clause:
-    'case' (expresion (COMMA expresion)*) COLON 
+    CASE_KW (expresion (COMMA expresion)*) COLON 
         stmt* # CaseClause;
 
 default_clause:
     'default' COLON 
         stmt* # DefaultClause;
-
-
-
-
 
 /// Llamadas a funciones catch
 // id ( 1,2,3,4)

@@ -40,6 +40,15 @@ type VlangListener interface {
 	// EnterNumericRange is called when entering the NumericRange production.
 	EnterNumericRange(c *NumericRangeContext)
 
+	// EnterSwitchStmt is called when entering the SwitchStmt production.
+	EnterSwitchStmt(c *SwitchStmtContext)
+
+	// EnterCaseClause is called when entering the CaseClause production.
+	EnterCaseClause(c *CaseClauseContext)
+
+	// EnterDefaultClause is called when entering the DefaultClause production.
+	EnterDefaultClause(c *DefaultClauseContext)
+
 	// EnterFuncCall is called when entering the FuncCall production.
 	EnterFuncCall(c *FuncCallContext)
 
@@ -216,6 +225,15 @@ type VlangListener interface {
 
 	// ExitNumericRange is called when exiting the NumericRange production.
 	ExitNumericRange(c *NumericRangeContext)
+
+	// ExitSwitchStmt is called when exiting the SwitchStmt production.
+	ExitSwitchStmt(c *SwitchStmtContext)
+
+	// ExitCaseClause is called when exiting the CaseClause production.
+	ExitCaseClause(c *CaseClauseContext)
+
+	// ExitDefaultClause is called when exiting the DefaultClause production.
+	ExitDefaultClause(c *DefaultClauseContext)
 
 	// ExitFuncCall is called when exiting the FuncCall production.
 	ExitFuncCall(c *FuncCallContext)
