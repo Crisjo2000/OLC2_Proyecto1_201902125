@@ -122,10 +122,6 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitValorexpresion(node)
 
 	// Declaraciones de variables
-	case *parser.FuncMainContext:
-		// Visitamos el hijo de valorexpresion
-		return v.VisitFuncMain(node)
-
 	case *parser.IncrementoContext:
 		// Visitamos el hijo de valorexpresion
 		return v.VisitIncremento(node)
@@ -168,7 +164,6 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 	// asignaciones posibles
 	case *parser.StmtContext:
 		return v.VisitStmt(node)
-
 	// parte de los If
 	case *parser.IfStmtContext:
 		fmt.Println("**-* VISITANDO IF STMT:", node.GetText())
@@ -203,7 +198,14 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitDefaultClause(node)
 	case *parser.BreakStmtContext:
 		return v.VisitBreakStmt(node)
-
+	case *parser.ReturnStmtContext:
+		return v.VisitReturnStmt(node)
+	case *parser.FuncDeclContext:
+		return v.VisitFuncDecl(node)
+	case *parser.FuncCallContext:
+		return v.VisitFuncCall(node)
+	case *parser.IdPatternContext:
+		return v.VisitIdPattern(node)
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
 		return tree.Accept(v) // fallback por si acaso
@@ -247,9 +249,6 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 
 	// Aquí van todos los ifs como los que hicimos antes:
 	switch node := node.(type) {
-	case *parser.FuncMainContext:
-		fmt.Println("🔔 Visitando nodo main")
-		v.VisitFuncMain(node)
 	case *parser.PrintlnStmtContext:
 		fmt.Println("🔔 Visitando nodo println")
 		v.VisitPrintlnStmt(node)
@@ -310,7 +309,18 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 
 	case *parser.BreakStmtContext:
 		v.VisitBreakStmt(node)
-
+	case *parser.ReturnStmtContext:
+		fmt.Println("🔔 Visitando nodo returnStmt")
+		v.VisitReturnStmt(node)
+	case *parser.FuncDeclContext:
+		fmt.Println("🔔 Visitando nodo FuncDecl")
+		v.VisitFuncDecl(node)
+	case *parser.FuncCallContext:
+		fmt.Println("🔔 Visitando nodo FuncCall")
+		return v.VisitFuncCall(node)
+	case *parser.IdPatternContext:
+		fmt.Println("🔔 Visitando nodo IdPattern")
+		return v.VisitIdPattern(node)
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
 	}
@@ -551,58 +561,44 @@ func (v *ReplVisitor) VisitElseStmt(ctx *parser.ElseStmtContext) interface{} {
 
 // -------DECLARACION DE VARIABLES SIN TIPO
 func (v *ReplVisitor) VisitValueDeclAssign(ctx *parser.DeclAssignContext) interface{} {
-	fmt.Println("----****** DECLARANDO VARIABLES CON MULT ******* ----")
-
-	/*
-		Cuando declaramos una variable tenemos que
-
-		2. Saber el nombre de la variable
-		3. Saber el valor de la variable (Depende, si solo la declaramos)
-		mut
-
-	*/
-	// verificamos si es una constante
-
-	// isConst := isDeclConst(ctx.Var_type().GetText())
-	fmt.Println("🔍 Visitando DeclAssign:", ctx.GetText())
 	varName := ctx.ID().GetText()
-	varValue := v.Visit(ctx.Expresion()).(value.IVOR)
-	varType := varValue.Type()
+	fmt.Println("🔍 Declarando variable mut:", varName)
 
-	if varType == "[]" {
-		v.ErrorTable.NewSemanticError(ctx.GetStart(), "No se puede inferir el tipo de un vector vacio '"+varName+"'")
+	// Obtener el valor de la expresión
+	var varValue value.IVOR
+	if expr := ctx.Expresion(); expr != nil {
+		result := v.Visit(expr)
+		if result == nil {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Expresión inválida en declaración")
+			return nil
+		}
+
+		// Verificar si es una llamada a función
+		if fnCall, isFunc := result.(value.IVOR); isFunc {
+			varValue = fnCall
+		} else {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(),
+				"La expresión no devuelve un valor válido")
+			return nil
+		}
+	} else {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Declaración sin expresión")
 		return nil
 	}
 
-	// copy object
-	// if obj, ok := varValue.(*ObjectValue); ok {
-	// 	varValue = obj.Copy()
-	// }
+	// Determinar el tipo automáticamente
+	varType := varValue.Type()
+	if varType == "" {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(),
+			"No se puede inferir el tipo de la expresión")
+		return nil
+	}
 
-	// if IsVectorType(varValue.Type()) {
-	// 	varValue = varValue.Copy()
-	// }
-
-	variable, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, false, false, ctx.GetStart())
-	/*
-
-	   fn main() {
-	   // entorno padre
-
-	   x = 6
-	   while (true){
-	    x = 5
-	   }
-	   while (true){
-	   x = 6
-	   }
-	   }
-
-	*/
-	// Variable already exists
-	if variable == nil {
+	// Crear la variable
+	if _, msg := v.ScopeTrace.AddVariable(varName, varType, varValue, false, false, ctx.GetStart()); msg != "" {
 		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
 	}
+
 	return nil
 }
 
@@ -699,7 +695,7 @@ func (v *ReplVisitor) VisitValorFloat(ctx *parser.ValorFloatContext) interface{}
 	}
 
 }
-func (v *ReplVisitor) VisitIdPattern(ctx *parser.IdContext) interface{} {
+func (v *ReplVisitor) VisitIdPattern(ctx *parser.IdPatternContext) interface{} {
 	// hay que ir a buscar el Id a el entorno
 	return ctx.GetText()
 }
@@ -866,58 +862,44 @@ func (v *ReplVisitor) VisitBinaryExp(ctx *parser.BinaryExpContext) interface{} {
 
 //llamadas a funciones
 
-func (v *ReplVisitor) VisitFuncCall(ctx *compiler.FuncCallContext) interface{} {
+func (v *ReplVisitor) VisitFuncCall(ctx *parser.FuncCallContext) interface{} {
+	funcName := ctx.Id_pattern().GetText()
+	fmt.Println("🔍 Llamando a función:", funcName)
 
-	// find if its a func or constructor of a struct
-
-	canditateName := v.Visit(ctx.Id_pattern()).(string)
-	funcObj, msg1 := v.ScopeTrace.GetFunction(canditateName)
-	structObj, msg2 := v.ScopeTrace.GlobalScope.GetStruct(canditateName)
-
-	if funcObj == nil && structObj == nil {
-		v.ErrorTable.NewSemanticError(ctx.GetStart(), msg1+msg2)
-		return value.DefaultNilValue
+	// Buscar la función
+	functionObj, errMsg := v.ScopeTrace.GetFunction(funcName)
+	if functionObj == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), errMsg)
+		return nil
 	}
 
-	args := make([]*Argument, 0)
+	// Asegúrate de que functionObj sea del tipo correcto (por ejemplo, *Function)
+	function, ok := functionObj.(*Function)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "El identificador '"+funcName+"' no es una función válida")
+		return nil
+	}
+
+	// Procesar parámetros si existen
 	if ctx.Parametros() != nil {
-		args = v.Visit(ctx.Parametros()).([]*Argument)
+		// Implementar lógica para procesar parámetros
 	}
 
-	// struct has priority over func
-	if structObj != nil {
+	// Ejecutar la función
+	v.ScopeTrace.PushScope("func:" + funcName)
+	defer v.ScopeTrace.PopScope()
 
-		switch funcObj := funcObj.(type) {
-		case *BuiltInFunction:
-			returnValue, ok, msg := funcObj.Exec(v.GetReplContext(), args)
-
-			if !ok {
-
-				if msg != "" {
-					v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
-				}
-
-				return value.DefaultNilValue
-
-			}
-
-			return returnValue
-
-		case *Function:
-			funcObj.Exec(v, args, ctx.GetStart())
-			return funcObj.ReturnValue
-
-		// case *ObjectBuiltInFunction:
-		// 	funcObj.Exec(v, args, ctx.GetStart())
-		// 	return funcObj.ReturnValue
-
-		default:
-			log.Fatal("Function type not found")
+	var returnValue value.IVOR = &value.IntValue{InternalValue: 0} // Valor por defecto
+	for _, stmt := range function.Body {
+		result := v.Visit(stmt)
+		if retVal, isReturn := result.(value.IVOR); isReturn {
+			returnValue = retVal
+			break
 		}
-
-		return value.DefaultNilValue
 	}
-	return nil
+
+	fmt.Println("🔍 Función retornó:", returnValue)
+	return returnValue
 }
 
 func (v *ReplVisitor) VisitIncremento(ctx *compiler.IncrementoContext) interface{} {
@@ -1371,4 +1353,83 @@ func (v *ReplVisitor) VisitBreakStmt(ctx *compiler.BreakStmtContext) interface{}
 	fmt.Println("--------- BREAK DETECTADO ----------- ", ctx.GetText())
 
 	return nil // Usamos la constante definida en el paquete
+}
+
+func (v *ReplVisitor) VisitReturnStmt(ctx *parser.ReturnStmtContext) interface{} {
+	if ctx.Expresion() != nil {
+		return v.Visit(ctx.Expresion())
+	}
+	return &value.NilValue{} // Retorno por defecto si no hay expresión
+}
+
+func (v *ReplVisitor) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
+	if ctx == nil {
+		v.ErrorTable.NewSemanticError(nil, "Contexto de función es nil")
+		return nil
+	}
+
+	// Obtener nombre de la función de manera segura
+	var funcName string
+	if id := ctx.ID(); id != nil {
+		funcName = id.GetText()
+	} else {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Función sin nombre")
+		return nil
+	}
+
+	fmt.Println("🔍 Declarando función:", funcName)
+
+	// Obtener el cuerpo de la función de manera segura
+	var body []parser.IStmtContext
+	if stmts := ctx.AllStmt(); stmts != nil {
+		body = stmts
+	}
+
+	// Crear la función
+	newFunc := &Function{
+		Name: funcName,
+		Body: body,
+	}
+
+	// Registrar la función (verifica que ScopeTrace no sea nil)
+	if v.ScopeTrace != nil {
+		ok, msg := v.ScopeTrace.AddFunction(funcName, newFunc)
+		if !ok {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), msg)
+		} else {
+			fmt.Println("✅ Función registrada:", funcName)
+		}
+	} else {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "ScopeTrace no inicializado")
+	}
+
+	return nil
+}
+
+func (v *ReplVisitor) VisitFuncArg(ctx *parser.FuncArgContext) interface{} {
+	// Obtener nombre del parámetro y su tipo
+	paramName := ctx.ID().GetText()
+	typeCtx := ctx.Var_type()
+
+	// Determinar el tipo (simplificado - podrías necesitar más lógica aquí)
+	var paramType string
+	switch typeCtx.GetText() {
+	case "int":
+		paramType = value.IVOR_INT
+	case "float":
+		paramType = value.IVOR_FLOAT
+	case "string":
+		paramType = value.IVOR_STRING
+	case "bool":
+		paramType = value.IVOR_BOOL
+	case "char":
+		paramType = value.IVOR_CHARACTER
+	default:
+		paramType = typeCtx.GetText() // Para tipos personalizados como structs
+	}
+
+	return &Param{
+		ExternName: paramName,
+		Type:       paramType,
+	}
 }

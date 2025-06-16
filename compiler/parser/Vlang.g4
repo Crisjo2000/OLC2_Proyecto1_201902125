@@ -75,9 +75,10 @@ func_call: id_pattern LPAREN (parametros)? RPAREN # FuncCall;
 func_dcl: 
     // id(parametros | vacio )  { } 
     //    visitor -> recorrer esos stmts
-    // fn id (x int, n string) 
-    'fn'  ID LPAREN (arg_list)? RPAREN LCOR stmt* RCOR # FuncDecl|
-    FN_KW MAIN_KW LPAREN RPAREN LCOR  stmt* RCOR # FuncMain
+    // fn id (){}
+    // fn id (x int, n string) tipo_dato {}
+    // fn id () tipo_dato {}
+    FN_KW ID LPAREN (arg_list)? RPAREN (var_type)? LCOR stmt* RCOR # FuncDecl
     ;
 
 

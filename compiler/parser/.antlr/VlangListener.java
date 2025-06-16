@@ -1,4 +1,4 @@
-// Generated from /home/luisa/Documentos/2025/Vaqueras/compi2 781/Lab/Oficial/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
+// Generated from /home/christian/Documentos/ORGANIZACIÓN DE LENGUAJES Y COMPILADORES 2/LABORATORIO/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -88,16 +88,28 @@ public interface VlangListener extends ParseTreeListener {
 	void exitPrintStmt(VlangParser.PrintStmtContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code WhileStmt}
-	 * labeled alternative in {@link VlangParser#while_stmt}.
+	 * labeled alternative in {@link VlangParser#forwhile_stmt}.
 	 * @param ctx the parse tree
 	 */
 	void enterWhileStmt(VlangParser.WhileStmtContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code WhileStmt}
-	 * labeled alternative in {@link VlangParser#while_stmt}.
+	 * labeled alternative in {@link VlangParser#forwhile_stmt}.
 	 * @param ctx the parse tree
 	 */
 	void exitWhileStmt(VlangParser.WhileStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code clasicFor}
+	 * labeled alternative in {@link VlangParser#forClasic_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterClasicFor(VlangParser.ClasicForContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code clasicFor}
+	 * labeled alternative in {@link VlangParser#forClasic_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitClasicFor(VlangParser.ClasicForContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code ForStmt}
 	 * labeled alternative in {@link VlangParser#for_stmt}.
@@ -122,6 +134,42 @@ public interface VlangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNumericRange(VlangParser.NumericRangeContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code SwitchStmt}
+	 * labeled alternative in {@link VlangParser#switch_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterSwitchStmt(VlangParser.SwitchStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code SwitchStmt}
+	 * labeled alternative in {@link VlangParser#switch_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitSwitchStmt(VlangParser.SwitchStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CaseClause}
+	 * labeled alternative in {@link VlangParser#case_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterCaseClause(VlangParser.CaseClauseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CaseClause}
+	 * labeled alternative in {@link VlangParser#case_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitCaseClause(VlangParser.CaseClauseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code DefaultClause}
+	 * labeled alternative in {@link VlangParser#default_clause}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefaultClause(VlangParser.DefaultClauseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DefaultClause}
+	 * labeled alternative in {@link VlangParser#default_clause}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefaultClause(VlangParser.DefaultClauseContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code FuncCall}
 	 * labeled alternative in {@link VlangParser#func_call}.
@@ -672,4 +720,28 @@ public interface VlangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDecremento(VlangParser.DecrementoContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code incremento2}
+	 * labeled alternative in {@link VlangParser#incredecre}.
+	 * @param ctx the parse tree
+	 */
+	void enterIncremento2(VlangParser.Incremento2Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code incremento2}
+	 * labeled alternative in {@link VlangParser#incredecre}.
+	 * @param ctx the parse tree
+	 */
+	void exitIncremento2(VlangParser.Incremento2Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code decremento2}
+	 * labeled alternative in {@link VlangParser#incredecre}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecremento2(VlangParser.Decremento2Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code decremento2}
+	 * labeled alternative in {@link VlangParser#incredecre}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecremento2(VlangParser.Decremento2Context ctx);
 }

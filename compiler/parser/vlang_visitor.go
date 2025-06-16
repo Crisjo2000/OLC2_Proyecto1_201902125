@@ -55,9 +55,6 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#FuncDecl.
 	VisitFuncDecl(ctx *FuncDeclContext) interface{}
 
-	// Visit a parse tree produced by VlangParser#FuncMain.
-	VisitFuncMain(ctx *FuncMainContext) interface{}
-
 	// Visit a parse tree produced by VlangParser#StructDecl.
 	VisitStructDecl(ctx *StructDeclContext) interface{}
 

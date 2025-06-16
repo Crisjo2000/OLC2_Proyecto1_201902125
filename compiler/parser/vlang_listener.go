@@ -55,9 +55,6 @@ type VlangListener interface {
 	// EnterFuncDecl is called when entering the FuncDecl production.
 	EnterFuncDecl(c *FuncDeclContext)
 
-	// EnterFuncMain is called when entering the FuncMain production.
-	EnterFuncMain(c *FuncMainContext)
-
 	// EnterStructDecl is called when entering the StructDecl production.
 	EnterStructDecl(c *StructDeclContext)
 
@@ -240,9 +237,6 @@ type VlangListener interface {
 
 	// ExitFuncDecl is called when exiting the FuncDecl production.
 	ExitFuncDecl(c *FuncDeclContext)
-
-	// ExitFuncMain is called when exiting the FuncMain production.
-	ExitFuncMain(c *FuncMainContext)
 
 	// ExitStructDecl is called when exiting the StructDecl production.
 	ExitStructDecl(c *StructDeclContext)

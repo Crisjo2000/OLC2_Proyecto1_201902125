@@ -62,7 +62,7 @@ func vlangParserInit() {
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 65, 460, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 65, 450, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
 		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
@@ -86,43 +86,42 @@ func vlangParserInit() {
 		12, 12, 12, 217, 9, 12, 1, 12, 1, 12, 5, 12, 221, 8, 12, 10, 12, 12, 12,
 		224, 9, 12, 1, 13, 1, 13, 1, 13, 5, 13, 229, 8, 13, 10, 13, 12, 13, 232,
 		9, 13, 1, 14, 1, 14, 1, 14, 3, 14, 237, 8, 14, 1, 14, 1, 14, 1, 15, 1,
-		15, 1, 15, 1, 15, 3, 15, 245, 8, 15, 1, 15, 1, 15, 1, 15, 5, 15, 250, 8,
-		15, 10, 15, 12, 15, 253, 9, 15, 1, 15, 1, 15, 1, 15, 1, 15, 1, 15, 1, 15,
-		1, 15, 5, 15, 262, 8, 15, 10, 15, 12, 15, 265, 9, 15, 1, 15, 3, 15, 268,
-		8, 15, 1, 16, 1, 16, 1, 16, 1, 16, 5, 16, 274, 8, 16, 10, 16, 12, 16, 277,
-		9, 16, 1, 16, 1, 16, 1, 17, 1, 17, 3, 17, 283, 8, 17, 1, 17, 1, 17, 3,
-		17, 287, 8, 17, 1, 18, 1, 18, 1, 18, 1, 18, 1, 19, 1, 19, 1, 19, 1, 19,
-		1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1,
-		19, 1, 19, 1, 19, 1, 19, 1, 19, 3, 19, 312, 8, 19, 3, 19, 314, 8, 19, 1,
-		20, 1, 20, 1, 20, 5, 20, 319, 8, 20, 10, 20, 12, 20, 322, 9, 20, 1, 21,
-		1, 21, 1, 21, 5, 21, 327, 8, 21, 10, 21, 12, 21, 330, 9, 21, 1, 22, 1,
+		15, 1, 15, 1, 15, 3, 15, 245, 8, 15, 1, 15, 1, 15, 3, 15, 249, 8, 15, 1,
+		15, 1, 15, 5, 15, 253, 8, 15, 10, 15, 12, 15, 256, 9, 15, 1, 15, 1, 15,
+		1, 16, 1, 16, 1, 16, 1, 16, 5, 16, 264, 8, 16, 10, 16, 12, 16, 267, 9,
+		16, 1, 16, 1, 16, 1, 17, 1, 17, 3, 17, 273, 8, 17, 1, 17, 1, 17, 3, 17,
+		277, 8, 17, 1, 18, 1, 18, 1, 18, 1, 18, 1, 19, 1, 19, 1, 19, 1, 19, 1,
+		19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19, 1, 19,
+		1, 19, 1, 19, 1, 19, 1, 19, 3, 19, 302, 8, 19, 3, 19, 304, 8, 19, 1, 20,
+		1, 20, 1, 20, 5, 20, 309, 8, 20, 10, 20, 12, 20, 312, 9, 20, 1, 21, 1,
+		21, 1, 21, 5, 21, 317, 8, 21, 10, 21, 12, 21, 320, 9, 21, 1, 22, 1, 22,
+		1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1,
 		22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22,
-		1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1,
-		22, 1, 22, 3, 22, 356, 8, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22,
-		1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1,
-		22, 1, 22, 5, 22, 376, 8, 22, 10, 22, 12, 22, 379, 9, 22, 1, 23, 1, 23,
-		1, 23, 5, 23, 384, 8, 23, 10, 23, 12, 23, 387, 9, 23, 1, 24, 1, 24, 1,
-		25, 1, 25, 1, 25, 5, 25, 394, 8, 25, 10, 25, 12, 25, 397, 9, 25, 1, 26,
-		1, 26, 1, 26, 1, 27, 1, 27, 1, 28, 1, 28, 1, 28, 1, 28, 1, 28, 1, 28, 3,
-		28, 410, 8, 28, 1, 29, 1, 29, 1, 29, 1, 29, 5, 29, 416, 8, 29, 10, 29,
-		12, 29, 419, 9, 29, 1, 29, 1, 29, 1, 30, 1, 30, 1, 30, 3, 30, 426, 8, 30,
-		1, 30, 3, 30, 429, 8, 30, 1, 30, 3, 30, 432, 8, 30, 1, 31, 1, 31, 1, 31,
-		1, 31, 1, 31, 1, 31, 3, 31, 440, 8, 31, 1, 32, 1, 32, 1, 32, 1, 32, 1,
-		32, 1, 32, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33,
-		1, 33, 3, 33, 458, 8, 33, 1, 33, 0, 1, 44, 34, 0, 2, 4, 6, 8, 10, 12, 14,
+		1, 22, 3, 22, 346, 8, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1,
+		22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22,
+		1, 22, 5, 22, 366, 8, 22, 10, 22, 12, 22, 369, 9, 22, 1, 23, 1, 23, 1,
+		23, 5, 23, 374, 8, 23, 10, 23, 12, 23, 377, 9, 23, 1, 24, 1, 24, 1, 25,
+		1, 25, 1, 25, 5, 25, 384, 8, 25, 10, 25, 12, 25, 387, 9, 25, 1, 26, 1,
+		26, 1, 26, 1, 27, 1, 27, 1, 28, 1, 28, 1, 28, 1, 28, 1, 28, 1, 28, 3, 28,
+		400, 8, 28, 1, 29, 1, 29, 1, 29, 1, 29, 5, 29, 406, 8, 29, 10, 29, 12,
+		29, 409, 9, 29, 1, 29, 1, 29, 1, 30, 1, 30, 1, 30, 3, 30, 416, 8, 30, 1,
+		30, 3, 30, 419, 8, 30, 1, 30, 3, 30, 422, 8, 30, 1, 31, 1, 31, 1, 31, 1,
+		31, 1, 31, 1, 31, 3, 31, 430, 8, 31, 1, 32, 1, 32, 1, 32, 1, 32, 1, 32,
+		1, 32, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1, 33, 1,
+		33, 3, 33, 448, 8, 33, 1, 33, 0, 1, 44, 34, 0, 2, 4, 6, 8, 10, 12, 14,
 		16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50,
 		52, 54, 56, 58, 60, 62, 64, 66, 0, 5, 2, 0, 34, 34, 38, 38, 1, 0, 35, 37,
-		1, 0, 33, 34, 1, 0, 43, 46, 1, 0, 41, 42, 503, 0, 69, 1, 0, 0, 0, 2, 90,
+		1, 0, 33, 34, 1, 0, 43, 46, 1, 0, 41, 42, 492, 0, 69, 1, 0, 0, 0, 2, 90,
 		1, 0, 0, 0, 4, 92, 1, 0, 0, 0, 6, 103, 1, 0, 0, 0, 8, 114, 1, 0, 0, 0,
 		10, 124, 1, 0, 0, 0, 12, 136, 1, 0, 0, 0, 14, 148, 1, 0, 0, 0, 16, 159,
 		1, 0, 0, 0, 18, 174, 1, 0, 0, 0, 20, 190, 1, 0, 0, 0, 22, 196, 1, 0, 0,
-		0, 24, 209, 1, 0, 0, 0, 26, 225, 1, 0, 0, 0, 28, 233, 1, 0, 0, 0, 30, 267,
-		1, 0, 0, 0, 32, 269, 1, 0, 0, 0, 34, 286, 1, 0, 0, 0, 36, 288, 1, 0, 0,
-		0, 38, 313, 1, 0, 0, 0, 40, 315, 1, 0, 0, 0, 42, 323, 1, 0, 0, 0, 44, 355,
-		1, 0, 0, 0, 46, 380, 1, 0, 0, 0, 48, 388, 1, 0, 0, 0, 50, 390, 1, 0, 0,
-		0, 52, 398, 1, 0, 0, 0, 54, 401, 1, 0, 0, 0, 56, 409, 1, 0, 0, 0, 58, 411,
-		1, 0, 0, 0, 60, 422, 1, 0, 0, 0, 62, 439, 1, 0, 0, 0, 64, 441, 1, 0, 0,
-		0, 66, 457, 1, 0, 0, 0, 68, 70, 3, 2, 1, 0, 69, 68, 1, 0, 0, 0, 70, 71,
+		0, 24, 209, 1, 0, 0, 0, 26, 225, 1, 0, 0, 0, 28, 233, 1, 0, 0, 0, 30, 240,
+		1, 0, 0, 0, 32, 259, 1, 0, 0, 0, 34, 276, 1, 0, 0, 0, 36, 278, 1, 0, 0,
+		0, 38, 303, 1, 0, 0, 0, 40, 305, 1, 0, 0, 0, 42, 313, 1, 0, 0, 0, 44, 345,
+		1, 0, 0, 0, 46, 370, 1, 0, 0, 0, 48, 378, 1, 0, 0, 0, 50, 380, 1, 0, 0,
+		0, 52, 388, 1, 0, 0, 0, 54, 391, 1, 0, 0, 0, 56, 399, 1, 0, 0, 0, 58, 401,
+		1, 0, 0, 0, 60, 412, 1, 0, 0, 0, 62, 429, 1, 0, 0, 0, 64, 431, 1, 0, 0,
+		0, 66, 447, 1, 0, 0, 0, 68, 70, 3, 2, 1, 0, 69, 68, 1, 0, 0, 0, 70, 71,
 		1, 0, 0, 0, 71, 69, 1, 0, 0, 0, 71, 72, 1, 0, 0, 0, 72, 73, 1, 0, 0, 0,
 		73, 74, 5, 0, 0, 1, 74, 1, 1, 0, 0, 0, 75, 91, 3, 38, 19, 0, 76, 91, 3,
 		36, 18, 0, 77, 91, 3, 4, 2, 0, 78, 91, 3, 18, 9, 0, 79, 91, 3, 28, 14,
@@ -186,90 +185,86 @@ func vlangParserInit() {
 		0, 237, 238, 1, 0, 0, 0, 238, 239, 5, 55, 0, 0, 239, 29, 1, 0, 0, 0, 240,
 		241, 5, 31, 0, 0, 241, 242, 5, 62, 0, 0, 242, 244, 5, 54, 0, 0, 243, 245,
 		3, 50, 25, 0, 244, 243, 1, 0, 0, 0, 244, 245, 1, 0, 0, 0, 245, 246, 1,
-		0, 0, 0, 246, 247, 5, 55, 0, 0, 247, 251, 5, 57, 0, 0, 248, 250, 3, 2,
-		1, 0, 249, 248, 1, 0, 0, 0, 250, 253, 1, 0, 0, 0, 251, 249, 1, 0, 0, 0,
-		251, 252, 1, 0, 0, 0, 252, 254, 1, 0, 0, 0, 253, 251, 1, 0, 0, 0, 254,
-		268, 5, 59, 0, 0, 255, 256, 5, 31, 0, 0, 256, 257, 5, 32, 0, 0, 257, 258,
-		5, 54, 0, 0, 258, 259, 5, 55, 0, 0, 259, 263, 5, 57, 0, 0, 260, 262, 3,
-		2, 1, 0, 261, 260, 1, 0, 0, 0, 262, 265, 1, 0, 0, 0, 263, 261, 1, 0, 0,
-		0, 263, 264, 1, 0, 0, 0, 264, 266, 1, 0, 0, 0, 265, 263, 1, 0, 0, 0, 266,
-		268, 5, 59, 0, 0, 267, 240, 1, 0, 0, 0, 267, 255, 1, 0, 0, 0, 268, 31,
-		1, 0, 0, 0, 269, 270, 5, 3, 0, 0, 270, 271, 5, 62, 0, 0, 271, 275, 5, 57,
-		0, 0, 272, 274, 3, 36, 18, 0, 273, 272, 1, 0, 0, 0, 274, 277, 1, 0, 0,
-		0, 275, 273, 1, 0, 0, 0, 275, 276, 1, 0, 0, 0, 276, 278, 1, 0, 0, 0, 277,
-		275, 1, 0, 0, 0, 278, 279, 5, 59, 0, 0, 279, 33, 1, 0, 0, 0, 280, 282,
-		5, 25, 0, 0, 281, 283, 3, 44, 22, 0, 282, 281, 1, 0, 0, 0, 282, 283, 1,
-		0, 0, 0, 283, 287, 1, 0, 0, 0, 284, 287, 5, 29, 0, 0, 285, 287, 5, 30,
-		0, 0, 286, 280, 1, 0, 0, 0, 286, 284, 1, 0, 0, 0, 286, 285, 1, 0, 0, 0,
-		287, 35, 1, 0, 0, 0, 288, 289, 3, 42, 21, 0, 289, 290, 5, 47, 0, 0, 290,
-		291, 3, 44, 22, 0, 291, 37, 1, 0, 0, 0, 292, 293, 5, 13, 0, 0, 293, 294,
-		5, 62, 0, 0, 294, 295, 5, 47, 0, 0, 295, 314, 3, 44, 22, 0, 296, 297, 5,
-		13, 0, 0, 297, 298, 3, 42, 21, 0, 298, 299, 3, 62, 31, 0, 299, 300, 5,
-		47, 0, 0, 300, 301, 3, 44, 22, 0, 301, 314, 1, 0, 0, 0, 302, 303, 5, 62,
-		0, 0, 303, 304, 5, 47, 0, 0, 304, 305, 5, 56, 0, 0, 305, 306, 5, 58, 0,
-		0, 306, 307, 3, 62, 31, 0, 307, 308, 5, 57, 0, 0, 308, 309, 3, 40, 20,
-		0, 309, 311, 5, 59, 0, 0, 310, 312, 5, 53, 0, 0, 311, 310, 1, 0, 0, 0,
-		311, 312, 1, 0, 0, 0, 312, 314, 1, 0, 0, 0, 313, 292, 1, 0, 0, 0, 313,
-		296, 1, 0, 0, 0, 313, 302, 1, 0, 0, 0, 314, 39, 1, 0, 0, 0, 315, 320, 3,
-		44, 22, 0, 316, 317, 5, 61, 0, 0, 317, 319, 3, 44, 22, 0, 318, 316, 1,
-		0, 0, 0, 319, 322, 1, 0, 0, 0, 320, 318, 1, 0, 0, 0, 320, 321, 1, 0, 0,
-		0, 321, 41, 1, 0, 0, 0, 322, 320, 1, 0, 0, 0, 323, 328, 5, 62, 0, 0, 324,
-		325, 5, 60, 0, 0, 325, 327, 5, 62, 0, 0, 326, 324, 1, 0, 0, 0, 327, 330,
-		1, 0, 0, 0, 328, 326, 1, 0, 0, 0, 328, 329, 1, 0, 0, 0, 329, 43, 1, 0,
-		0, 0, 330, 328, 1, 0, 0, 0, 331, 332, 6, 22, -1, 0, 332, 356, 3, 56, 28,
-		0, 333, 356, 3, 28, 14, 0, 334, 335, 5, 54, 0, 0, 335, 336, 3, 44, 22,
-		0, 336, 337, 5, 55, 0, 0, 337, 356, 1, 0, 0, 0, 338, 339, 5, 56, 0, 0,
-		339, 340, 3, 44, 22, 0, 340, 341, 5, 58, 0, 0, 341, 356, 1, 0, 0, 0, 342,
-		343, 7, 0, 0, 0, 343, 356, 3, 44, 22, 12, 344, 356, 5, 62, 0, 0, 345, 356,
-		3, 66, 33, 0, 346, 347, 5, 62, 0, 0, 347, 348, 5, 60, 0, 0, 348, 356, 5,
-		62, 0, 0, 349, 350, 5, 62, 0, 0, 350, 351, 5, 60, 0, 0, 351, 356, 3, 44,
-		22, 2, 352, 353, 5, 62, 0, 0, 353, 354, 5, 47, 0, 0, 354, 356, 3, 44, 22,
-		1, 355, 331, 1, 0, 0, 0, 355, 333, 1, 0, 0, 0, 355, 334, 1, 0, 0, 0, 355,
-		338, 1, 0, 0, 0, 355, 342, 1, 0, 0, 0, 355, 344, 1, 0, 0, 0, 355, 345,
-		1, 0, 0, 0, 355, 346, 1, 0, 0, 0, 355, 349, 1, 0, 0, 0, 355, 352, 1, 0,
-		0, 0, 356, 377, 1, 0, 0, 0, 357, 358, 10, 11, 0, 0, 358, 359, 7, 1, 0,
-		0, 359, 376, 3, 44, 22, 12, 360, 361, 10, 10, 0, 0, 361, 362, 7, 2, 0,
-		0, 362, 376, 3, 44, 22, 11, 363, 364, 10, 9, 0, 0, 364, 365, 7, 3, 0, 0,
-		365, 376, 3, 44, 22, 10, 366, 367, 10, 8, 0, 0, 367, 368, 7, 4, 0, 0, 368,
-		376, 3, 44, 22, 9, 369, 370, 10, 7, 0, 0, 370, 371, 5, 40, 0, 0, 371, 376,
-		3, 44, 22, 8, 372, 373, 10, 6, 0, 0, 373, 374, 5, 39, 0, 0, 374, 376, 3,
-		44, 22, 7, 375, 357, 1, 0, 0, 0, 375, 360, 1, 0, 0, 0, 375, 363, 1, 0,
-		0, 0, 375, 366, 1, 0, 0, 0, 375, 369, 1, 0, 0, 0, 375, 372, 1, 0, 0, 0,
-		376, 379, 1, 0, 0, 0, 377, 375, 1, 0, 0, 0, 377, 378, 1, 0, 0, 0, 378,
-		45, 1, 0, 0, 0, 379, 377, 1, 0, 0, 0, 380, 385, 3, 48, 24, 0, 381, 382,
-		5, 61, 0, 0, 382, 384, 3, 48, 24, 0, 383, 381, 1, 0, 0, 0, 384, 387, 1,
-		0, 0, 0, 385, 383, 1, 0, 0, 0, 385, 386, 1, 0, 0, 0, 386, 47, 1, 0, 0,
-		0, 387, 385, 1, 0, 0, 0, 388, 389, 3, 42, 21, 0, 389, 49, 1, 0, 0, 0, 390,
-		395, 3, 52, 26, 0, 391, 392, 5, 61, 0, 0, 392, 394, 3, 52, 26, 0, 393,
-		391, 1, 0, 0, 0, 394, 397, 1, 0, 0, 0, 395, 393, 1, 0, 0, 0, 395, 396,
-		1, 0, 0, 0, 396, 51, 1, 0, 0, 0, 397, 395, 1, 0, 0, 0, 398, 399, 5, 62,
-		0, 0, 399, 400, 3, 62, 31, 0, 400, 53, 1, 0, 0, 0, 401, 402, 3, 56, 28,
-		0, 402, 55, 1, 0, 0, 0, 403, 410, 5, 15, 0, 0, 404, 410, 5, 17, 0, 0, 405,
-		410, 5, 18, 0, 0, 406, 410, 5, 14, 0, 0, 407, 410, 5, 19, 0, 0, 408, 410,
-		5, 16, 0, 0, 409, 403, 1, 0, 0, 0, 409, 404, 1, 0, 0, 0, 409, 405, 1, 0,
-		0, 0, 409, 406, 1, 0, 0, 0, 409, 407, 1, 0, 0, 0, 409, 408, 1, 0, 0, 0,
-		410, 57, 1, 0, 0, 0, 411, 412, 5, 3, 0, 0, 412, 413, 5, 62, 0, 0, 413,
-		417, 5, 57, 0, 0, 414, 416, 3, 60, 30, 0, 415, 414, 1, 0, 0, 0, 416, 419,
-		1, 0, 0, 0, 417, 415, 1, 0, 0, 0, 417, 418, 1, 0, 0, 0, 418, 420, 1, 0,
-		0, 0, 419, 417, 1, 0, 0, 0, 420, 421, 5, 59, 0, 0, 421, 59, 1, 0, 0, 0,
-		422, 423, 3, 62, 31, 0, 423, 425, 5, 62, 0, 0, 424, 426, 5, 52, 0, 0, 425,
-		424, 1, 0, 0, 0, 425, 426, 1, 0, 0, 0, 426, 428, 1, 0, 0, 0, 427, 429,
-		3, 44, 22, 0, 428, 427, 1, 0, 0, 0, 428, 429, 1, 0, 0, 0, 429, 431, 1,
-		0, 0, 0, 430, 432, 5, 61, 0, 0, 431, 430, 1, 0, 0, 0, 431, 432, 1, 0, 0,
-		0, 432, 61, 1, 0, 0, 0, 433, 440, 5, 4, 0, 0, 434, 440, 5, 5, 0, 0, 435,
-		440, 5, 6, 0, 0, 436, 440, 5, 7, 0, 0, 437, 440, 5, 8, 0, 0, 438, 440,
-		5, 9, 0, 0, 439, 433, 1, 0, 0, 0, 439, 434, 1, 0, 0, 0, 439, 435, 1, 0,
-		0, 0, 439, 436, 1, 0, 0, 0, 439, 437, 1, 0, 0, 0, 439, 438, 1, 0, 0, 0,
-		440, 63, 1, 0, 0, 0, 441, 442, 5, 56, 0, 0, 442, 443, 5, 62, 0, 0, 443,
-		444, 5, 58, 0, 0, 444, 445, 5, 54, 0, 0, 445, 446, 5, 55, 0, 0, 446, 65,
-		1, 0, 0, 0, 447, 448, 5, 62, 0, 0, 448, 458, 5, 48, 0, 0, 449, 450, 5,
-		62, 0, 0, 450, 458, 5, 49, 0, 0, 451, 452, 5, 62, 0, 0, 452, 453, 5, 50,
-		0, 0, 453, 458, 3, 44, 22, 0, 454, 455, 5, 62, 0, 0, 455, 456, 5, 51, 0,
-		0, 456, 458, 3, 44, 22, 0, 457, 447, 1, 0, 0, 0, 457, 449, 1, 0, 0, 0,
-		457, 451, 1, 0, 0, 0, 457, 454, 1, 0, 0, 0, 458, 67, 1, 0, 0, 0, 41, 71,
-		90, 97, 101, 109, 119, 131, 143, 154, 169, 179, 185, 202, 205, 215, 222,
-		230, 236, 244, 251, 263, 267, 275, 282, 286, 311, 313, 320, 328, 355, 375,
-		377, 385, 395, 409, 417, 425, 428, 431, 439, 457,
+		0, 0, 0, 246, 248, 5, 55, 0, 0, 247, 249, 3, 62, 31, 0, 248, 247, 1, 0,
+		0, 0, 248, 249, 1, 0, 0, 0, 249, 250, 1, 0, 0, 0, 250, 254, 5, 57, 0, 0,
+		251, 253, 3, 2, 1, 0, 252, 251, 1, 0, 0, 0, 253, 256, 1, 0, 0, 0, 254,
+		252, 1, 0, 0, 0, 254, 255, 1, 0, 0, 0, 255, 257, 1, 0, 0, 0, 256, 254,
+		1, 0, 0, 0, 257, 258, 5, 59, 0, 0, 258, 31, 1, 0, 0, 0, 259, 260, 5, 3,
+		0, 0, 260, 261, 5, 62, 0, 0, 261, 265, 5, 57, 0, 0, 262, 264, 3, 36, 18,
+		0, 263, 262, 1, 0, 0, 0, 264, 267, 1, 0, 0, 0, 265, 263, 1, 0, 0, 0, 265,
+		266, 1, 0, 0, 0, 266, 268, 1, 0, 0, 0, 267, 265, 1, 0, 0, 0, 268, 269,
+		5, 59, 0, 0, 269, 33, 1, 0, 0, 0, 270, 272, 5, 25, 0, 0, 271, 273, 3, 44,
+		22, 0, 272, 271, 1, 0, 0, 0, 272, 273, 1, 0, 0, 0, 273, 277, 1, 0, 0, 0,
+		274, 277, 5, 29, 0, 0, 275, 277, 5, 30, 0, 0, 276, 270, 1, 0, 0, 0, 276,
+		274, 1, 0, 0, 0, 276, 275, 1, 0, 0, 0, 277, 35, 1, 0, 0, 0, 278, 279, 3,
+		42, 21, 0, 279, 280, 5, 47, 0, 0, 280, 281, 3, 44, 22, 0, 281, 37, 1, 0,
+		0, 0, 282, 283, 5, 13, 0, 0, 283, 284, 5, 62, 0, 0, 284, 285, 5, 47, 0,
+		0, 285, 304, 3, 44, 22, 0, 286, 287, 5, 13, 0, 0, 287, 288, 3, 42, 21,
+		0, 288, 289, 3, 62, 31, 0, 289, 290, 5, 47, 0, 0, 290, 291, 3, 44, 22,
+		0, 291, 304, 1, 0, 0, 0, 292, 293, 5, 62, 0, 0, 293, 294, 5, 47, 0, 0,
+		294, 295, 5, 56, 0, 0, 295, 296, 5, 58, 0, 0, 296, 297, 3, 62, 31, 0, 297,
+		298, 5, 57, 0, 0, 298, 299, 3, 40, 20, 0, 299, 301, 5, 59, 0, 0, 300, 302,
+		5, 53, 0, 0, 301, 300, 1, 0, 0, 0, 301, 302, 1, 0, 0, 0, 302, 304, 1, 0,
+		0, 0, 303, 282, 1, 0, 0, 0, 303, 286, 1, 0, 0, 0, 303, 292, 1, 0, 0, 0,
+		304, 39, 1, 0, 0, 0, 305, 310, 3, 44, 22, 0, 306, 307, 5, 61, 0, 0, 307,
+		309, 3, 44, 22, 0, 308, 306, 1, 0, 0, 0, 309, 312, 1, 0, 0, 0, 310, 308,
+		1, 0, 0, 0, 310, 311, 1, 0, 0, 0, 311, 41, 1, 0, 0, 0, 312, 310, 1, 0,
+		0, 0, 313, 318, 5, 62, 0, 0, 314, 315, 5, 60, 0, 0, 315, 317, 5, 62, 0,
+		0, 316, 314, 1, 0, 0, 0, 317, 320, 1, 0, 0, 0, 318, 316, 1, 0, 0, 0, 318,
+		319, 1, 0, 0, 0, 319, 43, 1, 0, 0, 0, 320, 318, 1, 0, 0, 0, 321, 322, 6,
+		22, -1, 0, 322, 346, 3, 56, 28, 0, 323, 346, 3, 28, 14, 0, 324, 325, 5,
+		54, 0, 0, 325, 326, 3, 44, 22, 0, 326, 327, 5, 55, 0, 0, 327, 346, 1, 0,
+		0, 0, 328, 329, 5, 56, 0, 0, 329, 330, 3, 44, 22, 0, 330, 331, 5, 58, 0,
+		0, 331, 346, 1, 0, 0, 0, 332, 333, 7, 0, 0, 0, 333, 346, 3, 44, 22, 12,
+		334, 346, 5, 62, 0, 0, 335, 346, 3, 66, 33, 0, 336, 337, 5, 62, 0, 0, 337,
+		338, 5, 60, 0, 0, 338, 346, 5, 62, 0, 0, 339, 340, 5, 62, 0, 0, 340, 341,
+		5, 60, 0, 0, 341, 346, 3, 44, 22, 2, 342, 343, 5, 62, 0, 0, 343, 344, 5,
+		47, 0, 0, 344, 346, 3, 44, 22, 1, 345, 321, 1, 0, 0, 0, 345, 323, 1, 0,
+		0, 0, 345, 324, 1, 0, 0, 0, 345, 328, 1, 0, 0, 0, 345, 332, 1, 0, 0, 0,
+		345, 334, 1, 0, 0, 0, 345, 335, 1, 0, 0, 0, 345, 336, 1, 0, 0, 0, 345,
+		339, 1, 0, 0, 0, 345, 342, 1, 0, 0, 0, 346, 367, 1, 0, 0, 0, 347, 348,
+		10, 11, 0, 0, 348, 349, 7, 1, 0, 0, 349, 366, 3, 44, 22, 12, 350, 351,
+		10, 10, 0, 0, 351, 352, 7, 2, 0, 0, 352, 366, 3, 44, 22, 11, 353, 354,
+		10, 9, 0, 0, 354, 355, 7, 3, 0, 0, 355, 366, 3, 44, 22, 10, 356, 357, 10,
+		8, 0, 0, 357, 358, 7, 4, 0, 0, 358, 366, 3, 44, 22, 9, 359, 360, 10, 7,
+		0, 0, 360, 361, 5, 40, 0, 0, 361, 366, 3, 44, 22, 8, 362, 363, 10, 6, 0,
+		0, 363, 364, 5, 39, 0, 0, 364, 366, 3, 44, 22, 7, 365, 347, 1, 0, 0, 0,
+		365, 350, 1, 0, 0, 0, 365, 353, 1, 0, 0, 0, 365, 356, 1, 0, 0, 0, 365,
+		359, 1, 0, 0, 0, 365, 362, 1, 0, 0, 0, 366, 369, 1, 0, 0, 0, 367, 365,
+		1, 0, 0, 0, 367, 368, 1, 0, 0, 0, 368, 45, 1, 0, 0, 0, 369, 367, 1, 0,
+		0, 0, 370, 375, 3, 48, 24, 0, 371, 372, 5, 61, 0, 0, 372, 374, 3, 48, 24,
+		0, 373, 371, 1, 0, 0, 0, 374, 377, 1, 0, 0, 0, 375, 373, 1, 0, 0, 0, 375,
+		376, 1, 0, 0, 0, 376, 47, 1, 0, 0, 0, 377, 375, 1, 0, 0, 0, 378, 379, 3,
+		42, 21, 0, 379, 49, 1, 0, 0, 0, 380, 385, 3, 52, 26, 0, 381, 382, 5, 61,
+		0, 0, 382, 384, 3, 52, 26, 0, 383, 381, 1, 0, 0, 0, 384, 387, 1, 0, 0,
+		0, 385, 383, 1, 0, 0, 0, 385, 386, 1, 0, 0, 0, 386, 51, 1, 0, 0, 0, 387,
+		385, 1, 0, 0, 0, 388, 389, 5, 62, 0, 0, 389, 390, 3, 62, 31, 0, 390, 53,
+		1, 0, 0, 0, 391, 392, 3, 56, 28, 0, 392, 55, 1, 0, 0, 0, 393, 400, 5, 15,
+		0, 0, 394, 400, 5, 17, 0, 0, 395, 400, 5, 18, 0, 0, 396, 400, 5, 14, 0,
+		0, 397, 400, 5, 19, 0, 0, 398, 400, 5, 16, 0, 0, 399, 393, 1, 0, 0, 0,
+		399, 394, 1, 0, 0, 0, 399, 395, 1, 0, 0, 0, 399, 396, 1, 0, 0, 0, 399,
+		397, 1, 0, 0, 0, 399, 398, 1, 0, 0, 0, 400, 57, 1, 0, 0, 0, 401, 402, 5,
+		3, 0, 0, 402, 403, 5, 62, 0, 0, 403, 407, 5, 57, 0, 0, 404, 406, 3, 60,
+		30, 0, 405, 404, 1, 0, 0, 0, 406, 409, 1, 0, 0, 0, 407, 405, 1, 0, 0, 0,
+		407, 408, 1, 0, 0, 0, 408, 410, 1, 0, 0, 0, 409, 407, 1, 0, 0, 0, 410,
+		411, 5, 59, 0, 0, 411, 59, 1, 0, 0, 0, 412, 413, 3, 62, 31, 0, 413, 415,
+		5, 62, 0, 0, 414, 416, 5, 52, 0, 0, 415, 414, 1, 0, 0, 0, 415, 416, 1,
+		0, 0, 0, 416, 418, 1, 0, 0, 0, 417, 419, 3, 44, 22, 0, 418, 417, 1, 0,
+		0, 0, 418, 419, 1, 0, 0, 0, 419, 421, 1, 0, 0, 0, 420, 422, 5, 61, 0, 0,
+		421, 420, 1, 0, 0, 0, 421, 422, 1, 0, 0, 0, 422, 61, 1, 0, 0, 0, 423, 430,
+		5, 4, 0, 0, 424, 430, 5, 5, 0, 0, 425, 430, 5, 6, 0, 0, 426, 430, 5, 7,
+		0, 0, 427, 430, 5, 8, 0, 0, 428, 430, 5, 9, 0, 0, 429, 423, 1, 0, 0, 0,
+		429, 424, 1, 0, 0, 0, 429, 425, 1, 0, 0, 0, 429, 426, 1, 0, 0, 0, 429,
+		427, 1, 0, 0, 0, 429, 428, 1, 0, 0, 0, 430, 63, 1, 0, 0, 0, 431, 432, 5,
+		56, 0, 0, 432, 433, 5, 62, 0, 0, 433, 434, 5, 58, 0, 0, 434, 435, 5, 54,
+		0, 0, 435, 436, 5, 55, 0, 0, 436, 65, 1, 0, 0, 0, 437, 438, 5, 62, 0, 0,
+		438, 448, 5, 48, 0, 0, 439, 440, 5, 62, 0, 0, 440, 448, 5, 49, 0, 0, 441,
+		442, 5, 62, 0, 0, 442, 443, 5, 50, 0, 0, 443, 448, 3, 44, 22, 0, 444, 445,
+		5, 62, 0, 0, 445, 446, 5, 51, 0, 0, 446, 448, 3, 44, 22, 0, 447, 437, 1,
+		0, 0, 0, 447, 439, 1, 0, 0, 0, 447, 441, 1, 0, 0, 0, 447, 444, 1, 0, 0,
+		0, 448, 67, 1, 0, 0, 0, 40, 71, 90, 97, 101, 109, 119, 131, 143, 154, 169,
+		179, 185, 202, 205, 215, 222, 230, 236, 244, 248, 254, 265, 272, 276, 301,
+		303, 310, 318, 345, 365, 367, 375, 385, 399, 407, 415, 418, 421, 429, 447,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -4173,111 +4168,6 @@ func (s *Func_dclContext) ToStringTree(ruleNames []string, recog antlr.Recognize
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-type FuncMainContext struct {
-	Func_dclContext
-}
-
-func NewFuncMainContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *FuncMainContext {
-	var p = new(FuncMainContext)
-
-	InitEmptyFunc_dclContext(&p.Func_dclContext)
-	p.parser = parser
-	p.CopyAll(ctx.(*Func_dclContext))
-
-	return p
-}
-
-func (s *FuncMainContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *FuncMainContext) FN_KW() antlr.TerminalNode {
-	return s.GetToken(VlangParserFN_KW, 0)
-}
-
-func (s *FuncMainContext) MAIN_KW() antlr.TerminalNode {
-	return s.GetToken(VlangParserMAIN_KW, 0)
-}
-
-func (s *FuncMainContext) LPAREN() antlr.TerminalNode {
-	return s.GetToken(VlangParserLPAREN, 0)
-}
-
-func (s *FuncMainContext) RPAREN() antlr.TerminalNode {
-	return s.GetToken(VlangParserRPAREN, 0)
-}
-
-func (s *FuncMainContext) LCOR() antlr.TerminalNode {
-	return s.GetToken(VlangParserLCOR, 0)
-}
-
-func (s *FuncMainContext) RCOR() antlr.TerminalNode {
-	return s.GetToken(VlangParserRCOR, 0)
-}
-
-func (s *FuncMainContext) AllStmt() []IStmtContext {
-	children := s.GetChildren()
-	len := 0
-	for _, ctx := range children {
-		if _, ok := ctx.(IStmtContext); ok {
-			len++
-		}
-	}
-
-	tst := make([]IStmtContext, len)
-	i := 0
-	for _, ctx := range children {
-		if t, ok := ctx.(IStmtContext); ok {
-			tst[i] = t.(IStmtContext)
-			i++
-		}
-	}
-
-	return tst
-}
-
-func (s *FuncMainContext) Stmt(i int) IStmtContext {
-	var t antlr.RuleContext
-	j := 0
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IStmtContext); ok {
-			if j == i {
-				t = ctx.(antlr.RuleContext)
-				break
-			}
-			j++
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IStmtContext)
-}
-
-func (s *FuncMainContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(VlangListener); ok {
-		listenerT.EnterFuncMain(s)
-	}
-}
-
-func (s *FuncMainContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(VlangListener); ok {
-		listenerT.ExitFuncMain(s)
-	}
-}
-
-func (s *FuncMainContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
-	switch t := visitor.(type) {
-	case VlangVisitor:
-		return t.VisitFuncMain(s)
-
-	default:
-		return t.VisitChildren(s)
-	}
-}
-
 type FuncDeclContext struct {
 	Func_dclContext
 }
@@ -4334,6 +4224,22 @@ func (s *FuncDeclContext) Arg_list() IArg_listContext {
 	}
 
 	return t.(IArg_listContext)
+}
+
+func (s *FuncDeclContext) Var_type() IVar_typeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IVar_typeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IVar_typeContext)
 }
 
 func (s *FuncDeclContext) AllStmt() []IStmtContext {
@@ -4404,173 +4310,103 @@ func (p *VlangParser) Func_dcl() (localctx IFunc_dclContext) {
 	p.EnterRule(localctx, 30, VlangParserRULE_func_dcl)
 	var _la int
 
-	p.SetState(267)
+	localctx = NewFuncDeclContext(p, localctx)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(240)
+		p.Match(VlangParserFN_KW)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(241)
+		p.Match(VlangParserID)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(242)
+		p.Match(VlangParserLPAREN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	p.SetState(244)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
+	_la = p.GetTokenStream().LA(1)
 
-	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 21, p.GetParserRuleContext()) {
-	case 1:
-		localctx = NewFuncDeclContext(p, localctx)
-		p.EnterOuterAlt(localctx, 1)
+	if _la == VlangParserID {
 		{
-			p.SetState(240)
-			p.Match(VlangParserFN_KW)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
+			p.SetState(243)
+			p.Arg_list()
 		}
-		{
-			p.SetState(241)
-			p.Match(VlangParserID)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(242)
-			p.Match(VlangParserLPAREN)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(244)
-		p.GetErrorHandler().Sync(p)
+
+	}
+	{
+		p.SetState(246)
+		p.Match(VlangParserRPAREN)
 		if p.HasError() {
+			// Recognition error - abort rule
 			goto errorExit
 		}
-		_la = p.GetTokenStream().LA(1)
+	}
+	p.SetState(248)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
 
-		if _la == VlangParserID {
-			{
-				p.SetState(243)
-				p.Arg_list()
-			}
-
-		}
-		{
-			p.SetState(246)
-			p.Match(VlangParserRPAREN)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1008) != 0 {
 		{
 			p.SetState(247)
-			p.Match(VlangParserLCOR)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
+			p.Var_type()
 		}
-		p.SetState(251)
-		p.GetErrorHandler().Sync(p)
+
+	}
+	{
+		p.SetState(250)
+		p.Match(VlangParserLCOR)
 		if p.HasError() {
+			// Recognition error - abort rule
 			goto errorExit
 		}
-		_la = p.GetTokenStream().LA(1)
-
-		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4611686022295592974) != 0 {
-			{
-				p.SetState(248)
-				p.Stmt()
-			}
-
-			p.SetState(253)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_la = p.GetTokenStream().LA(1)
-		}
-		{
-			p.SetState(254)
-			p.Match(VlangParserRCOR)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case 2:
-		localctx = NewFuncMainContext(p, localctx)
-		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(255)
-			p.Match(VlangParserFN_KW)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(256)
-			p.Match(VlangParserMAIN_KW)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(257)
-			p.Match(VlangParserLPAREN)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(258)
-			p.Match(VlangParserRPAREN)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		{
-			p.SetState(259)
-			p.Match(VlangParserLCOR)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(263)
-		p.GetErrorHandler().Sync(p)
-		if p.HasError() {
-			goto errorExit
-		}
-		_la = p.GetTokenStream().LA(1)
-
-		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4611686022295592974) != 0 {
-			{
-				p.SetState(260)
-				p.Stmt()
-			}
-
-			p.SetState(265)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_la = p.GetTokenStream().LA(1)
-		}
-		{
-			p.SetState(266)
-			p.Match(VlangParserRCOR)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-
-	case antlr.ATNInvalidAltNumber:
+	}
+	p.SetState(254)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
 		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4611686022295592974) != 0 {
+		{
+			p.SetState(251)
+			p.Stmt()
+		}
+
+		p.SetState(256)
+		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
+		_la = p.GetTokenStream().LA(1)
+	}
+	{
+		p.SetState(257)
+		p.Match(VlangParserRCOR)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
 	}
 
 errorExit:
@@ -4741,7 +4577,7 @@ func (p *VlangParser) Struct_dcl() (localctx IStruct_dclContext) {
 	localctx = NewStructDeclContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(269)
+		p.SetState(259)
 		p.Match(VlangParserT__2)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4749,7 +4585,7 @@ func (p *VlangParser) Struct_dcl() (localctx IStruct_dclContext) {
 		}
 	}
 	{
-		p.SetState(270)
+		p.SetState(260)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4757,14 +4593,14 @@ func (p *VlangParser) Struct_dcl() (localctx IStruct_dclContext) {
 		}
 	}
 	{
-		p.SetState(271)
+		p.SetState(261)
 		p.Match(VlangParserLCOR)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(275)
+	p.SetState(265)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4773,11 +4609,11 @@ func (p *VlangParser) Struct_dcl() (localctx IStruct_dclContext) {
 
 	for _la == VlangParserID {
 		{
-			p.SetState(272)
+			p.SetState(262)
 			p.Assign_stmt()
 		}
 
-		p.SetState(277)
+		p.SetState(267)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -4785,7 +4621,7 @@ func (p *VlangParser) Struct_dcl() (localctx IStruct_dclContext) {
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(278)
+		p.SetState(268)
 		p.Match(VlangParserRCOR)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5011,7 +4847,7 @@ func (s *ReturnStmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *VlangParser) Transfer_stmt() (localctx ITransfer_stmtContext) {
 	localctx = NewTransfer_stmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 34, VlangParserRULE_transfer_stmt)
-	p.SetState(286)
+	p.SetState(276)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -5022,19 +4858,19 @@ func (p *VlangParser) Transfer_stmt() (localctx ITransfer_stmtContext) {
 		localctx = NewReturnStmtContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(280)
+			p.SetState(270)
 			p.Match(VlangParserRETURN_KW)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(282)
+		p.SetState(272)
 		p.GetErrorHandler().Sync(p)
 
-		if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 23, p.GetParserRuleContext()) == 1 {
+		if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 22, p.GetParserRuleContext()) == 1 {
 			{
-				p.SetState(281)
+				p.SetState(271)
 				p.expresion(0)
 			}
 
@@ -5046,7 +4882,7 @@ func (p *VlangParser) Transfer_stmt() (localctx ITransfer_stmtContext) {
 		localctx = NewBreakStmtContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(284)
+			p.SetState(274)
 			p.Match(VlangParserBREAK_KW)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5058,7 +4894,7 @@ func (p *VlangParser) Transfer_stmt() (localctx ITransfer_stmtContext) {
 		localctx = NewContinueStmtContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(285)
+			p.SetState(275)
 			p.Match(VlangParserCONTINUE_KW)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5220,11 +5056,11 @@ func (p *VlangParser) Assign_stmt() (localctx IAssign_stmtContext) {
 	localctx = NewDirectAssignContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(288)
+		p.SetState(278)
 		p.Id_pattern()
 	}
 	{
-		p.SetState(289)
+		p.SetState(279)
 		p.Match(VlangParserASSIGN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5232,7 +5068,7 @@ func (p *VlangParser) Assign_stmt() (localctx IAssign_stmtContext) {
 		}
 	}
 	{
-		p.SetState(290)
+		p.SetState(280)
 		p.expresion(0)
 	}
 
@@ -5572,18 +5408,18 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 	p.EnterRule(localctx, 38, VlangParserRULE_decl_stmt)
 	var _la int
 
-	p.SetState(313)
+	p.SetState(303)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 26, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 25, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewDeclAssignContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(292)
+			p.SetState(282)
 			p.Match(VlangParserMUT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5591,7 +5427,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(293)
+			p.SetState(283)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5599,7 +5435,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(294)
+			p.SetState(284)
 			p.Match(VlangParserASSIGN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5607,7 +5443,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(295)
+			p.SetState(285)
 			p.expresion(0)
 		}
 
@@ -5615,7 +5451,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 		localctx = NewDeclAssignTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(296)
+			p.SetState(286)
 			p.Match(VlangParserMUT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5623,15 +5459,15 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(297)
+			p.SetState(287)
 			p.Id_pattern()
 		}
 		{
-			p.SetState(298)
+			p.SetState(288)
 			p.Var_type()
 		}
 		{
-			p.SetState(299)
+			p.SetState(289)
 			p.Match(VlangParserASSIGN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5639,7 +5475,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(300)
+			p.SetState(290)
 			p.expresion(0)
 		}
 
@@ -5647,7 +5483,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 		localctx = NewSliceDeclInitContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(302)
+			p.SetState(292)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5655,7 +5491,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(303)
+			p.SetState(293)
 			p.Match(VlangParserASSIGN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5663,7 +5499,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(304)
+			p.SetState(294)
 			p.Match(VlangParserLBRACK)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5671,7 +5507,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(305)
+			p.SetState(295)
 			p.Match(VlangParserRBRACK)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5679,11 +5515,11 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(306)
+			p.SetState(296)
 			p.Var_type()
 		}
 		{
-			p.SetState(307)
+			p.SetState(297)
 			p.Match(VlangParserLCOR)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5691,18 +5527,18 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 			}
 		}
 		{
-			p.SetState(308)
+			p.SetState(298)
 			p.List_expresiones()
 		}
 		{
-			p.SetState(309)
+			p.SetState(299)
 			p.Match(VlangParserRCOR)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(311)
+		p.SetState(301)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -5711,7 +5547,7 @@ func (p *VlangParser) Decl_stmt() (localctx IDecl_stmtContext) {
 
 		if _la == VlangParserPYC {
 			{
-				p.SetState(310)
+				p.SetState(300)
 				p.Match(VlangParserPYC)
 				if p.HasError() {
 					// Recognition error - abort rule
@@ -5889,10 +5725,10 @@ func (p *VlangParser) List_expresiones() (localctx IList_expresionesContext) {
 	localctx = NewListExpressionsContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(315)
+		p.SetState(305)
 		p.expresion(0)
 	}
-	p.SetState(320)
+	p.SetState(310)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -5901,7 +5737,7 @@ func (p *VlangParser) List_expresiones() (localctx IList_expresionesContext) {
 
 	for _la == VlangParserCOMMA {
 		{
-			p.SetState(316)
+			p.SetState(306)
 			p.Match(VlangParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5909,11 +5745,11 @@ func (p *VlangParser) List_expresiones() (localctx IList_expresionesContext) {
 			}
 		}
 		{
-			p.SetState(317)
+			p.SetState(307)
 			p.expresion(0)
 		}
 
-		p.SetState(322)
+		p.SetState(312)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -6052,14 +5888,14 @@ func (p *VlangParser) Id_pattern() (localctx IId_patternContext) {
 	localctx = NewIdPatternContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(323)
+		p.SetState(313)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(328)
+	p.SetState(318)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -6068,7 +5904,7 @@ func (p *VlangParser) Id_pattern() (localctx IId_patternContext) {
 
 	for _la == VlangParserDOT {
 		{
-			p.SetState(324)
+			p.SetState(314)
 			p.Match(VlangParserDOT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6076,7 +5912,7 @@ func (p *VlangParser) Id_pattern() (localctx IId_patternContext) {
 			}
 		}
 		{
-			p.SetState(325)
+			p.SetState(315)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6084,7 +5920,7 @@ func (p *VlangParser) Id_pattern() (localctx IId_patternContext) {
 			}
 		}
 
-		p.SetState(330)
+		p.SetState(320)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -6914,20 +6750,20 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(355)
+	p.SetState(345)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 29, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 28, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewValorexpresionContext(p, localctx)
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 
 		{
-			p.SetState(332)
+			p.SetState(322)
 			p.Valor()
 		}
 
@@ -6936,7 +6772,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(333)
+			p.SetState(323)
 			p.Func_call()
 		}
 
@@ -6945,7 +6781,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(334)
+			p.SetState(324)
 			p.Match(VlangParserLPAREN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6953,11 +6789,11 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(335)
+			p.SetState(325)
 			p.expresion(0)
 		}
 		{
-			p.SetState(336)
+			p.SetState(326)
 			p.Match(VlangParserRPAREN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6970,7 +6806,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(338)
+			p.SetState(328)
 			p.Match(VlangParserLBRACK)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6978,11 +6814,11 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(339)
+			p.SetState(329)
 			p.expresion(0)
 		}
 		{
-			p.SetState(340)
+			p.SetState(330)
 			p.Match(VlangParserRBRACK)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -6995,7 +6831,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(342)
+			p.SetState(332)
 
 			var _lt = p.GetTokenStream().LT(1)
 
@@ -7013,7 +6849,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(343)
+			p.SetState(333)
 			p.expresion(12)
 		}
 
@@ -7022,7 +6858,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(344)
+			p.SetState(334)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7035,7 +6871,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(345)
+			p.SetState(335)
 			p.Incredecre()
 		}
 
@@ -7044,7 +6880,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(346)
+			p.SetState(336)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7052,7 +6888,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(347)
+			p.SetState(337)
 			p.Match(VlangParserDOT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7060,7 +6896,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(348)
+			p.SetState(338)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7073,7 +6909,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(349)
+			p.SetState(339)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7081,7 +6917,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(350)
+			p.SetState(340)
 			p.Match(VlangParserDOT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7089,7 +6925,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(351)
+			p.SetState(341)
 			p.expresion(2)
 		}
 
@@ -7098,7 +6934,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		p.SetParserRuleContext(localctx)
 		_prevctx = localctx
 		{
-			p.SetState(352)
+			p.SetState(342)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7106,7 +6942,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(353)
+			p.SetState(343)
 			p.Match(VlangParserASSIGN)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7114,7 +6950,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 		}
 		{
-			p.SetState(354)
+			p.SetState(344)
 			p.expresion(1)
 		}
 
@@ -7122,12 +6958,12 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 		goto errorExit
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(377)
+	p.SetState(367)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
-	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 30, p.GetParserRuleContext())
 	if p.HasError() {
 		goto errorExit
 	}
@@ -7137,26 +6973,26 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(375)
+			p.SetState(365)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
 
-			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 30, p.GetParserRuleContext()) {
+			switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 29, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewBinaryExpContext(p, NewExpresionContext(p, _parentctx, _parentState))
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(357)
+				p.SetState(347)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 11)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 11)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(358)
+					p.SetState(348)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -7174,7 +7010,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(359)
+					p.SetState(349)
 
 					var _x = p.expresion(12)
 
@@ -7186,14 +7022,14 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(360)
+				p.SetState(350)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 10)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 10)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(361)
+					p.SetState(351)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -7211,7 +7047,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(362)
+					p.SetState(352)
 
 					var _x = p.expresion(11)
 
@@ -7223,14 +7059,14 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(363)
+				p.SetState(353)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 9)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 9)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(364)
+					p.SetState(354)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -7248,7 +7084,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(365)
+					p.SetState(355)
 
 					var _x = p.expresion(10)
 
@@ -7260,14 +7096,14 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(366)
+				p.SetState(356)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 8)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 8)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(367)
+					p.SetState(357)
 
 					var _lt = p.GetTokenStream().LT(1)
 
@@ -7285,7 +7121,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(368)
+					p.SetState(358)
 
 					var _x = p.expresion(9)
 
@@ -7297,14 +7133,14 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(369)
+				p.SetState(359)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 7)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 7)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(370)
+					p.SetState(360)
 
 					var _m = p.Match(VlangParserAND)
 
@@ -7315,7 +7151,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(371)
+					p.SetState(361)
 
 					var _x = p.expresion(8)
 
@@ -7327,14 +7163,14 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 				localctx.(*BinaryExpContext).left = _prevctx
 
 				p.PushNewRecursionContext(localctx, _startState, VlangParserRULE_expresion)
-				p.SetState(372)
+				p.SetState(362)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 6)) {
 					p.SetError(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 6)", ""))
 					goto errorExit
 				}
 				{
-					p.SetState(373)
+					p.SetState(363)
 
 					var _m = p.Match(VlangParserOR)
 
@@ -7345,7 +7181,7 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 					}
 				}
 				{
-					p.SetState(374)
+					p.SetState(364)
 
 					var _x = p.expresion(7)
 
@@ -7357,12 +7193,12 @@ func (p *VlangParser) expresion(_p int) (localctx IExpresionContext) {
 			}
 
 		}
-		p.SetState(379)
+		p.SetState(369)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 30, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
@@ -7532,10 +7368,10 @@ func (p *VlangParser) Parametros() (localctx IParametrosContext) {
 	localctx = NewParamListContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(380)
+		p.SetState(370)
 		p.Func_param()
 	}
-	p.SetState(385)
+	p.SetState(375)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -7544,7 +7380,7 @@ func (p *VlangParser) Parametros() (localctx IParametrosContext) {
 
 	for _la == VlangParserCOMMA {
 		{
-			p.SetState(381)
+			p.SetState(371)
 			p.Match(VlangParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7552,11 +7388,11 @@ func (p *VlangParser) Parametros() (localctx IParametrosContext) {
 			}
 		}
 		{
-			p.SetState(382)
+			p.SetState(372)
 			p.Func_param()
 		}
 
-		p.SetState(387)
+		p.SetState(377)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -7693,7 +7529,7 @@ func (p *VlangParser) Func_param() (localctx IFunc_paramContext) {
 	localctx = NewFuncParamContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(388)
+		p.SetState(378)
 		p.Id_pattern()
 	}
 
@@ -7861,10 +7697,10 @@ func (p *VlangParser) Arg_list() (localctx IArg_listContext) {
 	localctx = NewArgListContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(390)
+		p.SetState(380)
 		p.Func_arg()
 	}
-	p.SetState(395)
+	p.SetState(385)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -7873,7 +7709,7 @@ func (p *VlangParser) Arg_list() (localctx IArg_listContext) {
 
 	for _la == VlangParserCOMMA {
 		{
-			p.SetState(391)
+			p.SetState(381)
 			p.Match(VlangParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7881,11 +7717,11 @@ func (p *VlangParser) Arg_list() (localctx IArg_listContext) {
 			}
 		}
 		{
-			p.SetState(392)
+			p.SetState(382)
 			p.Func_arg()
 		}
 
-		p.SetState(397)
+		p.SetState(387)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -8026,7 +7862,7 @@ func (p *VlangParser) Func_arg() (localctx IFunc_argContext) {
 	localctx = NewFuncArgContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(398)
+		p.SetState(388)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -8034,7 +7870,7 @@ func (p *VlangParser) Func_arg() (localctx IFunc_argContext) {
 		}
 	}
 	{
-		p.SetState(399)
+		p.SetState(389)
 		p.Var_type()
 	}
 
@@ -8148,7 +7984,7 @@ func (p *VlangParser) Valores() (localctx IValoresContext) {
 	p.EnterRule(localctx, 54, VlangParserRULE_valores)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(401)
+		p.SetState(391)
 		p.Valor()
 	}
 
@@ -8486,7 +8322,7 @@ func (s *ValorFloatContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *VlangParser) Valor() (localctx IValorContext) {
 	localctx = NewValorContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 56, VlangParserRULE_valor)
-	p.SetState(409)
+	p.SetState(399)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -8497,7 +8333,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorEnteroContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(403)
+			p.SetState(393)
 			p.Match(VlangParserENTERO)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8509,7 +8345,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorDecimalContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(404)
+			p.SetState(394)
 			p.Match(VlangParserDECIMAL)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8521,7 +8357,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorCadenaContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(405)
+			p.SetState(395)
 			p.Match(VlangParserCADENA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8533,7 +8369,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorBooleanoContext(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(406)
+			p.SetState(396)
 			p.Match(VlangParserBOOLEANO)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8545,7 +8381,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorCaracterContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(407)
+			p.SetState(397)
 			p.Match(VlangParserCARACTER)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8557,7 +8393,7 @@ func (p *VlangParser) Valor() (localctx IValorContext) {
 		localctx = NewValorFloatContext(p, localctx)
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(408)
+			p.SetState(398)
 			p.Match(VlangParserFLOAT)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8738,7 +8574,7 @@ func (p *VlangParser) Strct_instancia() (localctx IStrct_instanciaContext) {
 	localctx = NewStructInstanciaContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(411)
+		p.SetState(401)
 		p.Match(VlangParserT__2)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -8746,7 +8582,7 @@ func (p *VlangParser) Strct_instancia() (localctx IStrct_instanciaContext) {
 		}
 	}
 	{
-		p.SetState(412)
+		p.SetState(402)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -8754,14 +8590,14 @@ func (p *VlangParser) Strct_instancia() (localctx IStrct_instanciaContext) {
 		}
 	}
 	{
-		p.SetState(413)
+		p.SetState(403)
 		p.Match(VlangParserLCOR)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(417)
+	p.SetState(407)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -8770,11 +8606,11 @@ func (p *VlangParser) Strct_instancia() (localctx IStrct_instanciaContext) {
 
 	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1008) != 0 {
 		{
-			p.SetState(414)
+			p.SetState(404)
 			p.Struct_prop()
 		}
 
-		p.SetState(419)
+		p.SetState(409)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -8782,7 +8618,7 @@ func (p *VlangParser) Strct_instancia() (localctx IStrct_instanciaContext) {
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(420)
+		p.SetState(410)
 		p.Match(VlangParserRCOR)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -8949,18 +8785,18 @@ func (p *VlangParser) Struct_prop() (localctx IStruct_propContext) {
 	localctx = NewStructAttrContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(422)
+		p.SetState(412)
 		p.Var_type()
 	}
 	{
-		p.SetState(423)
+		p.SetState(413)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(425)
+	p.SetState(415)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -8969,7 +8805,7 @@ func (p *VlangParser) Struct_prop() (localctx IStruct_propContext) {
 
 	if _la == VlangParserCOLON {
 		{
-			p.SetState(424)
+			p.SetState(414)
 			p.Match(VlangParserCOLON)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -8978,7 +8814,7 @@ func (p *VlangParser) Struct_prop() (localctx IStruct_propContext) {
 		}
 
 	}
-	p.SetState(428)
+	p.SetState(418)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -8987,12 +8823,12 @@ func (p *VlangParser) Struct_prop() (localctx IStruct_propContext) {
 
 	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4701758303033606144) != 0 {
 		{
-			p.SetState(427)
+			p.SetState(417)
 			p.expresion(0)
 		}
 
 	}
-	p.SetState(431)
+	p.SetState(421)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -9001,7 +8837,7 @@ func (p *VlangParser) Struct_prop() (localctx IStruct_propContext) {
 
 	if _la == VlangParserCOMMA {
 		{
-			p.SetState(430)
+			p.SetState(420)
 			p.Match(VlangParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9321,7 +9157,7 @@ func (s *FloatTypeContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 	localctx = NewVar_typeContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 62, VlangParserRULE_var_type)
-	p.SetState(439)
+	p.SetState(429)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -9332,7 +9168,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewIntTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(433)
+			p.SetState(423)
 			p.Match(VlangParserT__3)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9344,7 +9180,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewFloatTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(434)
+			p.SetState(424)
 			p.Match(VlangParserT__4)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9356,7 +9192,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewStringTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(435)
+			p.SetState(425)
 			p.Match(VlangParserT__5)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9368,7 +9204,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewBoolTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(436)
+			p.SetState(426)
 			p.Match(VlangParserT__6)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9380,7 +9216,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewCharTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(437)
+			p.SetState(427)
 			p.Match(VlangParserT__7)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9392,7 +9228,7 @@ func (p *VlangParser) Var_type() (localctx IVar_typeContext) {
 		localctx = NewVoidTypeContext(p, localctx)
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(438)
+			p.SetState(428)
 			p.Match(VlangParserT__8)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9538,7 +9374,7 @@ func (p *VlangParser) Struct_vector() (localctx IStruct_vectorContext) {
 	localctx = NewStructVectorContext(p, localctx)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(441)
+		p.SetState(431)
 		p.Match(VlangParserLBRACK)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -9546,7 +9382,7 @@ func (p *VlangParser) Struct_vector() (localctx IStruct_vectorContext) {
 		}
 	}
 	{
-		p.SetState(442)
+		p.SetState(432)
 		p.Match(VlangParserID)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -9554,7 +9390,7 @@ func (p *VlangParser) Struct_vector() (localctx IStruct_vectorContext) {
 		}
 	}
 	{
-		p.SetState(443)
+		p.SetState(433)
 		p.Match(VlangParserRBRACK)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -9562,7 +9398,7 @@ func (p *VlangParser) Struct_vector() (localctx IStruct_vectorContext) {
 		}
 	}
 	{
-		p.SetState(444)
+		p.SetState(434)
 		p.Match(VlangParserLPAREN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -9570,7 +9406,7 @@ func (p *VlangParser) Struct_vector() (localctx IStruct_vectorContext) {
 		}
 	}
 	{
-		p.SetState(445)
+		p.SetState(435)
 		p.Match(VlangParserRPAREN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -9872,18 +9708,18 @@ func (s *DecrementoContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 	localctx = NewIncredecreContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 66, VlangParserRULE_incredecre)
-	p.SetState(457)
+	p.SetState(447)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 40, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 39, p.GetParserRuleContext()) {
 	case 1:
 		localctx = NewIncrementoContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(447)
+			p.SetState(437)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9891,7 +9727,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(448)
+			p.SetState(438)
 			p.Match(VlangParserINC)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9903,7 +9739,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 		localctx = NewDecrementoContext(p, localctx)
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(449)
+			p.SetState(439)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9911,7 +9747,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(450)
+			p.SetState(440)
 			p.Match(VlangParserDEC)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9923,7 +9759,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 		localctx = NewIncremento2Context(p, localctx)
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(451)
+			p.SetState(441)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9931,7 +9767,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(452)
+			p.SetState(442)
 			p.Match(VlangParserINC2)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9939,7 +9775,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(453)
+			p.SetState(443)
 			p.expresion(0)
 		}
 
@@ -9947,7 +9783,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 		localctx = NewDecremento2Context(p, localctx)
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(454)
+			p.SetState(444)
 			p.Match(VlangParserID)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9955,7 +9791,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(455)
+			p.SetState(445)
 			p.Match(VlangParserDEC2)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -9963,7 +9799,7 @@ func (p *VlangParser) Incredecre() (localctx IIncredecreContext) {
 			}
 		}
 		{
-			p.SetState(456)
+			p.SetState(446)
 			p.expresion(0)
 		}
 

@@ -71,10 +71,6 @@ func (v *BaseVlangVisitor) VisitFuncDecl(ctx *FuncDeclContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
-func (v *BaseVlangVisitor) VisitFuncMain(ctx *FuncMainContext) interface{} {
-	return v.VisitChildren(ctx)
-}
-
 func (v *BaseVlangVisitor) VisitStructDecl(ctx *StructDeclContext) interface{} {
 	return v.VisitChildren(ctx)
 }

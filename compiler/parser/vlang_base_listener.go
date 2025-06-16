@@ -116,12 +116,6 @@ func (s *BaseVlangListener) EnterFuncDecl(ctx *FuncDeclContext) {}
 // ExitFuncDecl is called when production FuncDecl is exited.
 func (s *BaseVlangListener) ExitFuncDecl(ctx *FuncDeclContext) {}
 
-// EnterFuncMain is called when production FuncMain is entered.
-func (s *BaseVlangListener) EnterFuncMain(ctx *FuncMainContext) {}
-
-// ExitFuncMain is called when production FuncMain is exited.
-func (s *BaseVlangListener) ExitFuncMain(ctx *FuncMainContext) {}
-
 // EnterStructDecl is called when production StructDecl is entered.
 func (s *BaseVlangListener) EnterStructDecl(ctx *StructDeclContext) {}
 
