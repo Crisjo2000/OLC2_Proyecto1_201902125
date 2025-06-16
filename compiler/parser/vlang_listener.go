@@ -49,6 +49,9 @@ type VlangListener interface {
 	// EnterDefaultClause is called when entering the DefaultClause production.
 	EnterDefaultClause(c *DefaultClauseContext)
 
+	// EnterDeclSlices is called when entering the DeclSlices production.
+	EnterDeclSlices(c *DeclSlicesContext)
+
 	// EnterFuncCall is called when entering the FuncCall production.
 	EnterFuncCall(c *FuncCallContext)
 
@@ -231,6 +234,9 @@ type VlangListener interface {
 
 	// ExitDefaultClause is called when exiting the DefaultClause production.
 	ExitDefaultClause(c *DefaultClauseContext)
+
+	// ExitDeclSlices is called when exiting the DeclSlices production.
+	ExitDeclSlices(c *DeclSlicesContext)
 
 	// ExitFuncCall is called when exiting the FuncCall production.
 	ExitFuncCall(c *FuncCallContext)

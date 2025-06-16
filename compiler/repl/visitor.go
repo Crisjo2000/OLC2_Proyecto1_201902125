@@ -1463,3 +1463,8 @@ func (v *ReplVisitor) VisitFuncArg(ctx *parser.FuncArgContext) interface{} {
 		Type:       paramType,
 	}
 }
+
+// Visit a parse tree produced by VlangParser#DeclSlices.
+func (v *ReplVisitor) VisitDeclSlices(ctx *parser.DeclSlicesContext) interface{} {
+	return nil
+}

@@ -1,4 +1,4 @@
-// Generated from /home/christian/Documentos/ORGANIZACIÓN DE LENGUAJES Y COMPILADORES 2/LABORATORIO/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
+// Generated from /home/luisa/Documentos/2025/Vaqueras/compi2 781/Proyecto1 Oficial/OLC2_Proyecto1_201902125/compiler/parser/Vlang.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

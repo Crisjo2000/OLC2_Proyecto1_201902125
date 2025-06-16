@@ -63,6 +63,10 @@ func (v *BaseVlangVisitor) VisitDefaultClause(ctx *DefaultClauseContext) interfa
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitDeclSlices(ctx *DeclSlicesContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitFuncCall(ctx *FuncCallContext) interface{} {
 	return v.VisitChildren(ctx)
 }

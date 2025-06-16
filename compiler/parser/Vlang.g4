@@ -28,6 +28,7 @@ stmt:
      | forwhile_stmt
      | forClasic_stmt
      | switch_stmt
+     | slice_stmt
      ;
 
 
@@ -66,6 +67,9 @@ case_clause:
 default_clause:
     'default' COLON 
         stmt* # DefaultClause;
+
+// === SLICE ===
+slice_stmt :ID ASSIGN LBRACK RBRACK var_type LCOR (expresion)+ RCOR #DeclSlices ;
 
 /// Llamadas a funciones catch
 // id ( 1,2,3,4)

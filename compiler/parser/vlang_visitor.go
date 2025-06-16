@@ -49,6 +49,9 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#DefaultClause.
 	VisitDefaultClause(ctx *DefaultClauseContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#DeclSlices.
+	VisitDeclSlices(ctx *DeclSlicesContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#FuncCall.
 	VisitFuncCall(ctx *FuncCallContext) interface{}
 

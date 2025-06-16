@@ -104,6 +104,12 @@ func (s *BaseVlangListener) EnterDefaultClause(ctx *DefaultClauseContext) {}
 // ExitDefaultClause is called when production DefaultClause is exited.
 func (s *BaseVlangListener) ExitDefaultClause(ctx *DefaultClauseContext) {}
 
+// EnterDeclSlices is called when production DeclSlices is entered.
+func (s *BaseVlangListener) EnterDeclSlices(ctx *DeclSlicesContext) {}
+
+// ExitDeclSlices is called when production DeclSlices is exited.
+func (s *BaseVlangListener) ExitDeclSlices(ctx *DeclSlicesContext) {}
+
 // EnterFuncCall is called when production FuncCall is entered.
 func (s *BaseVlangListener) EnterFuncCall(ctx *FuncCallContext) {}
 
