@@ -2,34 +2,16 @@ package repl
 
 import (
 	"compiler/value"
+	"fmt"
 
 	"github.com/antlr4-go/antlr/v4"
 )
 
-/*
-Variable_global = 0
-
-	fn fibonacci(n int) int {
-		if n <= 1 {
-			return n
-		}
-		return fibonacci(n-1) + fibonacci(n-2)
-	}
-
-fn main() {
-
-}
-*/
 type ScopeTrace struct {
 	GlobalScope  *BaseScope
 	CurrentScope *BaseScope
-	/*
-		Lo vamos a ir trasladando con punteros
-		en un arbol de scopes hacia arriba.
 
-		nuevoooooo
-	*/
-Reporte string // Esta variable va a tener el reporte de HTML que se genera al final
+	Reporte string
 }
 
 func (s *ScopeTrace) PushScope(name string) *BaseScope {
@@ -86,8 +68,6 @@ func NewVectorScope() *BaseScope {
 		parent:    nil,
 	}
 
-	// register object built-in functions
-
 	return scope
 }
 
@@ -106,13 +86,9 @@ func NewStructScope() *BaseScope {
 	}
 }
 
-// * Report
-
 type ReportTable struct {
 	GlobalScope ReportScope
 }
-// Recorrer los hijos e ir generando un reporte por cada uno
-// RecorrerHijos -> Hijo si no -> null
 
 type ReportScope struct {
 	Name        string
@@ -128,7 +104,8 @@ type ReportSymbol struct {
 	Line   int
 	Column int
 }
-//nuevooooooo
+
+// nuevooooooo
 type HTMLReport struct {
 	Reporte string
 }
@@ -139,9 +116,6 @@ func (s *ScopeTrace) Report() ReportTable {
 	}
 }
 
-// BaseScope representa un scope base que puede contener variables, funciones y structs
-
-// Agregar HTML para mostrar el reporte
 func (s *BaseScope) Report() ReportScope {
 
 	reportScope := ReportScope{
@@ -161,8 +135,8 @@ func (s *BaseScope) Report() ReportScope {
 		if token != nil {
 			line = token.GetLine()
 			column = token.GetColumn()
-		}//NUEVOOOOOOO
-		// Agregar a HTML el reporte de una variable (una fila)
+		}
+
 		s.reportito += "<tr><td>" + v.Name + "</td><td>" + v.Type + "</td><td>" + v.Value.Type() + "</td><td>" + s.name + "</td></tr>"
 		reportScope.Vars = append(reportScope.Vars, ReportSymbol{
 			Name:   v.Name,
@@ -170,10 +144,10 @@ func (s *BaseScope) Report() ReportScope {
 			Line:   line,
 			Column: column,
 		})
-		// agregar a HTML el reporte de variables ->
+
 	}
-//NUEVOOOOOOOOO
-		for _, f := range s.functions {
+
+	for _, f := range s.functions {
 		switch function := f.(type) {
 		case *BuiltInFunction:
 			reportScope.Funcs = append(reportScope.Funcs, ReportSymbol{
@@ -182,9 +156,6 @@ func (s *BaseScope) Report() ReportScope {
 				Line:   0,
 				Column: 0,
 			})
-			// Agregar funcion nativa al HTML
-			//s.reportito += "<tr><td>" + f.Copy()  + "</td><td>" + f.Type + "</td><td>" + v.Value.Type() + "</td><td>" + s.name + "</td></tr>"
-
 		case *Function:
 
 			line := 0
@@ -201,44 +172,8 @@ func (s *BaseScope) Report() ReportScope {
 				Line:   line,
 				Column: column,
 			})
-			// case *ObjectBuiltInFunction:
-			// 	break
-			// default:
-			// 	log.Fatal("Function type not found")
 		}
 	}
-
-	// for _, f := range s.functions {
-	// 	switch function := f.(type) {
-	// 	case *BuiltInFunction:
-	// 		reportScope.Funcs = append(reportScope.Funcs, ReportSymbol{
-	// 			Name:   function.Name,
-	// 			Type:   "Embebida: " + function.Name,
-	// 			Line:   0,
-	// 			Column: 0,
-	// 		})
-	// 	case *Function:
-
-	// 		line := 0
-	// 		column := 0
-
-	// 		if function.Token != nil {
-	// 			line = function.Token.GetLine()
-	// 			column = function.Token.GetColumn()
-	// 		}
-
-	// 		reportScope.Funcs = append(reportScope.Funcs, ReportSymbol{
-	// 			Name:   function.Name,
-	// 			Type:   function.ReturnType,
-	// 			Line:   line,
-	// 			Column: column,
-	// 		})
-	// 	case *ObjectBuiltInFunction:
-	// 		break
-	// 	default:
-	// 		log.Fatal("Function type not found")
-	// 	}
-	// }
 
 	for _, v := range s.structs {
 		reportScope.Structs = append(reportScope.Structs, ReportSymbol{
@@ -249,10 +184,164 @@ func (s *BaseScope) Report() ReportScope {
 		})
 	}
 
-		// Recorremos los hijos y agreamos los reportes de cada uno
 	for _, v := range s.children {
 		reportScope.ChildScopes = append(reportScope.ChildScopes, v.Report())
 	}
 
 	return reportScope
+}
+
+func (s *ScopeTrace) GenerateHTMLReport() string {
+	reportTable := s.Report()
+	html := `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Tabla de Símbolos - V-Lang Cherry</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f5f5f5;
+            }
+            h1 {
+                color: #2c3e50;
+                text-align: center;
+            }
+            .report-container {
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            th, td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #3498db;
+                color: white;
+            }
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+            .scope-title {
+                color: #e74c3c;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Tabla de Símbolos</h1>
+        <div class="report-container">
+    `
+
+	html += s.generateScopeHTML(reportTable.GlobalScope, 0)
+
+	html += `
+        </div>
+    </body>
+    </html>
+    `
+
+	return html
+}
+
+func (s *ScopeTrace) generateScopeHTML(scope ReportScope, level int) string {
+	indent := ""
+	for i := 0; i < level; i++ {
+		indent += "&nbsp;&nbsp;&nbsp;&nbsp;"
+	}
+
+	html := fmt.Sprintf(`<h3 class="scope-title">%sScope: %s</h3>`, indent, scope.Name)
+
+	if len(scope.Vars) > 0 {
+		html += `
+        <h4>Variables:</h4>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Línea</th>
+                <th>Columna</th>
+            </tr>
+        `
+
+		for _, variable := range scope.Vars {
+			html += fmt.Sprintf(`
+            <tr>
+                <td>%s%s</td>
+                <td>%s</td>
+                <td>%d</td>
+                <td>%d</td>
+            </tr>
+            `, indent, variable.Name, variable.Type, variable.Line, variable.Column)
+		}
+
+		html += `</table>`
+	}
+
+	if len(scope.Funcs) > 0 {
+		html += `
+        <h4>Funciones:</h4>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo Retorno</th>
+                <th>Línea</th>
+                <th>Columna</th>
+            </tr>
+        `
+
+		for _, function := range scope.Funcs {
+			html += fmt.Sprintf(`
+            <tr>
+                <td>%s%s</td>
+                <td>%s</td>
+                <td>%d</td>
+                <td>%d</td>
+            </tr>
+            `, indent, function.Name, function.Type, function.Line, function.Column)
+		}
+
+		html += `</table>`
+	}
+
+	if len(scope.Structs) > 0 {
+		html += `
+        <h4>Structs:</h4>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Línea</th>
+                <th>Columna</th>
+            </tr>
+        `
+
+		for _, structItem := range scope.Structs {
+			html += fmt.Sprintf(`
+            <tr>
+                <td>%s%s</td>
+                <td>%d</td>
+                <td>%d</td>
+            </tr>
+            `, indent, structItem.Name, structItem.Line, structItem.Column)
+		}
+
+		html += `</table>`
+	}
+
+	for _, childScope := range scope.ChildScopes {
+		html += s.generateScopeHTML(childScope, level+1)
+	}
+
+	return html
 }
