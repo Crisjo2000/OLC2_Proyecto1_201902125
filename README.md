@@ -2,6 +2,7 @@
 
 - [`Manual Técnico`](./Manuales/manualtenico.md)🛠️
 - [`Manual de Usuario`](./Manuales/manualusuario.md)🧑🏻‍💻
+- [`Gramática`](./Manuales/gramatica.md)📚
 
 ### Integrantes 
 | # | Nombre                                | Carnet    |
