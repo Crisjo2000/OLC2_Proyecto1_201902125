@@ -208,6 +208,20 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 		return v.VisitFn_parsefloat(node)
 	case *parser.Fn_typeOFContext:
 		return v.VisitFn_typeOF(node)
+	case *parser.IndexAccesoContext:
+		return v.VisitIndexAcceso(node)
+
+	case *parser.Fn_indexOfContext:
+		fmt.Println("*-*-* entrando al case de index")
+		return v.VisitFn_indexOf(node)
+	case *parser.Fn_lenxContext:
+		return v.VisitFn_lenx(node)
+
+	case *parser.Fn_joinContext:
+		return v.VisitFn_join(node)
+
+	case *parser.StringTypeContext:
+		return v.VisitStringType(node)
 
 	case *parser.StructDeclContext:
 		return v.VisitStructDecl(node)
@@ -341,6 +355,16 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 		v.VisitFn_parsefloat(node)
 	case *parser.Fn_typeOFContext:
 		v.VisitFn_typeOF(node)
+	case *parser.Fn_indexOfContext:
+		v.VisitFn_indexOf(node)
+	case *parser.IndexAccesoContext:
+		v.VisitIndexAcceso(node)
+	case *parser.Fn_lenxContext:
+		v.VisitFn_lenx(node)
+	case *parser.Fn_joinContext:
+		v.VisitFn_join(node)
+	case *parser.StringTypeContext:
+		v.VisitStringType(node)
 
 	case *parser.StructDeclContext:
 		fmt.Println("🔔 Visitando nodo Struct")
@@ -1577,6 +1601,27 @@ func (v *ReplVisitor) VisitDeclSlices(ctx *parser.DeclSlicesContext) interface{}
 			InternalValue: values,
 			ElementType:   "float",
 		}
+	case "string":
+		values := make([]string, 0, len(expressions))
+		for _, expr := range expressions {
+			val := v.Visit(expr)
+			if val == nil {
+				v.ErrorTable.NewSemanticError(expr.GetStart(), "Expresión inválida en slice")
+				continue
+			}
+
+			strVal, ok := val.(*value.StringValue)
+			if !ok {
+				v.ErrorTable.NewSemanticError(expr.GetStart(),
+					fmt.Sprintf("Se esperaba tipo string en el slice, se obtuvo %T", val))
+				continue
+			}
+			values = append(values, strVal.InternalValue)
+		}
+		sliceValue = &value.SliceValue{
+			InternalValue: values,
+			ElementType:   "string",
+		}
 
 	// Añadir más tipos según sea necesario (string, bool, etc.)
 	default:
@@ -1601,6 +1646,10 @@ func (v *ReplVisitor) VisitListExpressions(ctx *parser.ListExpressionsContext) i
 
 func (v *ReplVisitor) VisitIntType(ctx *parser.IntTypeContext) interface{} {
 	return "int"
+}
+
+func (v *ReplVisitor) VisitStringType(ctx *parser.StringTypeContext) interface{} {
+	return "string"
 }
 
 // Visit a parse tree produced by VlangParser#fn_atoi.
@@ -1709,4 +1758,197 @@ func (v *ReplVisitor) VisitFn_typeOF(ctx *parser.Fn_typeOFContext) interface{} {
 		InternalValue: typeStr,
 	}
 	return nil
+}
+
+func (v *ReplVisitor) VisitIndexAcceso(ctx *compiler.IndexAccesoContext) interface{} {
+
+	// Obtener el nombre del slice
+	sliceName := ctx.Id_pattern().GetText()
+
+	// Obtener la variable del slice del ScopeTrace
+	sliceVar := v.ScopeTrace.GetVariable(sliceName)
+	if sliceVar == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Slice '"+sliceName+"' no encontrado")
+		return nil
+	}
+
+	// Verificar que la variable sea efectivamente un slice
+	sliceValue, ok := sliceVar.Value.(*value.SliceValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "La variable '"+sliceName+"' no es un slice")
+		return nil
+	}
+
+	// Evaluar la expresión del índice
+	indexExpr := v.Visit(ctx.Expresion())
+	if indexExpr == nil {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Expresión de índice inválida")
+		return nil
+	}
+
+	indexValue, ok := indexExpr.(*value.IntValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "El índice debe ser un entero")
+		return nil
+	}
+
+	// Verificar que el índice esté dentro de los límites
+	switch slice := sliceValue.InternalValue.(type) {
+	case []int:
+		if indexValue.InternalValue < 0 || indexValue.InternalValue >= len(slice) {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Índice fuera de rango")
+			return nil
+		}
+		return &value.IntValue{InternalValue: slice[indexValue.InternalValue]}
+
+	case []float64:
+		if indexValue.InternalValue < 0 || indexValue.InternalValue >= len(slice) {
+			v.ErrorTable.NewSemanticError(ctx.GetStart(), "Índice fuera de rango")
+			return nil
+		}
+		return &value.FloatValue{InternalValue: slice[indexValue.InternalValue]}
+
+	// Agregar más casos para otros tipos de slices según sea necesario
+
+	default:
+		v.ErrorTable.NewSemanticError(ctx.GetStart(), "Tipo de slice no soportado")
+		return nil
+	}
+	return nil
+}
+
+// Visit a parse tree produced by VlangParser#fn_indexOf.
+func (v *ReplVisitor) VisitFn_indexOf(ctx *parser.Fn_indexOfContext) interface{} {
+	fmt.Println("------------------------------- ENTRANDO A LA FUNCION DEL INDEX")
+
+	// Obtener el slice (primer argumento)
+	sliceExpr := ctx.Expresion(0)
+	sliceValue := v.Visit(sliceExpr)
+
+	if sliceValue == nil {
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(), "Expresión de slice inválida")
+		return -1
+	}
+
+	// Obtener el valor a buscar (segundo argumento)
+	searchExpr := ctx.Expresion(1)
+	searchValue := v.Visit(searchExpr)
+
+	if searchValue == nil {
+		v.ErrorTable.NewSemanticError(searchExpr.GetStart(), "Expresión de búsqueda inválida")
+		return -1
+	}
+
+	// Verificar que sea un slice
+	slice, ok := sliceValue.(*value.SliceValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(), "El primer argumento debe ser un slice")
+		return -1
+	}
+
+	// Buscar el elemento según el tipo de slice
+	switch actualSlice := slice.InternalValue.(type) {
+	case []int:
+		searchInt, ok := searchValue.(*value.IntValue)
+		if !ok {
+			v.ErrorTable.NewSemanticError(searchExpr.GetStart(),
+				"Tipo incompatible: se esperaba int para buscar en slice de int")
+			return -1
+		}
+
+		for i, val := range actualSlice {
+			if val == searchInt.InternalValue {
+				return i
+			}
+		}
+
+	case []float64:
+		searchFloat, ok := searchValue.(*value.FloatValue)
+		if !ok {
+			v.ErrorTable.NewSemanticError(searchExpr.GetStart(),
+				"Tipo incompatible: se esperaba float para buscar en slice de float")
+			return -1
+		}
+
+		for i, val := range actualSlice {
+			if val == searchFloat.InternalValue {
+				return i
+			}
+		}
+
+	// Añadir más tipos según sea necesario
+	default:
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(),
+			fmt.Sprintf("Tipo de slice no soportado: %T", actualSlice))
+		return -1
+	}
+
+	// Si no se encontró
+	return -1
+}
+
+func (v *ReplVisitor) VisitFn_lenx(ctx *parser.Fn_lenxContext) interface{} {
+	// Obtener la expresión del slice
+	sliceExpr := ctx.Expresion(0)
+	sliceValue := v.Visit(sliceExpr)
+
+	if sliceValue == nil {
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(), "Expresión inválida en len()")
+		return 0
+	}
+
+	// Verificar que sea un slice
+	slice, ok := sliceValue.(*value.SliceValue)
+	if !ok {
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(),
+			"len() solo puede usarse con slices")
+		return 0
+	}
+
+	// Calcular la longitud según el tipo de slice
+	switch actualSlice := slice.InternalValue.(type) {
+	case []int:
+		return len(actualSlice)
+	case []float64:
+		return len(actualSlice)
+	case []string:
+		return len(actualSlice)
+	case []bool:
+		return len(actualSlice)
+	// Añadir más tipos según sea necesario
+	default:
+		v.ErrorTable.NewSemanticError(sliceExpr.GetStart(),
+			fmt.Sprintf("Tipo de slice no soportado: %T", actualSlice))
+		return 0
+	}
+}
+
+// Visit a parse tree produced by VlangParser#fn_join.
+func (v *ReplVisitor) VisitFn_join(ctx *parser.Fn_joinContext) interface{} {
+
+	// Obtener el slice de strings
+	sliceValue := v.Visit(ctx.Expresion(0))
+	separatorValue := v.Visit(ctx.Expresion(1))
+
+	// Verificar tipos
+	slice, ok1 := sliceValue.(*value.SliceValue)
+	separator, ok2 := separatorValue.(*value.StringValue)
+
+	if !ok1 || !ok2 {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(),
+			"join() requiere: ([]string, string)")
+		return ""
+	}
+
+	// Verificar que sea slice de strings
+	strSlice, ok := slice.InternalValue.([]string)
+	if !ok {
+		v.ErrorTable.NewSemanticError(ctx.GetStart(),
+			"El primer argumento debe ser []string")
+		return ""
+	}
+
+	// Unir los strings con el separador
+	result := strings.Join(strSlice, separator.InternalValue)
+	return &value.StringValue{InternalValue: result}
 }

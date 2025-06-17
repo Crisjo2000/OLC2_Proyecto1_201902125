@@ -182,6 +182,12 @@ func (s *BaseVlangListener) EnterIncredecr(ctx *IncredecrContext) {}
 // ExitIncredecr is called when production incredecr is exited.
 func (s *BaseVlangListener) ExitIncredecr(ctx *IncredecrContext) {}
 
+// EnterFn_lenx is called when production fn_lenx is entered.
+func (s *BaseVlangListener) EnterFn_lenx(ctx *Fn_lenxContext) {}
+
+// ExitFn_lenx is called when production fn_lenx is exited.
+func (s *BaseVlangListener) ExitFn_lenx(ctx *Fn_lenxContext) {}
+
 // EnterValorexpresion is called when production valorexpresion is entered.
 func (s *BaseVlangListener) EnterValorexpresion(ctx *ValorexpresionContext) {}
 
@@ -242,6 +248,12 @@ func (s *BaseVlangListener) EnterFn_parsefloat(ctx *Fn_parsefloatContext) {}
 // ExitFn_parsefloat is called when production fn_parsefloat is exited.
 func (s *BaseVlangListener) ExitFn_parsefloat(ctx *Fn_parsefloatContext) {}
 
+// EnterIndexAcceso is called when production indexAcceso is entered.
+func (s *BaseVlangListener) EnterIndexAcceso(ctx *IndexAccesoContext) {}
+
+// ExitIndexAcceso is called when production indexAcceso is exited.
+func (s *BaseVlangListener) ExitIndexAcceso(ctx *IndexAccesoContext) {}
+
 // EnterId is called when production id is entered.
 func (s *BaseVlangListener) EnterId(ctx *IdContext) {}
 
@@ -253,6 +265,18 @@ func (s *BaseVlangListener) EnterExpdotexp1(ctx *Expdotexp1Context) {}
 
 // ExitExpdotexp1 is called when production expdotexp1 is exited.
 func (s *BaseVlangListener) ExitExpdotexp1(ctx *Expdotexp1Context) {}
+
+// EnterFn_indexOf is called when production fn_indexOf is entered.
+func (s *BaseVlangListener) EnterFn_indexOf(ctx *Fn_indexOfContext) {}
+
+// ExitFn_indexOf is called when production fn_indexOf is exited.
+func (s *BaseVlangListener) ExitFn_indexOf(ctx *Fn_indexOfContext) {}
+
+// EnterFn_join is called when production fn_join is entered.
+func (s *BaseVlangListener) EnterFn_join(ctx *Fn_joinContext) {}
+
+// ExitFn_join is called when production fn_join is exited.
+func (s *BaseVlangListener) ExitFn_join(ctx *Fn_joinContext) {}
 
 // EnterFn_atoi is called when production fn_atoi is entered.
 func (s *BaseVlangListener) EnterFn_atoi(ctx *Fn_atoiContext) {}

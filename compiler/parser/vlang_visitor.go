@@ -88,6 +88,9 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#incredecr.
 	VisitIncredecr(ctx *IncredecrContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#fn_lenx.
+	VisitFn_lenx(ctx *Fn_lenxContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#valorexpresion.
 	VisitValorexpresion(ctx *ValorexpresionContext) interface{}
 
@@ -118,11 +121,20 @@ type VlangVisitor interface {
 	// Visit a parse tree produced by VlangParser#fn_parsefloat.
 	VisitFn_parsefloat(ctx *Fn_parsefloatContext) interface{}
 
+	// Visit a parse tree produced by VlangParser#indexAcceso.
+	VisitIndexAcceso(ctx *IndexAccesoContext) interface{}
+
 	// Visit a parse tree produced by VlangParser#id.
 	VisitId(ctx *IdContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#expdotexp1.
 	VisitExpdotexp1(ctx *Expdotexp1Context) interface{}
+
+	// Visit a parse tree produced by VlangParser#fn_indexOf.
+	VisitFn_indexOf(ctx *Fn_indexOfContext) interface{}
+
+	// Visit a parse tree produced by VlangParser#fn_join.
+	VisitFn_join(ctx *Fn_joinContext) interface{}
 
 	// Visit a parse tree produced by VlangParser#fn_atoi.
 	VisitFn_atoi(ctx *Fn_atoiContext) interface{}

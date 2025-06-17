@@ -78,9 +78,12 @@ slice_stmt :ID ASSIGN LBRACK RBRACK var_type LCOR (expresion (COMMA expresion)*)
 
 
 
+
 /// Llamadas a funciones catch
 // id ( 1,2,3,4)
-func_call: id_pattern LPAREN (parametros)? RPAREN # FuncCall;
+func_call: id_pattern LPAREN (parametros)? RPAREN # FuncCall
+    
+;
 
 
 func_dcl: 
@@ -154,11 +157,16 @@ expresion
     | ID DOT ID                                            #expdotexp1             
     | ID DOT expresion                                     #expdotexp      
     | ID ASSIGN expresion                                  #asignacionfor
+    | id_pattern LBRACK expresion RBRACK                           #indexAcceso
 
     // ===== Funciones =====
     |ATOI_KW LPAREN expresion RPAREN                       #fn_atoi
     |PARSEFLOAT_KW LPAREN expresion RPAREN                 #fn_parsefloat
     |TYPEOF_KW LPAREN expresion RPAREN                     #fn_typeOF
+    | INDEX_KW LPAREN expresion COMMA expresion RPAREN     #fn_indexOf
+    | LEN LPAREN expresion COMMA expresion RPAREN          #fn_lenx
+    | JOIN_KW LPAREN expresion COMMA expresion RPAREN      #fn_join
+
     
     ;
 
@@ -282,6 +290,10 @@ MAIN_KW : 'main' ;
 ATOI_KW : 'Atoi';
 PARSEFLOAT_KW :'parse_float';
 TYPEOF_KW : 'TypeOf';
+
+INDEX_KW : 'indexOf';
+JOIN_KW :'join';
+//LONGITUD_KW :'len' ;
 
 // === Operadores ===
 PLUS    : '+' ;

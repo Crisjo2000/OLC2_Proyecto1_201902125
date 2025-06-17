@@ -88,6 +88,9 @@ type VlangListener interface {
 	// EnterIncredecr is called when entering the incredecr production.
 	EnterIncredecr(c *IncredecrContext)
 
+	// EnterFn_lenx is called when entering the fn_lenx production.
+	EnterFn_lenx(c *Fn_lenxContext)
+
 	// EnterValorexpresion is called when entering the valorexpresion production.
 	EnterValorexpresion(c *ValorexpresionContext)
 
@@ -118,11 +121,20 @@ type VlangListener interface {
 	// EnterFn_parsefloat is called when entering the fn_parsefloat production.
 	EnterFn_parsefloat(c *Fn_parsefloatContext)
 
+	// EnterIndexAcceso is called when entering the indexAcceso production.
+	EnterIndexAcceso(c *IndexAccesoContext)
+
 	// EnterId is called when entering the id production.
 	EnterId(c *IdContext)
 
 	// EnterExpdotexp1 is called when entering the expdotexp1 production.
 	EnterExpdotexp1(c *Expdotexp1Context)
+
+	// EnterFn_indexOf is called when entering the fn_indexOf production.
+	EnterFn_indexOf(c *Fn_indexOfContext)
+
+	// EnterFn_join is called when entering the fn_join production.
+	EnterFn_join(c *Fn_joinContext)
 
 	// EnterFn_atoi is called when entering the fn_atoi production.
 	EnterFn_atoi(c *Fn_atoiContext)
@@ -280,6 +292,9 @@ type VlangListener interface {
 	// ExitIncredecr is called when exiting the incredecr production.
 	ExitIncredecr(c *IncredecrContext)
 
+	// ExitFn_lenx is called when exiting the fn_lenx production.
+	ExitFn_lenx(c *Fn_lenxContext)
+
 	// ExitValorexpresion is called when exiting the valorexpresion production.
 	ExitValorexpresion(c *ValorexpresionContext)
 
@@ -310,11 +325,20 @@ type VlangListener interface {
 	// ExitFn_parsefloat is called when exiting the fn_parsefloat production.
 	ExitFn_parsefloat(c *Fn_parsefloatContext)
 
+	// ExitIndexAcceso is called when exiting the indexAcceso production.
+	ExitIndexAcceso(c *IndexAccesoContext)
+
 	// ExitId is called when exiting the id production.
 	ExitId(c *IdContext)
 
 	// ExitExpdotexp1 is called when exiting the expdotexp1 production.
 	ExitExpdotexp1(c *Expdotexp1Context)
+
+	// ExitFn_indexOf is called when exiting the fn_indexOf production.
+	ExitFn_indexOf(c *Fn_indexOfContext)
+
+	// ExitFn_join is called when exiting the fn_join production.
+	ExitFn_join(c *Fn_joinContext)
 
 	// ExitFn_atoi is called when exiting the fn_atoi production.
 	ExitFn_atoi(c *Fn_atoiContext)

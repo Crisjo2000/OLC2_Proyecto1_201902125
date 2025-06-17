@@ -115,6 +115,10 @@ func (v *BaseVlangVisitor) VisitIncredecr(ctx *IncredecrContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitFn_lenx(ctx *Fn_lenxContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitValorexpresion(ctx *ValorexpresionContext) interface{} {
 	return v.VisitChildren(ctx)
 }
@@ -155,11 +159,23 @@ func (v *BaseVlangVisitor) VisitFn_parsefloat(ctx *Fn_parsefloatContext) interfa
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseVlangVisitor) VisitIndexAcceso(ctx *IndexAccesoContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseVlangVisitor) VisitId(ctx *IdContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
 func (v *BaseVlangVisitor) VisitExpdotexp1(ctx *Expdotexp1Context) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFn_indexOf(ctx *Fn_indexOfContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseVlangVisitor) VisitFn_join(ctx *Fn_joinContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
