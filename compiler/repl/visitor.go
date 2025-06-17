@@ -209,6 +209,10 @@ func (v *ReplVisitor) Visit(tree antlr.ParseTree) interface{} {
 	case *parser.Fn_typeOFContext:
 		return v.VisitFn_typeOF(node)
 
+	case *parser.StructDeclContext:
+		return v.VisitStructDecl(node)
+
+
 	default:
 		fmt.Printf("⚠️ Tipo inesperado en Visit(): %T\n", tree)
 		return tree.Accept(v) // fallback por si acaso
@@ -337,6 +341,10 @@ func (v *ReplVisitor) VisitStmt(ctx *parser.StmtContext) interface{} {
 		v.VisitFn_parsefloat(node)
 	case *parser.Fn_typeOFContext:
 		v.VisitFn_typeOF(node)
+
+	case *parser.StructDeclContext:
+		fmt.Println("🔔 Visitando nodo Struct")
+		return v.VisitStructDecl(node)
 
 	default:
 		fmt.Printf("⚠️ Tipo no reconocido dentro de stmt->: %T\n", node)
